@@ -23,6 +23,8 @@
 
 .nav-links {
     display: flex;
+    gap: 1em;
+    align-items: center;
 }
 
 .nav-link-items {

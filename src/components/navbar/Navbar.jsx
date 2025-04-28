@@ -1,11 +1,12 @@
 import { Link } from "react-router";
 
 import NavbarItem from "./navbar-item/NavbarItem.jsx";
+import NavbarProfileMenu from "./navbar-profile-menu/NavbarProfileMenu.jsx";
 
 const navLinks = [
-    { path: '/', name: 'Home', requiresAuth: null },   
-    { path: 'calculator', name: 'Calculator', requiresAuth: null },   
-    { path: 'products', name: 'Products', requiresAuth: null },   
+    { path: '/', name: 'Home', requiresAuth: null },
+    { path: 'calculator', name: 'Calculator', requiresAuth: null },
+    { path: 'products', name: 'Products', requiresAuth: null },
 ];
 
 export default function Navbar() {
@@ -24,6 +25,7 @@ export default function Navbar() {
                         ))
                     }
                 </ul>
+                <NavbarProfileMenu />
             </div>
         </div >
     );

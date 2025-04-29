@@ -16,3 +16,18 @@ export const bmiCalculate = (gender, height, neck, abdomen, waist, hip) => {
     return Math.round(result);
 };
 
+export const lbmCalculate = (weight, bmi) => {
+    return (
+        weight * (1 - bmi)
+    );
+}
+
+export const bmrCalculate = (gender, weight, height, age) => {
+    if (gender === 'male') {
+        const bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+        return bmr;
+    }
+
+    const bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+    return bmr;
+}

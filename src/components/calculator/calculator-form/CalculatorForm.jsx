@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { bmiCalculate } from "../../../utils/bmi";
+import { bmiCalculate, bmrCalculate, bodyFatsKgCalculate, dailyCaloriesCalculate, lbmCalculate } from "../../../utils/bmi";
 
 const initialValues = {
+    age: '',
+    weight: '',
     height: '',
     neck: '',
     abdomen: '',
@@ -12,7 +14,12 @@ const initialValues = {
 export default function CalculatorForm() {
     const [enteredValues, setEnteredValues] = useState(initialValues);
     const [gender, setGender] = useState('male');
-    const [bmiResult, setBmiResult] = useState('');
+    const [activity, setActivity] = useState('');
+    const [bmiResult, setBmiResult] = useState(null);
+    const [bfkResult, setBfkResult] = useState(null);
+    const [lbmResult, setLbmResult] = useState(null);
+    const [bmrResult, setBmrResult] = useState(null);
+    const [dciResult, setDciResult] = useState(null);
 
     const handleChange = (e) => {
         setEnteredValues(prevValues => ({
@@ -23,7 +30,7 @@ export default function CalculatorForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const result = bmiCalculate(
+        const bodyMassIndex = bmiCalculate(
             gender,
             enteredValues.height,
             enteredValues.neck,
@@ -31,7 +38,20 @@ export default function CalculatorForm() {
             enteredValues.waist,
             enteredValues.hip
         );
-        setBmiResult(result);
+
+        const bodyFats = bodyFatsKgCalculate(enteredValues.weight, bodyMassIndex);
+
+        const leanBodyMass = lbmCalculate(enteredValues.weight, bodyMassIndex);
+
+        const basalMetabolicRate = bmrCalculate(gender, enteredValues.weight, enteredValues.height, enteredValues.age);
+
+        const dailyIntake = dailyCaloriesCalculate(basalMetabolicRate, activity);
+
+        setBmiResult(bodyMassIndex);
+        setBfkResult(bodyFats);
+        setLbmResult(leanBodyMass);
+        setBmrResult(basalMetabolicRate);
+        setDciResult(dailyIntake);
     }
 
     return (
@@ -61,6 +81,26 @@ export default function CalculatorForm() {
                     <label htmlFor="female">Female</label>
                 </div>
                 <div className="calc-group">
+                    <label htmlFor='age'>Age:</label>
+                    <input
+                        type="number"
+                        id='age'
+                        name='age'
+                        onChange={handleChange}
+                        value={enteredValues.age}
+                    />
+                </div>
+                <div className="calc-group">
+                    <label htmlFor='weight'>Weight:</label>
+                    <input
+                        type="number"
+                        id='weight'
+                        name='weight'
+                        onChange={handleChange}
+                        value={enteredValues.weight}
+                    />
+                </div>
+                <div className="calc-group">
                     <label htmlFor='height'>Height:</label>
                     <input
                         type="number"
@@ -88,6 +128,7 @@ export default function CalculatorForm() {
                         name='abdomen'
                         onChange={handleChange}
                         value={enteredValues.abdomen}
+                        disabled={gender === 'female'}
                     />
                 </div>
                 <div className="calc-group">
@@ -98,6 +139,7 @@ export default function CalculatorForm() {
                         name='waist'
                         onChange={handleChange}
                         value={enteredValues.waist}
+                        disabled={gender === 'male'}
                     />
                 </div>
                 <div className="calc-group">
@@ -108,12 +150,24 @@ export default function CalculatorForm() {
                         name='hip'
                         onChange={handleChange}
                         value={enteredValues.hip}
+                        disabled={gender === 'male'}
                     />
+                </div>
+                <div className="calc-select">
+                    <label htmlFor="activity">Activity:</label>
+                    <select name="activity" id="activity" className="select-option" onChange={(e) => setActivity(e.target.value)}>
+                        <option value="">Choose...</option>
+                        <option value="sedentary">Sedentary: Little or no exercise</option>
+                        <option value="light">Light: Exercise 1-3 days per week</option>
+                        <option value="moderate">Moderate: Exercise 4-5 days per week</option>
+                        <option value="active">Active: Exercise every day</option>
+                        <option value="veryActive">Very Active: Exercise twice per day</option>
+                    </select>
                 </div>
                 <button type="submit" className="calc-form-button">Calculate</button>
             </form>
 
-            <span>Result: {bmiResult}</span>
+            <span>Result: {bmiResult}, {bfkResult}, {lbmResult}, {bmrResult}, {dciResult}</span>
         </div>
     );
 };

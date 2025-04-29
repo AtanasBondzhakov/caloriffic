@@ -16,11 +16,15 @@ export const bmiCalculate = (gender, height, neck, abdomen, waist, hip) => {
     return Math.round(result);
 };
 
+export const bodyFatsKgCalculate = (weight, bodyFatsPercent) => {
+    return weight * (bodyFatsPercent / 100);
+};
+
 export const lbmCalculate = (weight, bmi) => {
     return (
-        weight * (1 - bmi)
+        weight * (1 - bmi / 100)
     );
-}
+};
 
 export const bmrCalculate = (gender, weight, height, age) => {
     if (gender === 'male') {
@@ -30,4 +34,16 @@ export const bmrCalculate = (gender, weight, height, age) => {
 
     const bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
     return bmr;
-}
+};
+
+export const dailyCaloriesCalculate = (bmr, activity) => {
+    const activityTable = {
+        sedentary: 1.2,
+        light: 1.375,
+        moderate: 1.55,
+        active: 1.725,
+        veryActive: 1.9
+    };
+
+    return bmr * activityTable[activity];
+};

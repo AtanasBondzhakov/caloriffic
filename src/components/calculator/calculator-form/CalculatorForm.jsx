@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { bmiCalculate, bmrCalculate, bodyFatsKgCalculate, dailyCaloriesCalculate, lbmCalculate } from "../../../utils/bmi";
+import { bmiCalculate, bmrCalculate, bodyFatsKgCalculate, dailyCaloriesCalculate, lbmCalculate } from "../../../utils/bodyMetrics";
+import { useForm } from "../../../hooks/useForm";
 
 const initialValues = {
     age: '',
@@ -12,7 +13,8 @@ const initialValues = {
 };
 
 export default function CalculatorForm() {
-    const [enteredValues, setEnteredValues] = useState(initialValues);
+    const { values, handleChange, handleSubmit } = useForm(initialValues, submitHandler);
+
     const [gender, setGender] = useState('male');
     const [activity, setActivity] = useState('');
     const [bmiResult, setBmiResult] = useState(null);
@@ -21,30 +23,19 @@ export default function CalculatorForm() {
     const [bmrResult, setBmrResult] = useState(null);
     const [dciResult, setDciResult] = useState(null);
 
-    const handleChange = (e) => {
-        setEnteredValues(prevValues => ({
-            ...prevValues,
-            [e.target.name]: e.target.value
-        }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    function submitHandler() {
         const bodyMassIndex = bmiCalculate(
             gender,
-            enteredValues.height,
-            enteredValues.neck,
-            enteredValues.abdomen,
-            enteredValues.waist,
-            enteredValues.hip
+            values.height,
+            values.neck,
+            values.abdomen,
+            values.waist,
+            values.hip
         );
 
-        const bodyFats = bodyFatsKgCalculate(enteredValues.weight, bodyMassIndex);
-
-        const leanBodyMass = lbmCalculate(enteredValues.weight, bodyMassIndex);
-
-        const basalMetabolicRate = bmrCalculate(gender, enteredValues.weight, enteredValues.height, enteredValues.age);
-
+        const bodyFats = bodyFatsKgCalculate(values.weight, bodyMassIndex);
+        const leanBodyMass = lbmCalculate(values.weight, bodyMassIndex);
+        const basalMetabolicRate = bmrCalculate(gender, values.weight, values.height, values.age);
         const dailyIntake = dailyCaloriesCalculate(basalMetabolicRate, activity);
 
         setBmiResult(bodyMassIndex);
@@ -87,7 +78,7 @@ export default function CalculatorForm() {
                         id='age'
                         name='age'
                         onChange={handleChange}
-                        value={enteredValues.age}
+                        value={values.age}
                     />
                 </div>
                 <div className="calc-group">
@@ -97,7 +88,7 @@ export default function CalculatorForm() {
                         id='weight'
                         name='weight'
                         onChange={handleChange}
-                        value={enteredValues.weight}
+                        value={values.weight}
                     />
                 </div>
                 <div className="calc-group">
@@ -107,7 +98,7 @@ export default function CalculatorForm() {
                         id='height'
                         name='height'
                         onChange={handleChange}
-                        value={enteredValues.height}
+                        value={values.height}
                     />
                 </div>
                 <div className="calc-group">
@@ -117,7 +108,7 @@ export default function CalculatorForm() {
                         id='neck'
                         name='neck'
                         onChange={handleChange}
-                        value={enteredValues.neck}
+                        value={values.neck}
                     />
                 </div>
                 <div className="calc-group">
@@ -127,7 +118,7 @@ export default function CalculatorForm() {
                         id='abdomen'
                         name='abdomen'
                         onChange={handleChange}
-                        value={enteredValues.abdomen}
+                        value={values.abdomen}
                         disabled={gender === 'female'}
                     />
                 </div>
@@ -138,7 +129,7 @@ export default function CalculatorForm() {
                         id='waist'
                         name='waist'
                         onChange={handleChange}
-                        value={enteredValues.waist}
+                        value={values.waist}
                         disabled={gender === 'male'}
                     />
                 </div>
@@ -149,7 +140,7 @@ export default function CalculatorForm() {
                         id='hip'
                         name='hip'
                         onChange={handleChange}
-                        value={enteredValues.hip}
+                        value={values.hip}
                         disabled={gender === 'male'}
                     />
                 </div>

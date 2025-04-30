@@ -66,25 +66,19 @@ export default function CalculatorForm() {
             <form className="calc-form" onSubmit={handleSubmit}>
                 <div className="calc-group-radio">
                     <span>Gender:</span>
-                    <input
-                        type="radio"
-                        name="gender"
-                        id="male"
-                        value='male'
-                        checked={gender === 'male'}
-                        onChange={(e) => setGender(e.target.value)}
-                    />
-                    <label htmlFor="male">Male</label>
-                    <input
-                        type="radio"
-                        name="gender"
-                        id="female"
-                        value='female'
-                        checked={gender === 'female'}
-                        onChange={(e) => setGender(e.target.value)}
-
-                    />
-                    <label htmlFor="female">Female</label>
+                    {['male', 'female'].map(g => (
+                        <label htmlFor={g} key={g}>
+                            <input
+                                type="radio"
+                                name="gender"
+                                id={g}
+                                value={g}
+                                checked={gender === g}
+                                onChange={() => setGender(g)}
+                            />
+                            {g}
+                        </label>
+                    ))}
                 </div>
 
                 {inputFields.map(field => (

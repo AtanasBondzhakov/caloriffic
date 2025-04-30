@@ -13,15 +13,17 @@ const initialValues = {
 };
 
 export default function CalculatorForm() {
-    const { values, handleChange, handleSubmit } = useForm(initialValues, submitHandler);
-
     const [gender, setGender] = useState('male');
     const [activity, setActivity] = useState('');
-    const [bmiResult, setBmiResult] = useState(null);
-    const [bfkResult, setBfkResult] = useState(null);
-    const [lbmResult, setLbmResult] = useState(null);
-    const [bmrResult, setBmrResult] = useState(null);
-    const [dciResult, setDciResult] = useState(null);
+    const [results, setResults] = useState({
+        bmi: null,
+        bfk: null,
+        lbm: null,
+        bmr: null,
+        dci: null
+    });
+
+    const { values, handleChange, handleSubmit } = useForm(initialValues, submitHandler);
 
     function submitHandler() {
         const bodyMassIndex = bmiCalculate(
@@ -38,11 +40,13 @@ export default function CalculatorForm() {
         const basalMetabolicRate = bmrCalculate(gender, values.weight, values.height, values.age);
         const dailyIntake = dailyCaloriesCalculate(basalMetabolicRate, activity);
 
-        setBmiResult(bodyMassIndex);
-        setBfkResult(bodyFats);
-        setLbmResult(leanBodyMass);
-        setBmrResult(basalMetabolicRate);
-        setDciResult(dailyIntake);
+        setResults({
+            bmi: bodyMassIndex,
+            bfk: bodyFats,
+            lbm: leanBodyMass,
+            bmr: basalMetabolicRate,
+            dci: dailyIntake
+        });
     }
 
     return (
@@ -158,7 +162,7 @@ export default function CalculatorForm() {
                 <button type="submit" className="calc-form-button">Calculate</button>
             </form>
 
-            <span>Result: {bmiResult}, {bfkResult}, {lbmResult}, {bmrResult}, {dciResult}</span>
+            <span>Result: {results.bmi}, {results.bfk}, {results.lbm}, {results.bmr}, {results.dci}</span>
         </div>
     );
 };

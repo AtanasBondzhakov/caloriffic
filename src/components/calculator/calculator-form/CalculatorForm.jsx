@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { bmiCalculate, bmrCalculate, bodyFatsKgCalculate, dailyCaloriesCalculate, lbmCalculate } from "../../../utils/bodyMetrics";
 import { useForm } from "../../../hooks/useForm";
+import Input from "../../input/Input";
 
 const initialValues = {
     age: '',
@@ -47,7 +48,17 @@ export default function CalculatorForm() {
             bmr: basalMetabolicRate,
             dci: dailyIntake
         });
-    }
+    };
+
+    const inputFields = [
+        { name: 'age', label: 'Age' },
+        { name: 'weight', label: 'Weight' },
+        { name: 'height', label: 'Height' },
+        { name: 'neck', label: 'Neck' },
+        { name: 'abdomen', label: 'Abdomen', disabled: gender === 'female' },
+        { name: 'waist', label: 'Waist', disabled: gender === 'male' },
+        { name: 'hip', label: 'Hip', disabled: gender === 'male' },
+    ];
 
     return (
         <div className="calc-form-container">
@@ -75,79 +86,19 @@ export default function CalculatorForm() {
                     />
                     <label htmlFor="female">Female</label>
                 </div>
-                <div className="calc-group">
-                    <label htmlFor='age'>Age:</label>
-                    <input
-                        type="number"
-                        id='age'
-                        name='age'
+
+                {inputFields.map(field => (
+                    <Input
+                        key={field.name}
+                        className="calc-group"
+                        name={field.name}
+                        label={field.label}
+                        disabled={field.disabled}
+                        value={values[field.name]}
                         onChange={handleChange}
-                        value={values.age}
                     />
-                </div>
-                <div className="calc-group">
-                    <label htmlFor='weight'>Weight:</label>
-                    <input
-                        type="number"
-                        id='weight'
-                        name='weight'
-                        onChange={handleChange}
-                        value={values.weight}
-                    />
-                </div>
-                <div className="calc-group">
-                    <label htmlFor='height'>Height:</label>
-                    <input
-                        type="number"
-                        id='height'
-                        name='height'
-                        onChange={handleChange}
-                        value={values.height}
-                    />
-                </div>
-                <div className="calc-group">
-                    <label htmlFor='neck'>Neck:</label>
-                    <input
-                        type="number"
-                        id='neck'
-                        name='neck'
-                        onChange={handleChange}
-                        value={values.neck}
-                    />
-                </div>
-                <div className="calc-group">
-                    <label htmlFor='abdomen'>Abdomen:</label>
-                    <input
-                        type="number"
-                        id='abdomen'
-                        name='abdomen'
-                        onChange={handleChange}
-                        value={values.abdomen}
-                        disabled={gender === 'female'}
-                    />
-                </div>
-                <div className="calc-group">
-                    <label htmlFor='waist'>Waist:</label>
-                    <input
-                        type="number"
-                        id='waist'
-                        name='waist'
-                        onChange={handleChange}
-                        value={values.waist}
-                        disabled={gender === 'male'}
-                    />
-                </div>
-                <div className="calc-group">
-                    <label htmlFor='hip'>Hip:</label>
-                    <input
-                        type="number"
-                        id='hip'
-                        name='hip'
-                        onChange={handleChange}
-                        value={values.hip}
-                        disabled={gender === 'male'}
-                    />
-                </div>
+                ))}
+
                 <div className="calc-select">
                     <label htmlFor="activity">Activity:</label>
                     <select name="activity" id="activity" className="select-option" onChange={(e) => setActivity(e.target.value)}>

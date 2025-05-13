@@ -1,5 +1,6 @@
 import { Router } from "express";
 import User from "../models/User.js";
+import { authService } from "../services/authService.js";
 
 const authController = Router();
 
@@ -14,10 +15,9 @@ authController.get('/', async (req, res) => {
 })
 
 authController.post('/sign-up', async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, confirmPassword } = req.body;
     try {
-
-        await User.create({ email, password })
+        await authService.signUp(email, password, confirmPassword);
     } catch (err) {
         res.status(400).json('Email exist')
         console.log(err.message);

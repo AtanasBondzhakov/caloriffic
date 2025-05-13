@@ -162,3 +162,16 @@ body {
     color: #030303;
     text-align: left;
 }
+
+.sign-up {
+    display: flex;
+    margin-top: 100px;
+    /* margin-left: auto; */
+}
+
+.sign-up form {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    gap: 0.8em;
+}

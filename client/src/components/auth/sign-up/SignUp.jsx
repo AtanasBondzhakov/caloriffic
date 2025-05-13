@@ -5,7 +5,7 @@ export default function SignUp() {
 
     async function signUpSubmitHandler() {
         try {
-            await fetch('http://localhost:5000/auth', {
+            await fetch('http://localhost:5000/auth/sign-up', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

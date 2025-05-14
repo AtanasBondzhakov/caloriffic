@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 import { useForm } from "../../../hooks/useForm.js";
 
 export default function Login() {
@@ -12,24 +14,46 @@ export default function Login() {
                 },
                 body: JSON.stringify(values),
                 credentials: 'include'
-            })
-
-            console.log(values);
-
+            });
         } catch (err) {
             console.log(err);
         }
     }
 
     return (
-        <div className="sign-up">
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="email">Email</label>
-                <input type="email" id="email" name="email" value={values.email} onChange={handleChange} />
-                <label htmlFor="password">Password</label>
-                <input type="password" id="password" name="password" value={values.password} onChange={handleChange} />
-                <button>Login</button>
-            </form>
+        <div className="login">
+
+            <div className="auth-container">
+                <h2>Login</h2>
+                <form className="login-form" onSubmit={handleSubmit}>
+                    <div className="login-group">
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="text"
+                            id="email"
+                            name="email"
+                            placeholder='john@mail.com'
+                            value={values.email}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="login-group">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder='******'
+                            value={values.password}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <button className="login-btn">Login</button>
+                </form>
+                <p className="link-reg">
+                    Don&apos;t have an account? <Link to="/auth/sign-up">Sign up</Link>
+                </p>
+            </div>
         </div>
     );
 };

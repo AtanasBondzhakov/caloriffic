@@ -1,28 +1,40 @@
 import { Router } from "express";
-import User from "../models/User.js";
 import { authService } from "../services/authService.js";
 
 const authController = Router();
 
-authController.get('/', async (req, res) => {
-    try {
-        const users = await User.find();
-        res.status(200).json(users);
-    } catch (err) {
-        console.error('Error fetching users', err);
-        res.status(500).json({ error: 'Server error' })
-    }
-})
-
 authController.post('/sign-up', async (req, res) => {
     const { email, password, confirmPassword } = req.body;
-    try {
-        await authService.signUp(email, password, confirmPassword);
-    } catch (err) {
-        res.status(400).json('Email exist')
-        console.log(err.message);
 
+    try {
+        const token = await authService.signUp(email, password, confirmPassword);
+
+        res.cookie('auth', token, { httpOnly: true });
+        res.status(201).json('User created!')
+    } catch (err) {
+        res.status(409).json('Email already exist!')
+        console.log(err.message);
     }
-})
+});
+
+authController.post('/login', async (req, res) => {
+    console.log('here');
+
+    const { email, password } = req.body;
+
+    try {
+        const token = await authService.login(email, password);
+
+        res.cookie('auth', token, {
+            httpOnly: true,
+            sameSite: 'None',
+            secure: true
+        });
+        res.status(200).json('Login successfully!');
+    } catch (err) {
+        res.status(401).json('Invalid credentials!');
+        console.log(err.message);
+    }
+});
 
 export default authController;

@@ -3,7 +3,7 @@ import { authService } from "../services/authService.js";
 
 const authController = Router();
 
-authController.post('/sign-up', async (req, res) => {
+authController.post('/register', async (req, res) => {
     const { email, password, confirmPassword } = req.body;
 
     try {

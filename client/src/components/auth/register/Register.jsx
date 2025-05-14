@@ -2,28 +2,27 @@ import { Link } from "react-router";
 
 import { useForm } from "../../../hooks/useForm.js";
 
-export default function Login() {
-    const { values, handleChange, handleSubmit } = useForm({ email: '', password: '' }, loginSubmitHandler);
+export default function Register() {
+    const { values, handleChange, handleSubmit } = useForm({ email: '', password: '', confirmPassword: '' }, signUpSubmitHandler);
 
-    async function loginSubmitHandler() {
+    async function signUpSubmitHandler() {
         try {
-            await fetch('http://localhost:5000/auth/login', {
+            await fetch('http://localhost:5000/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(values),
                 credentials: 'include'
-            });
+            })
         } catch (err) {
             console.log(err);
         }
     }
-
     return (
         <div className="auth">
             <div className="auth-container">
-                <h2>Login</h2>
+                <h2>Register</h2>
                 <form className="auth-form" onSubmit={handleSubmit}>
                     <div className="auth-group">
                         <label htmlFor="email">Email</label>
@@ -47,10 +46,21 @@ export default function Login() {
                             onChange={handleChange}
                         />
                     </div>
-                    <button className="auth-btn">Login</button>
+                    <div className="auth-group">
+                        <label htmlFor="confirmPassword">Confirm Password</label>
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            placeholder='******'
+                            value={values.confirmPassword}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <button className="auth-btn">Register</button>
                 </form>
                 <p className="auth-link">
-                    Don&apos;t have an account? <Link to="/auth/register">Register</Link>
+                    Already have an account? <Link to="/auth/login">Login</Link>
                 </p>
             </div>
         </div>

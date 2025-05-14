@@ -6,9 +6,7 @@ import NavbarProfileMenu from "./navbar-profile-menu/NavbarProfileMenu.jsx";
 const navLinks = [
     { path: '/', name: 'Home', requiresAuth: null },
     { path: '/calculator', name: 'Calculator', requiresAuth: null },
-    { path: '/products', name: 'Products', requiresAuth: null },
-    { path: '/auth/sign-up', name: 'Sign Up', requiresAuth: false },
-    { path: '/auth/login', name: 'Login', requiresAuth: false },
+    { path: '/products', name: 'Products', requiresAuth: null }
 ];
 
 export default function Navbar() {

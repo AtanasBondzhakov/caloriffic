@@ -8,6 +8,7 @@ const navLinks = [
     { path: '/calculator', name: 'Calculator', requiresAuth: null },
     { path: '/products', name: 'Products', requiresAuth: null },
     { path: '/auth/sign-up', name: 'Sign Up', requiresAuth: false },
+    { path: '/auth/login', name: 'Login', requiresAuth: false },
 ];
 
 export default function Navbar() {

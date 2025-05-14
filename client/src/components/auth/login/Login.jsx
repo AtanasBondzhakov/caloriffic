@@ -1,11 +1,11 @@
 import { useForm } from "../../../hooks/useForm.js";
 
-export default function SignUp() {
-    const { values, handleChange, handleSubmit } = useForm({ email: '', password: '', confirmPassword: '' }, signUpSubmitHandler);
+export default function Login() {
+    const { values, handleChange, handleSubmit } = useForm({ email: '', password: '' }, loginSubmitHandler);
 
-    async function signUpSubmitHandler() {
+    async function loginSubmitHandler() {
         try {
-            await fetch('http://localhost:5000/auth/sign-up', {
+            await fetch('http://localhost:5000/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -13,9 +13,11 @@ export default function SignUp() {
                 body: JSON.stringify(values),
                 credentials: 'include'
             })
+
+            console.log(values);
+
         } catch (err) {
             console.log(err);
-            
         }
     }
 
@@ -26,9 +28,7 @@ export default function SignUp() {
                 <input type="email" id="email" name="email" value={values.email} onChange={handleChange} />
                 <label htmlFor="password">Password</label>
                 <input type="password" id="password" name="password" value={values.password} onChange={handleChange} />
-                <label htmlFor="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" value={values.confirmPassword} onChange={handleChange} />
-                <button>Sign Up</button>
+                <button>Login</button>
             </form>
         </div>
     );

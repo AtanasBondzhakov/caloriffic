@@ -1,3 +1,4 @@
+import jwt from "../lib/jwt.js";
 import User from "../models/User.js";
 
 export const authService = {
@@ -17,5 +18,20 @@ export const authService = {
         }
 
         const newUser = await User.create({ email, password });
+
+        return this.generateToken(newUser)
+    },
+    async generateToken(user) {
+        const payload = {
+            _id: user._id,
+            email: user.email
+        };
+
+        const header = { expiresIn: '2h' };
+
+        const token = await jwt.sign(payload, process.env.JWT_SECRET, header);
+
+        return token;
     }
 }
+

@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import User from "../models/User.js";
 
 export const authService = {
-    async signUp(email, password, confirmPassword) {
+    async register(email, password, confirmPassword) {
         if (!email || !password) {
             throw new Error('All fields are required!');
         }
@@ -20,27 +20,30 @@ export const authService = {
         }
 
         const newUser = await User.create({ email, password });
+        const token = await this.generateToken(newUser);
 
-        return this.generateToken(newUser)
+        return { newUser, token };
     },
     async login(email, password) {
         if (!email || !password) {
             throw new Error('All fields are required!');
         }
 
-        const existingUser = await User.findOne({ email });
+        const user = await User.findOne({ email });
 
-        if (!existingUser) {
+        if (!user) {
             throw new Error('Invalid email or password');
         }
 
-        const isValid = await bcrypt.compare(password, existingUser.password);
+        const isValid = await bcrypt.compare(password, user.password);
 
         if (!isValid) {
             throw new Error('Invalid email or password');
         }
 
-        return this.generateToken(existingUser);
+        const token = await this.generateToken(user);
+
+        return { user, token }
     },
     async generateToken(user) {
         const payload = {

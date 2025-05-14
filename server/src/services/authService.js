@@ -1,4 +1,6 @@
 import jwt from "../lib/jwt.js";
+import bcrypt from 'bcrypt';
+
 import User from "../models/User.js";
 
 export const authService = {
@@ -21,9 +23,28 @@ export const authService = {
 
         return this.generateToken(newUser)
     },
+    async login(email, password) {
+        if (!email || !password) {
+            throw new Error('All fields are required!');
+        }
+
+        const existingUser = await User.findOne({ email });
+
+        if (!existingUser) {
+            throw new Error('Invalid email or password');
+        }
+
+        const isValid = await bcrypt.compare(password, existingUser.password);
+
+        if (!isValid) {
+            throw new Error('Invalid email or password');
+        }
+
+        return this.generateToken(existingUser);
+    },
     async generateToken(user) {
         const payload = {
-            _id: user._id,
+            id: user._id,
             email: user.email
         };
 

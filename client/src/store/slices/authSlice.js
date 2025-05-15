@@ -23,6 +23,28 @@ export const loginUser = createAsyncThunk('auth/login', async (userData, { rejec
     }
 });
 
+export const registerUser = createAsyncThunk('auth/register', async (userData, { rejectWithValue }) => {
+    try {
+        const response = await fetch('http://localhost:5000/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData),
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            const err = await response.json();
+            console.log(err);
+            
+            return rejectWithValue(err || 'Login Failed!')
+        }
+    } catch (err) {
+        return rejectWithValue(err || 'Login Failed!');
+    }
+})
+
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
@@ -52,6 +74,19 @@ const authSlice = createSlice({
                 state.loading = false;
             })
             .addCase(loginUser.rejected, (state, action) => {
+                state.error = action.payload;
+                state.loading = false;
+            })
+            .addCase(registerUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(registerUser.fulfilled, (state, action) => {
+                state.user = action.payload;
+                state.isAuthenticated = true;
+                state.loading = false;
+            })
+            .addCase(registerUser.rejected, (state, action) => {
                 state.error = action.payload;
                 state.loading = false;
             })

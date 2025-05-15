@@ -1,24 +1,33 @@
-import { Link } from "react-router";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useForm } from "../../../hooks/useForm.js";
+import { clearError, registerUser } from "../../../store/slices/authSlice.js";
 
 export default function Register() {
-    const { values, handleChange, handleSubmit } = useForm({ email: '', password: '', confirmPassword: '' }, signUpSubmitHandler);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    async function signUpSubmitHandler() {
-        try {
-            await fetch('http://localhost:5000/auth/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(values),
-                credentials: 'include'
-            })
-        } catch (err) {
-            console.log(err);
+    const { error } = useSelector(state => state.auth);
+
+    const { values, handleChange, handleSubmit } = useForm({
+        email: '',
+        password: '',
+        confirmPassword: ''
+    }, registerSubmitHandler);
+
+    useEffect(() => {
+        dispatch(clearError())
+    }, [dispatch]);
+
+    async function registerSubmitHandler() {
+        const result = await dispatch(registerUser(values));
+
+        if (registerUser.fulfilled.match(result)) {
+            navigate('/');
         }
-    }
+    };
     return (
         <div className="auth">
             <div className="auth-container">
@@ -62,6 +71,7 @@ export default function Register() {
                 <p className="auth-link">
                     Already have an account? <Link to="/auth/login">Login</Link>
                 </p>
+                {error && <p className="auth-error">{error.message}</p>}
             </div>
         </div>
     );

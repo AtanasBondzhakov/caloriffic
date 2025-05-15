@@ -24,6 +24,16 @@ export default function CalculatorForm() {
         dci: null
     });
 
+    const inputFields = [
+        { name: 'age', label: 'Age' },
+        { name: 'weight', label: 'Weight' },
+        { name: 'height', label: 'Height' },
+        { name: 'neck', label: 'Neck' },
+        { name: 'abdomen', label: 'Abdomen', disabled: gender === 'female' },
+        { name: 'waist', label: 'Waist', disabled: gender === 'male' },
+        { name: 'hip', label: 'Hip', disabled: gender === 'male' },
+    ];
+
     const { values, handleChange, handleSubmit } = useForm(initialValues, submitHandler);
 
     function submitHandler() {
@@ -50,22 +60,12 @@ export default function CalculatorForm() {
         });
     };
 
-    const inputFields = [
-        { name: 'age', label: 'Age' },
-        { name: 'weight', label: 'Weight' },
-        { name: 'height', label: 'Height' },
-        { name: 'neck', label: 'Neck' },
-        { name: 'abdomen', label: 'Abdomen', disabled: gender === 'female' },
-        { name: 'waist', label: 'Waist', disabled: gender === 'male' },
-        { name: 'hip', label: 'Hip', disabled: gender === 'male' },
-    ];
-
     return (
         <div className="calc-form-container">
             <h2 className="calc-heading">Enter your data:</h2>
             <form className="calc-form" onSubmit={handleSubmit}>
                 <div className="calc-group-radio">
-                    <span>Gender:</span>
+                    <span>Gender</span>
                     {['male', 'female'].map(g => (
                         <label htmlFor={g} key={g}>
                             <input
@@ -85,6 +85,7 @@ export default function CalculatorForm() {
                     <Input
                         key={field.name}
                         className="calc-group"
+                        type="number"
                         name={field.name}
                         label={field.label}
                         disabled={field.disabled}

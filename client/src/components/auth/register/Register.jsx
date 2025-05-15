@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useForm } from "../../../hooks/useForm.js";
 import { clearError, registerUser } from "../../../store/slices/authSlice.js";
+import Input from "../../input/Input.jsx";
 
 export default function Register() {
     const dispatch = useDispatch();
@@ -33,39 +34,32 @@ export default function Register() {
             <div className="auth-container">
                 <h2>Register</h2>
                 <form className="auth-form" onSubmit={handleSubmit}>
-                    <div className="auth-group">
-                        <label htmlFor="email">Email</label>
-                        <input
-                            type="text"
-                            id="email"
-                            name="email"
-                            placeholder='john@mail.com'
-                            value={values.email}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div className="auth-group">
-                        <label htmlFor="password">Password</label>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            placeholder='******'
-                            value={values.password}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div className="auth-group">
-                        <label htmlFor="confirmPassword">Confirm Password</label>
-                        <input
-                            type="password"
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            placeholder='******'
-                            value={values.confirmPassword}
-                            onChange={handleChange}
-                        />
-                    </div>
+                    <Input
+                        className="auth-group"
+                        name="email"
+                        onChange={handleChange}
+                        value={values.email}
+                        label="Email"
+                        placeholder='john@mail.com'
+                    />
+                    <Input
+                        className="auth-group"
+                        type="password"
+                        name="password"
+                        onChange={handleChange}
+                        value={values.password}
+                        label="Password"
+                        placeholder='******'
+                    />
+                    <Input
+                        className="auth-group"
+                        type="password"
+                        name="confirmPassword"
+                        onChange={handleChange}
+                        value={values.confirmPassword}
+                        label="Confirm Password"
+                        placeholder='******'
+                    />
                     <button className="auth-btn">Register</button>
                 </form>
                 <p className="auth-link">

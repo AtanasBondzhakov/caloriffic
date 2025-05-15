@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router";
 
 import { clearError, loginUser } from "../../../store/slices/authSlice";
 import { useForm } from "../../../hooks/useForm.js";
+import Input from "../../input/Input.jsx";
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -11,7 +12,10 @@ export default function Login() {
 
     const { error } = useSelector(state => state.auth);
 
-    const { values, handleChange, handleSubmit } = useForm({ email: '', password: '' }, loginSubmitHandler);
+    const { values, handleChange, handleSubmit } = useForm({
+        email: '',
+        password: ''
+    }, loginSubmitHandler);
 
     useEffect(() => {
         dispatch(clearError())
@@ -30,28 +34,23 @@ export default function Login() {
             <div className="auth-container">
                 <h2>Login</h2>
                 <form className="auth-form" onSubmit={handleSubmit}>
-                    <div className="auth-group">
-                        <label htmlFor="email">Email</label>
-                        <input
-                            type="text"
-                            id="email"
-                            name="email"
-                            placeholder='john@mail.com'
-                            value={values.email}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div className="auth-group">
-                        <label htmlFor="password">Password</label>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            placeholder='******'
-                            value={values.password}
-                            onChange={handleChange}
-                        />
-                    </div>
+                    <Input
+                        className="auth-group"
+                        name="email"
+                        onChange={handleChange}
+                        value={values.email}
+                        label="Email"
+                        placeholder='john@mail.com'
+                    />
+                    <Input
+                        className="auth-group"
+                        type="password"
+                        name="password"
+                        onChange={handleChange}
+                        value={values.password}
+                        label="Password"
+                        placeholder='******'
+                    />
                     <button className="auth-btn">Login</button>
                 </form>
                 <p className="auth-link">

@@ -1,24 +1,29 @@
-import { Link } from "react-router";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router";
 
+import { clearError, loginUser } from "../../../store/slices/authSlice";
 import { useForm } from "../../../hooks/useForm.js";
 
 export default function Login() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { error } = useSelector(state => state.auth);
+
     const { values, handleChange, handleSubmit } = useForm({ email: '', password: '' }, loginSubmitHandler);
 
+    useEffect(() => {
+        dispatch(clearError())
+    }, [dispatch]);
+
     async function loginSubmitHandler() {
-        try {
-            await fetch('http://localhost:5000/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(values),
-                credentials: 'include'
-            });
-        } catch (err) {
-            console.log(err);
+        const result = await dispatch(loginUser(values));
+
+        if (loginUser.fulfilled.match(result)) {
+            navigate('/');
         }
-    }
+    };
 
     return (
         <div className="auth">
@@ -52,6 +57,7 @@ export default function Login() {
                 <p className="auth-link">
                     Don&apos;t have an account? <Link to="/auth/register">Register</Link>
                 </p>
+                {error && <p className="auth-error">{error.message}</p>}
             </div>
         </div>
     );

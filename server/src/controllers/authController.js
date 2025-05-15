@@ -11,21 +11,26 @@ authController.post('/register', async (req, res) => {
 
         res.cookie('auth', token, { httpOnly: true });
         res.status(201).json({
-            id: newUser._id,
-            email: newUser.email,
-            token
+            success: true,
+            user: {
+                id: newUser._id,
+                email: newUser.email,
+                token
+            }
         })
     } catch (err) {
-        res.status(409).json('Email already exist!')
+        res.status(409).json({ success: false, message: err.message })
         console.log(err.message);
     }
 });
 
 authController.post('/login', async (req, res) => {
     const { email, password } = req.body;
-
+    
     try {
         const { user, token } = await authService.login(email, password);
+        console.log(user);
+        console.log(token);
 
         res.cookie('auth', token, {
             httpOnly: true,
@@ -33,12 +38,15 @@ authController.post('/login', async (req, res) => {
             secure: true
         });
         res.status(200).json({
-            id: user._id,
-            email: user.email,
-            token,
+            success: true,
+            user: {
+                id: user._id,
+                email: user.email,
+                token,
+            }
         });
     } catch (err) {
-        res.status(401).json('Invalid credentials!');
+        res.status(401).json({ success: false, message: err.message });
         console.log(err.message);
     }
 });

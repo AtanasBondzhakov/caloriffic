@@ -272,6 +272,15 @@ body {
     text-decoration: underline;
 }
 
+.auth-error {
+    color: #e91616;
+    background-color: #ff9494ec;
+    padding: 0.3em;
+    border-radius: 0.3em;
+    border: 1px solid #e91616;
+    width: 70%;
+}
+
 /* .form button:disabled {
   cursor: not-allowed;
 } */

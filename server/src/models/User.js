@@ -13,6 +13,11 @@ const userSchema = new Schema({
         type: String,
         required: [true, 'Password is required!'],
         minLength: [4, 'Password should be at least 4 characters long']
+    },
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user'
     }
 }, { timestamps: true });
 

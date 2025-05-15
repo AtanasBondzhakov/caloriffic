@@ -47,16 +47,19 @@ body {
 }
 
 .nav-logo a:hover,
-.nav-item a:hover {
+.nav-item a:hover,
+.dropdown:hover {
     transform: scale(1.2);
     cursor: pointer;
 }
+
+
 
 .calculator-container {
     display: flex;
     margin: 0;
     padding-top: 10em;
-    background-color: #f89552;
+    background-color: #e8ecf0;
     justify-content: end;
     /* background-image: url('./public/body.png');
     background-position: top 100 left 100; */
@@ -67,6 +70,15 @@ body {
     align-items: stretch;
 }
 
+.metrics {
+    display: flex;
+    background-color: #dbdbdbd0;
+    height: max-content;
+    border-radius: 0.5em;
+    margin-right: 4em;
+    gap: 2em;
+}
+
 .calc-form-container,
 .results-container {
     display: flex;
@@ -74,12 +86,21 @@ body {
     margin-right: 1em;
     border-radius: 0.6em;
     padding: 1em;
-    background-color: #dbdbdbd0;
-    max-width: 15em;
+    max-width: 20em;
     width: 100%;
     gap: 1em;
     flex: 1;
     height: max-content;
+}
+
+.results-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.results-info p {
+    margin: 0;
+    padding-bottom: 2em;
 }
 
 .calc-form-container {
@@ -164,15 +185,15 @@ body {
 }
 
 .auth {
-  font-family: 'Outfit', sans-serif;
-  display: flex;
-  padding-bottom: 2em;
-  align-items: center;
-  /* background-image: linear-gradient(rgba(201, 200, 200, 0.9), rgba(0, 0, 0, 0.2)); */
-  background-color: #e8ecf0;
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
+    font-family: 'Outfit', sans-serif;
+    display: flex;
+    padding-bottom: 2em;
+    align-items: center;
+    /* background-image: linear-gradient(rgba(201, 200, 200, 0.9), rgba(0, 0, 0, 0.2)); */
+    background-color: #e8ecf0;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
 }
 
 .auth-container {
@@ -192,7 +213,8 @@ body {
 
 .auth-container h2 {
     font-size: 1.8em;
-    color: #2e2e2e;;
+    color: #2e2e2e;
+    ;
 }
 
 .auth-form {
@@ -234,7 +256,7 @@ body {
     outline: none;
 }
 
- .auth-btn {
+.auth-btn {
     background: #3793e9;
     border: none;
     padding: 0.8em;
@@ -244,7 +266,7 @@ body {
     font-size: 1em;
     cursor: pointer;
     transition: transform 0.2s ease;
-  }
+}
 
 .auth-group input::placeholder {
     opacity: 0.5;
@@ -255,7 +277,7 @@ body {
 .auth-btn:hover {
     transform: scale(1.01);
     box-shadow: 0px 4px 10px rgba(112, 113, 114, 0.6);
-  }
+}
 
 .auth-link {
     margin-top: 1em;

@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useDispatch } from 'react-redux';
+
 import { bmiCalculate, bmrCalculate, bodyFatsKgCalculate, dailyCaloriesCalculate, lbmCalculate } from "../../../utils/bodyMetrics";
 import { useForm } from "../../../hooks/useForm";
 import Input from "../../input/Input";
+import { saveCalculation } from "../../../store/slices/bodyMetricsSlice.js";
+import Results from "../results/Results.jsx";
 
 const initialValues = {
     age: '',
@@ -14,6 +18,8 @@ const initialValues = {
 };
 
 export default function CalculatorForm() {
+    const dispatch = useDispatch();
+
     const [gender, setGender] = useState('male');
     const [activity, setActivity] = useState('');
     const [results, setResults] = useState({
@@ -60,55 +66,60 @@ export default function CalculatorForm() {
         });
     };
 
+    const handleSave = () => {
+        dispatch(saveCalculation(results));
+    };
+
     return (
-        <div className="calc-form-container">
-            <h2 className="calc-heading">Enter your data:</h2>
-            <form className="calc-form" onSubmit={handleSubmit}>
-                <div className="calc-group-radio">
-                    <span>Gender</span>
-                    {['male', 'female'].map(g => (
-                        <label htmlFor={g} key={g}>
-                            <input
-                                type="radio"
-                                name="gender"
-                                id={g}
-                                value={g}
-                                checked={gender === g}
-                                onChange={() => setGender(g)}
-                            />
-                            {g}
-                        </label>
+        <div className="metrics">
+            <div className="calc-form-container">
+                <h2 className="calc-heading">Enter your data:</h2>
+                <form className="calc-form" onSubmit={handleSubmit}>
+                    <div className="calc-group-radio">
+                        <span>Gender</span>
+                        {['male', 'female'].map(g => (
+                            <label htmlFor={g} key={g}>
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    id={g}
+                                    value={g}
+                                    checked={gender === g}
+                                    onChange={() => setGender(g)}
+                                />
+                                {g}
+                            </label>
+                        ))}
+                    </div>
+
+                    {inputFields.map(field => (
+                        <Input
+                            key={field.name}
+                            className="calc-group"
+                            type="number"
+                            name={field.name}
+                            label={field.label}
+                            disabled={field.disabled}
+                            value={values[field.name]}
+                            onChange={handleChange}
+                        />
                     ))}
-                </div>
 
-                {inputFields.map(field => (
-                    <Input
-                        key={field.name}
-                        className="calc-group"
-                        type="number"
-                        name={field.name}
-                        label={field.label}
-                        disabled={field.disabled}
-                        value={values[field.name]}
-                        onChange={handleChange}
-                    />
-                ))}
-
-                <div className="calc-select">
-                    <label htmlFor="activity">Activity:</label>
-                    <select name="activity" id="activity" className="select-option" onChange={(e) => setActivity(e.target.value)}>
-                        <option value="">Choose...</option>
-                        <option value="sedentary">Sedentary: Little or no exercise</option>
-                        <option value="light">Light: Exercise 1-3 days per week</option>
-                        <option value="moderate">Moderate: Exercise 4-5 days per week</option>
-                        <option value="active">Active: Exercise every day</option>
-                        <option value="veryActive">Very Active: Exercise twice per day</option>
-                    </select>
-                </div>
-                <button type="submit" className="calc-form-button">Calculate</button>
-            </form>
-
-            <span>Result: {results.bmi}, {results.bfk}, {results.lbm}, {results.bmr}, {results.dci}</span>
+                    <div className="calc-select">
+                        <label htmlFor="activity">Activity:</label>
+                        <select name="activity" id="activity" className="select-option" onChange={(e) => setActivity(e.target.value)}>
+                            <option value="">Choose...</option>
+                            <option value="sedentary">Sedentary: Little or no exercise</option>
+                            <option value="light">Light: Exercise 1-3 days per week</option>
+                            <option value="moderate">Moderate: Exercise 4-5 days per week</option>
+                            <option value="active">Active: Exercise every day</option>
+                            <option value="veryActive">Very Active: Exercise twice per day</option>
+                        </select>
+                    </div>
+                    <button type="submit" className="calc-form-button">Calculate</button>
+                </form>
+            </div>
+            <Results results={results} handleSave={handleSave}/>
         </div>
     );
 };

@@ -1,5 +1,28 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+export const loginUser = createAsyncThunk('auth/login', async (userData, { rejectWithValue }) => {
+    try {
+        const response = await fetch('http://localhost:5000/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData),
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            const err = await response.json();
+
+            return rejectWithValue(err || 'Login Failed!')
+        }
+
+        return response.json();
+    } catch (err) {
+        return rejectWithValue(err || 'Login Failed!');
+    }
+});
+
 const authSlice = createSlice({
     name: 'auth',
     initialState: {

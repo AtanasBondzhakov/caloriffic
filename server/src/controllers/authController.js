@@ -51,4 +51,13 @@ authController.post('/login', async (req, res) => {
     }
 });
 
+authController.post('/logout', async (req, res) => {
+    try {
+        res.clearCookie('auth');
+        res.status(200).json({ success: true, message: 'Logged out successfully!' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
 export default authController;

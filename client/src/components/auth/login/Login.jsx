@@ -56,7 +56,7 @@ export default function Login() {
                 <p className="auth-link">
                     Don&apos;t have an account? <Link to="/auth/register">Register</Link>
                 </p>
-                {error && <p className="auth-error">{error.message}</p>}
+                {error && <p className="auth-error">{error}</p>}
             </div>
         </div>
     );

@@ -65,7 +65,7 @@ export default function Register() {
                 <p className="auth-link">
                     Already have an account? <Link to="/auth/login">Login</Link>
                 </p>
-                {error && <p className="auth-error">{error.message}</p>}
+                {error && <p className="auth-error">{error}</p>}
             </div>
         </div>
     );

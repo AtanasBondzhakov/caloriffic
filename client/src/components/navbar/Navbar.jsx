@@ -12,20 +12,20 @@ const navLinks = [
 export default function Navbar() {
     return (
         <div className='nav-container'>
-            <div >
+            <div className="nav-content">
                 <div className='nav-logo'>
                     <Link to='/'>Caloriffic</Link>
                 </div>
-            </div>
-            <div className='nav-links'>
-                <ul className='nav-link-items'>
-                    {navLinks
-                        .map(link => (
-                            <NavbarItem key={link.name} path={link.path} name={link.name} />
-                        ))
-                    }
-                </ul>
-                <NavbarProfileMenu />
+                <div className='nav-links'>
+                    <ul className='nav-link-items'>
+                        {navLinks
+                            .map(link => (
+                                <NavbarItem key={link.name} path={link.path} name={link.name} />
+                            ))
+                        }
+                    </ul>
+                    <NavbarProfileMenu />
+                </div>
             </div>
         </div >
     );

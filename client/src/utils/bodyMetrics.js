@@ -21,7 +21,7 @@ export const bodyFatsKgCalculate = (weight, bodyFatsPercent) => {
 };
 
 export const lbmCalculate = (weight, bmi) => {
-    return  weight * (1 - bmi / 100);
+    return weight * (1 - bmi / 100);
 };
 
 export const bmrCalculate = (gender, weight, height, age) => {
@@ -44,4 +44,18 @@ export const dailyCaloriesCalculate = (bmr, activity) => {
     };
 
     return bmr * activityTable[activity];
+};
+
+export const dailyIntakeTargetCalculate = (dailyIntake, targetPercent) => {
+    const targetTable = {
+        '25deficit': 0.75,
+        '20deficit': 0.8,
+        '15deficit': 0.85,
+        'noChange': 1,
+        '10excess': 1.1,
+        '15excess': 1.15,
+        '20excess': 1.2
+    };
+
+    return dailyIntake * targetTable[targetPercent];
 };

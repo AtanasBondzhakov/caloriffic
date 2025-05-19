@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useForm } from "../../../hooks/useForm.js";
 import { clearError, registerUser } from "../../../store/slices/authSlice.js";
-import Input from "../../input/Input.jsx";
+import Input from "../../forms/input/Input.jsx";
+
 
 export default function Register() {
     const dispatch = useDispatch();

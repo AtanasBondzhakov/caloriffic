@@ -4,7 +4,8 @@ import { Link, useNavigate } from "react-router";
 
 import { clearError, loginUser } from "../../../store/slices/authSlice";
 import { useForm } from "../../../hooks/useForm.js";
-import Input from "../../input/Input.jsx";
+import Input from "../../forms/input/Input.jsx";
+
 
 export default function Login() {
     const dispatch = useDispatch();

@@ -1,7 +1,11 @@
+import { useSelector } from "react-redux";
+
 export default function Results({
     results,
     handleSave
 }) {
+    const { isAuthenticated } = useSelector(state => state.auth)
+
     return (
         <div className="results-container">
             <h2 className="results-heading">Results:</h2>
@@ -11,9 +15,9 @@ export default function Results({
                 <p>Lean body mass: {results.lbm ? results.lbm?.toFixed(1) : 0} kg</p>
                 <p>Basal metabolic rate (BMR): {Math.round(results?.bmr)} kcal</p>
                 <p>Daily calorie intake: {Math.round(results?.dci)} kcal</p>
-                <p>Daily calorie intake deficit/excess: </p>
+                <p>Daily calorie intake deficit/excess: {Math.round(results?.dit)} kcal</p>
             </div>
-            <button onClick={handleSave}>Save</button>
+            {isAuthenticated && <button onClick={handleSave}>Save</button>}
         </div>
     );
 };

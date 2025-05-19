@@ -1,34 +1,57 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 
-import { bmiCalculate, bmrCalculate, bodyFatsKgCalculate, dailyCaloriesCalculate, lbmCalculate } from "../../../utils/bodyMetrics";
+import { bmiCalculate, bmrCalculate, bodyFatsKgCalculate, dailyCaloriesCalculate, dailyIntakeTargetCalculate, lbmCalculate } from "../../../utils/bodyMetrics";
 import { useForm } from "../../../hooks/useForm";
-import Input from "../../input/Input";
 import { saveCalculation } from "../../../store/slices/bodyMetricsSlice.js";
 import Results from "../results/Results.jsx";
+import Select from "../../forms/select/Select.jsx";
+import Input from "../../forms/input/Input.jsx";
 
-const initialValues = {
+const formInitialValues = {
     age: '',
     weight: '',
     height: '',
     neck: '',
     abdomen: '',
     waist: '',
-    hip: ''
+    hip: '',
+    activity: 'choose',
+    calorieIntake: 'choose'
 };
+
+const resultInitialValues = {
+    bmi: null,
+    bfk: null,
+    lbm: null,
+    bmr: null,
+    dci: null,
+    dit: null
+};
+
+const activityOptions = [
+    { value: "sedentary", label: 'Sedentary: Little or no exercise' },
+    { value: "light", label: 'Light: Exercise 1-3 days per week' },
+    { value: "moderate", label: 'Moderate: Exercise 4-5 days per week' },
+    { value: "active", label: 'Active: Exercise every day' },
+    { value: "veryActive", label: 'Very Active: Exercise twice per day' },
+];
+
+const calorieIntakeOptions = [
+    { value: "25deficit", label: '25% deficit' },
+    { value: "20deficit", label: '20% deficit' },
+    { value: "15deficit", label: '15% deficit' },
+    { value: "noChange", label: 'No deficit/excess' },
+    { value: "10excess", label: '10% excess' },
+    { value: "15excess", label: '15% excess' },
+    { value: "20excess", label: '20% excess' }
+]
 
 export default function CalculatorForm() {
     const dispatch = useDispatch();
 
     const [gender, setGender] = useState('male');
-    const [activity, setActivity] = useState('');
-    const [results, setResults] = useState({
-        bmi: null,
-        bfk: null,
-        lbm: null,
-        bmr: null,
-        dci: null
-    });
+    const [results, setResults] = useState(resultInitialValues);
 
     const inputFields = [
         { name: 'age', label: 'Age' },
@@ -40,9 +63,9 @@ export default function CalculatorForm() {
         { name: 'hip', label: 'Hip', disabled: gender === 'male' },
     ];
 
-    const { values, handleChange, handleSubmit } = useForm(initialValues, submitHandler);
+    const { values, handleChange, handleSubmit } = useForm(formInitialValues, submitHandler);
 
-    function submitHandler() {
+    const calculateMetrics = () => {
         const bodyMassIndex = bmiCalculate(
             gender,
             values.height,
@@ -55,15 +78,23 @@ export default function CalculatorForm() {
         const bodyFats = bodyFatsKgCalculate(values.weight, bodyMassIndex);
         const leanBodyMass = lbmCalculate(values.weight, bodyMassIndex);
         const basalMetabolicRate = bmrCalculate(gender, values.weight, values.height, values.age);
-        const dailyIntake = dailyCaloriesCalculate(basalMetabolicRate, activity);
+        const dailyIntake = dailyCaloriesCalculate(basalMetabolicRate, values.activity);
+        const dailyIntakeTarget = dailyIntakeTargetCalculate(dailyIntake, values.calorieIntake);
 
-        setResults({
+        return {
             bmi: bodyMassIndex,
             bfk: bodyFats,
             lbm: leanBodyMass,
             bmr: basalMetabolicRate,
-            dci: dailyIntake
-        });
+            dci: dailyIntake,
+            dit: dailyIntakeTarget
+        }
+    };
+
+    function submitHandler() {
+        const calculatedResults = calculateMetrics();
+
+        setResults(calculatedResults);
     };
 
     const handleSave = () => {
@@ -106,20 +137,27 @@ export default function CalculatorForm() {
                     ))}
 
                     <div className="calc-select">
-                        <label htmlFor="activity">Activity:</label>
-                        <select name="activity" id="activity" className="select-option" onChange={(e) => setActivity(e.target.value)}>
-                            <option value="">Choose...</option>
-                            <option value="sedentary">Sedentary: Little or no exercise</option>
-                            <option value="light">Light: Exercise 1-3 days per week</option>
-                            <option value="moderate">Moderate: Exercise 4-5 days per week</option>
-                            <option value="active">Active: Exercise every day</option>
-                            <option value="veryActive">Very Active: Exercise twice per day</option>
-                        </select>
+                        <Select
+                            className="select-option"
+                            name="activity"
+                            onChange={handleChange}
+                            options={activityOptions}
+                            value={values.activity}
+                        />
+                    </div>
+                    <div className="calc-select">
+                        <Select
+                            className="select-option"
+                            name="calorieIntake"
+                            onChange={handleChange}
+                            options={calorieIntakeOptions}
+                            value={values.calorieIntake}
+                        />
                     </div>
                     <button type="submit" className="calc-form-button">Calculate</button>
                 </form>
             </div>
-            <Results results={results} handleSave={handleSave}/>
+            <Results results={results} handleSave={handleSave} />
         </div>
     );
 };

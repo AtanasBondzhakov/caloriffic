@@ -66,6 +66,24 @@ export const logoutUser = createAsyncThunk('auth/logout', async ({ navigate }, {
     }
 });
 
+export const checkAuth = createAsyncThunk('auth/check-auth', async (_, { rejectWithValue }) => {
+    try {
+        const response = await fetch('http://localhost:5000/auth/check-auth', {
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            const err = await response.json();
+
+            return rejectWithValue(err);
+        }
+
+        return response.json();
+    } catch (err) {
+        return rejectWithValue(err);
+    }
+});
+
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
@@ -120,7 +138,23 @@ const authSlice = createSlice({
                 state.error = action.payload.message;
                 state.loading = false;
             })
+            .addCase(checkAuth.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(checkAuth.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = action.payload.user;
+                state.isAuthenticated = !!action.payload.user;
+            })
+            .addCase(checkAuth.rejected, (state, action) => {
+                state.error = action.payload?.message;
+                state.loading = false;
+                state.isAuthenticated = false;
+                state.user = null;
+            })
     }
+
 });
 
 export const { clearError } = authSlice.actions;

@@ -10,10 +10,18 @@ export const authMiddleware = async (req, res, next) => {
     try {
         const decodedToken = await jwt.verify(token, process.env.JWT_SECRET);
         req.user = decodedToken;
-
+        
         next();
     } catch (err) {
-        res.clearCookies('auth');
+        res.clearCookie('auth');
         res.status(401).json({ success: false, message: 'Invalid token!' });
     }
+};
+
+export const isAuth = (req, res, next) => {
+    if(!req.user) {
+       return res.json({success: false, user: null})
+    }
+
+    next();
 };

@@ -5,8 +5,17 @@ import Calculator from "./components/calculator/Calculator.jsx";
 import Home from "./components/home/Home.jsx";
 import Login from "./components/auth/login/Login.jsx";
 import Register from "./components/auth/register/Register.jsx";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { checkAuth } from "./store/slices/authSlice.js";
 
 function App() {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(checkAuth());
+    }, []);
+
     return (
         <>
             <Navbar />
@@ -16,6 +25,7 @@ function App() {
                 <Route path="/calculator" element={<Calculator />} />
                 <Route path="/auth/register" element={<Register />} />
                 <Route path="/auth/login" element={<Login />} />
+                <Route path="/auth/check-auth" element={<Home />} />
             </Routes>
         </>
     )

@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { authService } from "../services/authService.js";
+import User from "../models/User.js";
+import { isAuth } from "../middlewares/authMiddleware.js";
 
 const authController = Router();
 
@@ -15,7 +17,7 @@ authController.post('/register', async (req, res) => {
             user: {
                 id: newUser._id,
                 email: newUser.email,
-                token
+                role: user.role
             }
         })
     } catch (err) {
@@ -26,23 +28,22 @@ authController.post('/register', async (req, res) => {
 
 authController.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    
+
     try {
         const { user, token } = await authService.login(email, password);
-        console.log(user);
-        console.log(token);
 
         res.cookie('auth', token, {
             httpOnly: true,
-            sameSite: 'None',
-            secure: true
+            sameSite: 'Lax',
+            secure: false,
+            maxAge: 24 * 60 * 60 * 1000
         });
         res.status(200).json({
             success: true,
             user: {
                 id: user._id,
                 email: user.email,
-                token,
+                role: user.role
             }
         });
     } catch (err) {
@@ -57,6 +58,19 @@ authController.post('/logout', async (req, res) => {
         res.status(200).json({ success: true, message: 'Logged out successfully!' });
     } catch (err) {
         res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+authController.get('/check-auth', isAuth, async (req, res) => {
+    try {
+        const existingUser = await User.findById(req.user.id).select('-password');
+        const user = { id: existingUser._id, email: existingUser.email, role: existingUser.role };
+
+        res.json({ user });
+    } catch (err) {
+        console.log(err);
+
+        res.status(500).json(err);
     }
 });
 

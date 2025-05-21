@@ -17,7 +17,7 @@ authController.post('/register', async (req, res) => {
             user: {
                 id: newUser._id,
                 email: newUser.email,
-                role: user.role
+                role: newUser.role
             }
         })
     } catch (err) {

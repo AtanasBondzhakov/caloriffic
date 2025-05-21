@@ -1,49 +1,25 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+import requester from '../../api/requester';
+
 export const loginUser = createAsyncThunk('auth/login', async (userData, { rejectWithValue }) => {
     try {
-        const response = await fetch('http://localhost:5000/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(userData),
-            credentials: 'include'
-        });
+        const result = await requester.post('/auth/login', userData);
 
-        if (!response.ok) {
-            const err = await response.json();
-
-            return rejectWithValue(err || 'Login Failed!')
-        }
-
-        return response.json();
+        return result;
     } catch (err) {
-        return rejectWithValue(err || 'Login Failed!');
+        return rejectWithValue(err);
     }
 });
 
 export const registerUser = createAsyncThunk('auth/register', async (userData, { rejectWithValue }) => {
     try {
-        const response = await fetch('http://localhost:5000/auth/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(userData),
-            credentials: 'include'
-        });
+        const result = await requester.post('/auth/register', userData);
 
-        if (!response.ok) {
-            const err = await response.json();
-
-            return rejectWithValue(err || 'Register Failed!')
-        }
-
-        return response.json();
+        return result;
     } catch (err) {
-        return rejectWithValue(err || 'Register Failed!');
-    }
+        return rejectWithValue(err);
+    };
 });
 
 export const logoutUser = createAsyncThunk('auth/logout', async ({ navigate }, { rejectWithValue }) => {
@@ -119,7 +95,7 @@ const authSlice = createSlice({
                 state.error = null;
             })
             .addCase(registerUser.fulfilled, (state, action) => {
-                state.user = action.payload;
+                state.user = action.payload.user;
                 state.isAuthenticated = true;
                 state.loading = false;
             })

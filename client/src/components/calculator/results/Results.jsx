@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import Button from "../../ui/button/Button";
 
 export default function Results({
     results,
@@ -17,7 +18,14 @@ export default function Results({
                 <p>Daily calorie intake: {Math.round(results?.dci)} kcal</p>
                 <p>Daily calorie intake deficit/excess: {Math.round(results?.dit)} kcal</p>
             </div>
-            {isAuthenticated && <button onClick={handleSave}>Save</button>}
+            {isAuthenticated && (
+                <Button
+                    onClick={handleSave}
+                    type="button"
+                    className="calc-form-button"
+                    label="Save"
+                />
+            )}
         </div>
     );
 };

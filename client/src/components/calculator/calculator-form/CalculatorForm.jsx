@@ -7,6 +7,7 @@ import { saveCalculation } from "../../../store/slices/bodyMetricsSlice.js";
 import Results from "../results/Results.jsx";
 import Select from "../../forms/select/Select.jsx";
 import Input from "../../forms/input/Input.jsx";
+import Button from "../../ui/button/Button.jsx";
 
 const formInitialValues = {
     age: '',
@@ -99,6 +100,7 @@ export default function CalculatorForm() {
 
     const handleSave = () => {
         dispatch(saveCalculation(results));
+        setResults(resultInitialValues);
     };
 
     return (
@@ -154,7 +156,11 @@ export default function CalculatorForm() {
                             value={values.calorieIntake}
                         />
                     </div>
-                    <button type="submit" className="calc-form-button">Calculate</button>
+                    <Button
+                        className="calc-form-button"
+                        type="submit"
+                        label="Calculate"
+                    />
                 </form>
             </div>
             <Results results={results} handleSave={handleSave} />

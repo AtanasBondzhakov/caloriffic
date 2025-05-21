@@ -84,14 +84,16 @@ export const checkAuth = createAsyncThunk('auth/check-auth', async (_, { rejectW
     }
 });
 
+const initialState = {
+    user: null,
+    isAuthenticated: false,
+    loading: false,
+    error: null
+};
+
 const authSlice = createSlice({
     name: 'auth',
-    initialState: {
-        user: null,
-        isAuthenticated: false,
-        loading: false,
-        error: null
-    },
+    initialState,
     reducers: {
         clearError(state) {
             state.error = null;

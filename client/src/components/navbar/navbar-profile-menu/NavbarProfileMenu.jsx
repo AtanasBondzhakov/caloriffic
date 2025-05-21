@@ -4,6 +4,7 @@ import { Dropdown, Space } from 'antd';
 import { FaRegUserCircle } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router';
 import { logoutUser } from '../../../store/slices/authSlice';
+import { resetBodyMetrics } from '../../../store/slices/bodyMetricsSlice';
 
 export default function NavbarProfileMenu() {
     const dispatch = useDispatch();
@@ -11,6 +12,7 @@ export default function NavbarProfileMenu() {
 
     const logoutHandle = async () => {
         await dispatch(logoutUser({ navigate })).unwrap();
+        dispatch(resetBodyMetrics());
     };
 
     const { isAuthenticated } = useSelector(state => state.auth);

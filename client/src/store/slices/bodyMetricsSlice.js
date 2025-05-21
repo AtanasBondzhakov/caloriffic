@@ -1,17 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+    calculations: {}
+}
+
 const bodyMetricsSlice = createSlice({
     name: 'bodyMetrics',
-    initialState: {
-        calculations: {}
-    },
+    initialState,
     reducers: {
         saveCalculation(state, action) {
             state.calculations = action.payload;
+        },
+        resetBodyMetrics() {
+            return initialState
         }
     }
 })
 
-export const { saveCalculation } = bodyMetricsSlice.actions;
+export const { saveCalculation, resetBodyMetrics } = bodyMetricsSlice.actions;
 
 export default bodyMetricsSlice;

@@ -7,14 +7,14 @@ import Login from "./components/auth/login/Login.jsx";
 import Register from "./components/auth/register/Register.jsx";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { checkAuth } from "./store/slices/authSlice.js";
+import { checkMe } from "./store/slices/authSlice.js";
 
 function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(checkAuth());
-    }, []);
+        dispatch(checkMe());
+    }, [dispatch]);
 
     return (
         <>

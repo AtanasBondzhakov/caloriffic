@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { authService } from "../services/authService.js";
-import User from "../models/User.js";
-import { isAuth } from "../middlewares/authMiddleware.js";
+// import User from "../models/User.js";
+// import { isAuth } from "../middlewares/authMiddleware.js";
 
 const authController = Router();
 
@@ -61,17 +61,36 @@ authController.post('/logout', async (req, res) => {
     }
 });
 
-authController.get('/check-auth', isAuth, async (req, res) => {
+// authController.get('/check-auth', isAuth, async (req, res) => {
+//     try {
+//         const existingUser = await User.findById(req.user.id).select('-password');
+//         const user = { id: existingUser._id, email: existingUser.email, role: existingUser.role };
+
+//         res.json({ user });
+//     } catch (err) {
+//         console.log(err);
+
+//         res.status(500).json(err);
+//     }
+// });
+
+authController.get('/me', (req, res) => {
     try {
-        const existingUser = await User.findById(req.user.id).select('-password');
-        const user = { id: existingUser._id, email: existingUser.email, role: existingUser.role };
+        if (!req.user) {
+            return res.json({ success: false, user: null, isAuthenticated: false });
+        }
 
-        res.json({ user });
+        return res.json({ success: true, user: req.user, isAuthenticated: true });
     } catch (err) {
-        console.log(err);
+        console.log('Error in /auth/me: ', err);
 
-        res.status(500).json(err);
+        return res.status(500).json({ success: false, message: 'Server Error!' });
     }
+
+});
+
+authController.get('/products', (req, res) => {
+    return res.status(200).json('Successfully')
 });
 
 export default authController;

@@ -9,7 +9,11 @@ export const authMiddleware = async (req, res, next) => {
 
     try {
         const decodedToken = await jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decodedToken;
+        req.user = {
+            id: decodedToken.id,
+            email: decodedToken.email,
+            role: decodedToken.role
+        };
         
         next();
     } catch (err) {
@@ -18,10 +22,10 @@ export const authMiddleware = async (req, res, next) => {
     }
 };
 
-export const isAuth = (req, res, next) => {
-    if(!req.user) {
-       return res.json({success: false, user: null})
-    }
+// export const isAuth = (req, res, next) => {
+//     if(!req.user) {
+//        return res.json({success: false, user: null})
+//     }
 
-    next();
-};
+//     next();
+// };

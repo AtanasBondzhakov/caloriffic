@@ -48,7 +48,8 @@ export const authService = {
     async generateToken(user) {
         const payload = {
             id: user._id,
-            email: user.email
+            email: user.email,
+            role: user.role
         };
 
         const header = { expiresIn: '2h' };

@@ -20,7 +20,9 @@ export default function Register() {
     }, registerSubmitHandler);
 
     useEffect(() => {
-        dispatch(clearError())
+        return () => {
+            dispatch(clearError())
+        }
     }, [dispatch]);
 
     async function registerSubmitHandler() {

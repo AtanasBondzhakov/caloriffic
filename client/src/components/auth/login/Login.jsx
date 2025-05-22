@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router";
 import { clearError, loginUser } from "../../../store/slices/authSlice";
 import { useForm } from "../../../hooks/useForm.js";
 import Input from "../../forms/input/Input.jsx";
-
+import { loginSchema } from "../../../schema/loginSchema.js";
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -13,14 +13,16 @@ export default function Login() {
 
     const { error } = useSelector(state => state.auth);
 
-    const { values, handleChange, handleSubmit } = useForm({
+    const { values, errors: validationErrors, handleChange, handleSubmit } = useForm({
         email: '',
         password: ''
-    }, loginSubmitHandler);
+    }, loginSubmitHandler, loginSchema);
 
     useEffect(() => {
-        dispatch(clearError())
-    }, [dispatch]);
+        return () => {
+            dispatch(clearError())
+        }
+    }, [dispatch,]);
 
     async function loginSubmitHandler() {
         const result = await dispatch(loginUser(values));
@@ -29,7 +31,7 @@ export default function Login() {
             navigate('/');
         }
     };
-
+    //TODO fix error styles
     return (
         <div className="auth">
             <div className="auth-container">
@@ -57,7 +59,8 @@ export default function Login() {
                 <p className="auth-link">
                     Don&apos;t have an account? <Link to="/auth/register">Register</Link>
                 </p>
-                {error && <p className="auth-error">{error}</p>}
+                {Object.keys(validationErrors).length > 0 && <div className="auth-error">{Object.values(validationErrors).map(el => <p key={el}>{el}</p>)}</div>}
+                {error && Object.keys(validationErrors).length === 0 && <p className="auth-error">{error}</p>}
             </div>
         </div>
     );

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../../../hooks/useForm.js";
 import { clearError, registerUser } from "../../../store/slices/authSlice.js";
 import Input from "../../forms/input/Input.jsx";
-
+import { registerSchema } from "../../../schema/registerSchema.js";
 
 export default function Register() {
     const dispatch = useDispatch();
@@ -13,11 +13,11 @@ export default function Register() {
 
     const { error } = useSelector(state => state.auth);
 
-    const { values, handleChange, handleSubmit } = useForm({
+    const { values, errors: validationErrors, handleChange, handleSubmit } = useForm({
         email: '',
         password: '',
         confirmPassword: ''
-    }, registerSubmitHandler);
+    }, registerSubmitHandler, registerSchema);
 
     useEffect(() => {
         return () => {
@@ -32,6 +32,7 @@ export default function Register() {
             navigate('/');
         }
     };
+    //TODO fix error styles
     return (
         <div className="auth">
             <div className="auth-container">
@@ -68,7 +69,8 @@ export default function Register() {
                 <p className="auth-link">
                     Already have an account? <Link to="/auth/login">Login</Link>
                 </p>
-                {error && <p className="auth-error">{error}</p>}
+                {Object.keys(validationErrors).length > 0 && <div className="auth-error">{Object.values(validationErrors).map(el => <p key={el}>{el}</p>)}</div>}
+                {error && Object.keys(validationErrors).length === 0 && <p className="auth-error">{error}</p>}
             </div>
         </div>
     );

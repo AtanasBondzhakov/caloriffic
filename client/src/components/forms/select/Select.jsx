@@ -3,11 +3,12 @@ export default function Select({
     name,
     onChange,
     options,
-    value
+    value,
+    label
 }) {
     return (
         <>
-            <label htmlFor={name}>Activity:</label>
+            <label htmlFor={name}>{label}:</label>
             <select name={name} id={name} className={className} onChange={onChange} value={value}>
                 <option value="">Choose...</option>
                 {options.map(option => (

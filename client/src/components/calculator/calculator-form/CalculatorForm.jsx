@@ -8,8 +8,10 @@ import Results from "../results/Results.jsx";
 import Select from "../../forms/select/Select.jsx";
 import Input from "../../forms/input/Input.jsx";
 import Button from "../../ui/button/Button.jsx";
+import { bodyMetricsSchema } from "../../../schema/bodyMetricsSchema.js";
 
 const formInitialValues = {
+    gender: 'male',
     age: '',
     weight: '',
     height: '',
@@ -17,8 +19,8 @@ const formInitialValues = {
     abdomen: '',
     waist: '',
     hip: '',
-    activity: 'choose',
-    calorieIntake: 'choose'
+    activity: '',
+    calorieIntake: ''
 };
 
 const resultInitialValues = {
@@ -51,24 +53,23 @@ const calorieIntakeOptions = [
 export default function CalculatorForm() {
     const dispatch = useDispatch();
 
-    const [gender, setGender] = useState('male');
     const [results, setResults] = useState(resultInitialValues);
+
+    const { values, errors: validationErrors, handleChange, handleSubmit } = useForm(formInitialValues, submitHandler, bodyMetricsSchema);
 
     const inputFields = [
         { name: 'age', label: 'Age' },
         { name: 'weight', label: 'Weight' },
         { name: 'height', label: 'Height' },
         { name: 'neck', label: 'Neck' },
-        { name: 'abdomen', label: 'Abdomen', disabled: gender === 'female' },
-        { name: 'waist', label: 'Waist', disabled: gender === 'male' },
-        { name: 'hip', label: 'Hip', disabled: gender === 'male' },
+        { name: 'abdomen', label: 'Abdomen', disabled: values.gender === 'female' },
+        { name: 'waist', label: 'Waist', disabled: values.gender === 'male' },
+        { name: 'hip', label: 'Hip', disabled: values.gender === 'male' },
     ];
-
-    const { values, handleChange, handleSubmit } = useForm(formInitialValues, submitHandler);
 
     const calculateMetrics = () => {
         const bodyMassIndex = bmiCalculate(
-            gender,
+            values.gender,
             values.height,
             values.neck,
             values.abdomen,
@@ -78,7 +79,7 @@ export default function CalculatorForm() {
 
         const bodyFats = bodyFatsKgCalculate(values.weight, bodyMassIndex);
         const leanBodyMass = lbmCalculate(values.weight, bodyMassIndex);
-        const basalMetabolicRate = bmrCalculate(gender, values.weight, values.height, values.age);
+        const basalMetabolicRate = bmrCalculate(values.gender, values.weight, values.height, values.age);
         const dailyIntake = dailyCaloriesCalculate(basalMetabolicRate, values.activity);
         const dailyIntakeTarget = dailyIntakeTargetCalculate(dailyIntake, values.calorieIntake);
 
@@ -94,7 +95,8 @@ export default function CalculatorForm() {
 
     function submitHandler() {
         const calculatedResults = calculateMetrics();
-
+        console.log('fired');
+        
         setResults(calculatedResults);
     };
 
@@ -117,8 +119,8 @@ export default function CalculatorForm() {
                                     name="gender"
                                     id={g}
                                     value={g}
-                                    checked={gender === g}
-                                    onChange={() => setGender(g)}
+                                    checked={values.gender === g}
+                                    onChange={handleChange}
                                 />
                                 {g}
                             </label>
@@ -142,6 +144,7 @@ export default function CalculatorForm() {
                         <Select
                             className="select-option"
                             name="activity"
+                            label="Activity"
                             onChange={handleChange}
                             options={activityOptions}
                             value={values.activity}
@@ -151,6 +154,7 @@ export default function CalculatorForm() {
                         <Select
                             className="select-option"
                             name="calorieIntake"
+                            label="Calorie Intake"
                             onChange={handleChange}
                             options={calorieIntakeOptions}
                             value={values.calorieIntake}

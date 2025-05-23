@@ -13,6 +13,8 @@ export const useForm = (initialValues, submitHandler, validationSchema) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log('fired');
+        
 
         try {
             await validationSchema?.validate(values, { abortEarly: false });

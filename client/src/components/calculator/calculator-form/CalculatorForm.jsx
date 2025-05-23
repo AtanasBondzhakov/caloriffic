@@ -95,8 +95,7 @@ export default function CalculatorForm() {
 
     function submitHandler() {
         const calculatedResults = calculateMetrics();
-        console.log('fired');
-        
+
         setResults(calculatedResults);
     };
 
@@ -166,6 +165,7 @@ export default function CalculatorForm() {
                         label="Calculate"
                     />
                 </form>
+                {Object.keys(validationErrors).length > 0 && <div className="auth-error">{Object.values(validationErrors).map(el => <p key={el}>{el}</p>)}</div>}
             </div>
             <Results results={results} handleSave={handleSave} />
         </div>

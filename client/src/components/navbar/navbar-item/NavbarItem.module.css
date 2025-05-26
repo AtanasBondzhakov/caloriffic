@@ -1,0 +1,16 @@
+.item {
+    display: flex;
+    padding-inline-start: 0;
+    list-style: none;
+    align-items: center;
+    text-align: start;
+}
+
+.item a {
+    display: flex;
+    gap: 1em;
+    text-decoration: none;
+    font-size: 0.75em;
+    color: #b3b3b3;
+    align-items: center;
+}

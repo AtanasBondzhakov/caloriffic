@@ -1,11 +1,15 @@
 import { Link } from "react-router";
 
+import styles from '../navbar-item/NavbarItem.module.css';
+
 export default function NavbarItem({
     path,
-    name
+    name,
+    icon
 }) {
     return (
-        <li className='nav-item'>
+        <li className={styles.item}>
+            {icon}
             <Link to={path}>{name}</Link>
         </li>
     );

@@ -60,53 +60,6 @@ body {
     cursor: pointer;
 }
 
-.calculator-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding-bottom: 5em;
-    justify-content: start;
-    background: linear-gradient(180deg, rgb(183, 193, 219) 0%, rgba(163, 175, 209, 1) 50%, rgba(138, 154, 191, 1) 100%);
-    height: 100vh;
-    gap: 10em;
-    color: #222;
-}
-
-.calculator-header {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 1em;
-    text-align: center;
-    align-items: center;
-    gap: 0.5em;
-    margin: 0 auto;
-    background: #c3c9d4;
-    background: linear-gradient(270deg, rgba(195, 201, 212, 1) 0%, rgba(177, 183, 204, 1) 33%, rgba(164, 171, 189, 1) 100%);
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.calculator-header h1 {
-    font-size: 2.5em;
-    padding-top: 0.5em;
-    margin: 0;
-    color: #444;
-}
-
-.calculator-header p {
-    font-size: 1.5em;
-    margin: 0;
-}
-
-.calculator-content {
-    display: flex;
-    width: 80%;
-    align-items: center;
-    margin: 0 auto;
-    justify-content: center;
-    gap: 20%;
-    padding-bottom: 5em;
-}
 
 .body-image {
     height: max-content;

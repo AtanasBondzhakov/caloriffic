@@ -6,6 +6,7 @@ import { useForm } from "../../../hooks/useForm.js";
 import { clearError, registerUser } from "../../../store/slices/authSlice.js";
 import Input from "../../forms/input/Input.jsx";
 import { registerSchema } from "../../../schema/registerSchema.js";
+import styles from '../register/Register.module.css';
 
 export default function Register() {
     const dispatch = useDispatch();
@@ -34,12 +35,12 @@ export default function Register() {
     };
     //TODO fix error styles
     return (
-        <div className="auth">
-            <div className="auth-container">
+        <div className={styles['auth']}>
+            <div className={styles['auth-container']}>
                 <h2>Register</h2>
-                <form className="auth-form" onSubmit={handleSubmit}>
+                <form className={styles['auth-form']} onSubmit={handleSubmit}>
                     <Input
-                        className="auth-group"
+                        className={styles['auth-group']}
                         name="email"
                         onChange={handleChange}
                         value={values.email}
@@ -47,7 +48,7 @@ export default function Register() {
                         placeholder='john@mail.com'
                     />
                     <Input
-                        className="auth-group"
+                        className={styles['auth-group']}
                         type="password"
                         name="password"
                         onChange={handleChange}
@@ -56,7 +57,7 @@ export default function Register() {
                         placeholder='******'
                     />
                     <Input
-                        className="auth-group"
+                        className={styles['auth-group']}
                         type="password"
                         name="confirmPassword"
                         onChange={handleChange}
@@ -64,13 +65,13 @@ export default function Register() {
                         label="Confirm Password"
                         placeholder='******'
                     />
-                    <button className="auth-btn">Register</button>
+                    <button className={styles['auth-btn']}>Register</button>
                 </form>
-                <p className="auth-link">
+                <p className={styles['auth-link']}>
                     Already have an account? <Link to="/auth/login">Login</Link>
                 </p>
-                {Object.keys(validationErrors).length > 0 && <div className="auth-error">{Object.values(validationErrors).map(el => <p key={el}>{el}</p>)}</div>}
-                {error && Object.keys(validationErrors).length === 0 && <p className="auth-error">{error}</p>}
+                {Object.keys(validationErrors).length > 0 && <div className={styles['auth-error']}>{Object.values(validationErrors).map(el => <p key={el}>{el}</p>)}</div>}
+                {error && Object.keys(validationErrors).length === 0 && <p className={styles['auth-error']}>{error}</p>}
             </div>
         </div>
     );

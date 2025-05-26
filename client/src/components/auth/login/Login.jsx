@@ -6,6 +6,7 @@ import { clearError, loginUser } from "../../../store/slices/authSlice";
 import { useForm } from "../../../hooks/useForm.js";
 import Input from "../../forms/input/Input.jsx";
 import { loginSchema } from "../../../schema/loginSchema.js";
+import styles from '../login/Login.module.css';
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -33,12 +34,12 @@ export default function Login() {
     };
     //TODO fix error styles
     return (
-        <div className="auth">
-            <div className="auth-container">
+        <div className={styles.auth}>
+            <div className={styles['auth-container']}>
                 <h2>Login</h2>
-                <form className="auth-form" onSubmit={handleSubmit}>
+                <form className={styles['auth-form']} onSubmit={handleSubmit}>
                     <Input
-                        className="auth-group"
+                        className={styles['auth-group']}
                         name="email"
                         onChange={handleChange}
                         value={values.email}
@@ -46,7 +47,7 @@ export default function Login() {
                         placeholder='john@mail.com'
                     />
                     <Input
-                        className="auth-group"
+                        className={styles['auth-group']}
                         type="password"
                         name="password"
                         onChange={handleChange}
@@ -54,13 +55,13 @@ export default function Login() {
                         label="Password"
                         placeholder='******'
                     />
-                    <button className="auth-btn">Login</button>
+                    <button className={styles['auth-btn']}>Login</button>
                 </form>
-                <p className="auth-link">
+                <p className={styles['auth-link']}>
                     Don&apos;t have an account? <Link to="/auth/register">Register</Link>
                 </p>
-                {Object.keys(validationErrors).length > 0 && <div className="auth-error">{Object.values(validationErrors).map(el => <p key={el}>{el}</p>)}</div>}
-                {error && Object.keys(validationErrors).length === 0 && <p className="auth-error">{error}</p>}
+                {Object.keys(validationErrors).length > 0 && <div className={styles['auth-error']}>{Object.values(validationErrors).map(el => <p key={el}>{el}</p>)}</div>}
+                {error && Object.keys(validationErrors).length === 0 && <p className={styles['auth-error']}>{error}</p>}
             </div>
         </div>
     );

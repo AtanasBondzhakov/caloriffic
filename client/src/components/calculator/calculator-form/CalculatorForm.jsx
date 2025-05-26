@@ -10,6 +10,8 @@ import Input from "../../forms/input/Input.jsx";
 import Button from "../../ui/button/Button.jsx";
 import { bodyMetricsSchema } from "../../../schema/bodyMetricsSchema.js";
 
+import styles from '../calculator-form/CalculatorForm.module.css';
+
 const formInitialValues = {
     gender: 'male',
     age: '',
@@ -105,11 +107,11 @@ export default function CalculatorForm() {
     };
 
     return (
-        <div className="metrics">
-            <div className="calc-form-container">
-                <h2 className="calc-heading">Enter your data:</h2>
-                <form className="calc-form" onSubmit={handleSubmit}>
-                    <div className="calc-group-radio">
+        <div className={styles['metrics']}>
+            <div className={styles['calc-form-container']}>
+                <h2 className={styles['calc-heading']}>Enter your data:</h2>
+                <form className={styles['calc-form']} onSubmit={handleSubmit}>
+                    <div className={styles['calc-group-radio']}>
                         <span>Gender</span>
                         {['male', 'female'].map(g => (
                             <label htmlFor={g} key={g}>
@@ -129,7 +131,7 @@ export default function CalculatorForm() {
                     {inputFields.map(field => (
                         <Input
                             key={field.name}
-                            className="calc-group"
+                            className={styles['calc-group']}
                             type="number"
                             name={field.name}
                             label={field.label}
@@ -139,9 +141,9 @@ export default function CalculatorForm() {
                         />
                     ))}
 
-                    <div className="calc-select">
+                    <div className={styles['calc-select']}>
                         <Select
-                            className="select-option"
+                            className={styles['select-option']}
                             name="activity"
                             label="Activity"
                             onChange={handleChange}
@@ -149,9 +151,9 @@ export default function CalculatorForm() {
                             value={values.activity}
                         />
                     </div>
-                    <div className="calc-select">
+                    <div className={styles['calc-select']}>
                         <Select
-                            className="select-option"
+                            className={styles['select-option']}
                             name="calorieIntake"
                             label="Calorie Intake"
                             onChange={handleChange}
@@ -160,12 +162,12 @@ export default function CalculatorForm() {
                         />
                     </div>
                     <Button
-                        className="calc-form-button"
-                        type="submit"
-                        label="Calculate"
+                        className={styles['calc-form- button']}
+                    type="submit"
+                    label="Calculate"
                     />
                 </form>
-                {Object.keys(validationErrors).length > 0 && <div className="auth-error">{Object.values(validationErrors).map(el => <p key={el}>{el}</p>)}</div>}
+                {Object.keys(validationErrors).length > 0 && <div className={styles['auth-error']}>{Object.values(validationErrors).map(el => <p key={el}>{el}</p>)}</div>}
             </div>
             <Results results={results} handleSave={handleSave} />
         </div>

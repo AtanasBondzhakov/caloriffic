@@ -1,0 +1,118 @@
+.body-image {
+    height: max-content;
+}
+
+.metrics {
+    display: flex;
+    background: #c3c9d4;
+    background: linear-gradient(270deg, rgba(195, 201, 212, 1) 0%, rgba(177, 183, 204, 1) 33%, rgba(164, 171, 189, 1) 100%);
+    height: max-content;
+    border-radius: 0.5em;
+    gap: 2em;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.calc-form-container,
+.results-container {
+    display: flex;
+    flex-direction: column;
+    margin-right: 1em;
+    border-radius: 0.6em;
+    padding: 1em;
+    max-width: 20em;
+    width: 100%;
+    gap: 1em;
+    flex: 1;
+    height: max-content;
+}
+
+.results-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.results-info p {
+    margin: 0;
+    padding-bottom: 2em;
+}
+
+.calc-form-container {
+    margin-left: auto;
+}
+
+.calc-heading {
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.calc-group {
+    display: flex;
+    text-align: left;
+    justify-content: space-between;
+}
+
+.calc-group-radio {
+    display: flex;
+    justify-content: end;
+    gap: 0.5em;
+}
+
+.calc-group input {
+    display: flex;
+    border: 1px solid #888888;
+    border-radius: 0.5em;
+    padding: 0.3em;
+    font-size: 1em;
+    color: #030303;
+    text-align: right;
+    outline: none;
+    width: 50%;
+}
+
+.calc-group-radio span {
+    margin-right: auto;
+}
+
+.calc-form-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    padding: 0.3em;
+    text-align: center;
+    font-size: 1em;
+    width: 40%;
+    border-radius: 0.3em;
+    border: none;
+    background-color: #afafaf;
+    color: #000000;
+}
+
+.calc-form-button:hover {
+    cursor: pointer;
+}
+
+.calc-select {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5em;
+    outline: none;
+}
+
+.select-option {
+    max-width: 100%;
+    display: flex;
+    border: 1px solid #888888;
+    border-radius: 0.5em;
+    padding: 0.3em;
+    font-size: 1em;
+    color: #030303;
+    text-align: left;
+}

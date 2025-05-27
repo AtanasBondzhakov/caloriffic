@@ -3,8 +3,6 @@
     width: 100%;
     max-width: 300px;
     background-color: #172333;
-    height: 100vh;
-    /* padding-left: 1em; */
 }
 
 .wrapper {
@@ -12,6 +10,7 @@
     flex-direction: column;
     width: 100%;
     color: #b3b3b3;
+    height: 100vh;
 }
 
 .logo {
@@ -30,7 +29,6 @@
     flex-direction: column;
     flex-grow: 1;
     align-items: center;
-    /* margin-left: 1em; */
     padding-left: 1em;
     margin-bottom: 1em;
 }
@@ -39,7 +37,6 @@
     display: flex;
     width: 100%;
     justify-content: start;
-    /* padding-right: 1em; */
 }
 
 .user p {
@@ -50,7 +47,6 @@
     display: flex;
     width: 100%;
     align-items: center;
-    /* justify-content: start; */
 }
 
 .list {

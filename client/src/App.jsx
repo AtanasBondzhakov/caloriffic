@@ -9,8 +9,6 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { checkMe } from "./store/slices/authSlice.js";
 import Sidebar from "./components/sidebar/Sidebar.jsx";
-import UsersList from "./components/users-list/UsersList.jsx";
-import NewNav from "./components/sidebar/Sidebar.jsx";
 
 function App() {
     const dispatch = useDispatch();
@@ -20,7 +18,7 @@ function App() {
     }, [dispatch]);
 
     return (
-        <div style={{display: 'flex'}}>
+        <div style={{display: 'flex', height: 'auto', minHeight: '100vh'}}>
             {/* <Navbar /> */}
             <Sidebar />
             {/* <main style={{ display: 'flex', flexDirection: 'row' }}> */}

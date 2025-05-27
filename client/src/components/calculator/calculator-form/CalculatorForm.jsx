@@ -162,7 +162,7 @@ export default function CalculatorForm() {
                         />
                     </div>
                     <Button
-                        className={styles['calc-form- button']}
+                        className={styles['calc-form-button']}
                     type="submit"
                     label="Calculate"
                     />

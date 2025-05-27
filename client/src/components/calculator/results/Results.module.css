@@ -1,0 +1,40 @@
+.results-container {
+    display: flex;
+    flex-direction: column;
+    margin-right: 1em;
+    padding: 1em;
+    width: 50%;
+    max-width: 20em;
+    gap: 1em;
+    flex: 1 1;
+    height: max-content;
+} 
+
+.results-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.results-info p {
+    margin: 0;
+    padding-bottom: 2em;
+}
+
+.results-info span {
+    font-weight: 700;
+}
+
+.calc-form-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    padding: 0.3em;
+    text-align: center;
+    font-size: 1em;
+    width: 40%;
+    border-radius: 0.3em;
+    border: none;
+    background-color: #868686;
+    color: #000000;
+}

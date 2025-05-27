@@ -10,7 +10,9 @@ export default function Calculator() {
                 <p>Calculate your daily caloric needs based on your measurements.</p>
             </div>
             <div className={styles['calculator-content']}>
-                <img src="/bodies.png" alt="" className={styles['body-image']} />
+                <div className={styles['image']}>
+                    <img src="/bodies.png" alt="" className={styles['body-image']} />
+                </div>
                 <CalculatorForm />
             </div>
         </div>

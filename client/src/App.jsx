@@ -8,6 +8,9 @@ import Register from "./components/auth/register/Register.jsx";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { checkMe } from "./store/slices/authSlice.js";
+import Sidebar from "./components/sidebar/Sidebar.jsx";
+import UsersList from "./components/users-list/UsersList.jsx";
+import NewNav from "./components/sidebar/Sidebar.jsx";
 
 function App() {
     const dispatch = useDispatch();
@@ -17,17 +20,21 @@ function App() {
     }, [dispatch]);
 
     return (
-        <>
-            <Navbar />
-
+        <div style={{display: 'flex'}}>
+            {/* <Navbar /> */}
+            <Sidebar />
+            {/* <main style={{ display: 'flex', flexDirection: 'row' }}> */}
+            {/* <Sidebar /> */}
             <Routes>
-                <Route path="/" element={<Home />} />
+                {/* <Route path="/" element={<Home />} /> */}
                 <Route path="/calculator" element={<Calculator />} />
                 <Route path="/auth/register" element={<Register />} />
                 <Route path="/auth/login" element={<Login />} />
-                <Route path="/auth/check-auth" element={<Home />} />
+                {/* <Route path="/auth/check-auth" element={<Home />} /> */}
+                {/* <Route path="/admin/users-list" element={<UsersList />} /> */}
             </Routes>
-        </>
+            {/* </main> */}
+        </div>
     )
 }
 

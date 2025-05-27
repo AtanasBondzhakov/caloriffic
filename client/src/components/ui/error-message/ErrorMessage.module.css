@@ -1,0 +1,16 @@
+.errors {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    /* background-color: rgba(223, 57, 57, 0.678); */
+    padding: 1em;
+}
+
+.errors p {
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+    font-size: 1.1em;
+    margin: 0;
+    color: #eb1202;
+}

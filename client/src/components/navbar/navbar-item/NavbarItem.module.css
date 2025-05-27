@@ -18,9 +18,4 @@
 
 .no-auth a{
     margin: 0 auto;
-    /* padding-top: 1em; */
-}
-
-li .item.no-auth a:first-of-type {
-    background-color: red !important;
 }

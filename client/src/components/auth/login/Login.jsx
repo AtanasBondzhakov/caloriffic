@@ -7,6 +7,7 @@ import { useForm } from "../../../hooks/useForm.js";
 import Input from "../../forms/input/Input.jsx";
 import { loginSchema } from "../../../schema/loginSchema.js";
 import styles from '../login/Login.module.css';
+import ErrorMessage from "../../ui/error-message/ErrorMessage.jsx";
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -60,8 +61,8 @@ export default function Login() {
                 <p className={styles['auth-link']}>
                     Don&apos;t have an account? <Link to="/auth/register">Register</Link>
                 </p>
-                {Object.keys(validationErrors).length > 0 && <div className={styles['auth-error']}>{Object.values(validationErrors).map(el => <p key={el}>{el}</p>)}</div>}
-                {error && Object.keys(validationErrors).length === 0 && <p className={styles['auth-error']}>{error}</p>}
+                {Object.keys(validationErrors).length > 0 && <ErrorMessage errors={Object.values(validationErrors)}/>}
+                {error && Object.keys(validationErrors).length === 0 && <ErrorMessage errors={[error]}/>}
             </div>
         </div>
     );

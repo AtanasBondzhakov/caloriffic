@@ -1,7 +1,7 @@
 .auth {
     font-family: 'Outfit', sans-serif;
     display: flex;
-    padding-bottom: 2em;
+    /* padding-bottom: 2em; */
     flex-grow: 1;
     align-items: center;
     background-color: #dfdfdf;

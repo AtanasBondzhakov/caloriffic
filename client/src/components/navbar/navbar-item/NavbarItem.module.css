@@ -4,6 +4,7 @@
     list-style: none;
     align-items: center;
     text-align: start;
+    gap: 1em;
 }
 
 .item a {
@@ -13,4 +14,13 @@
     font-size: 0.75em;
     color: #b3b3b3;
     align-items: center;
+}
+
+.no-auth a{
+    margin: 0 auto;
+    /* padding-top: 1em; */
+}
+
+li .item.no-auth a:first-of-type {
+    background-color: red !important;
 }

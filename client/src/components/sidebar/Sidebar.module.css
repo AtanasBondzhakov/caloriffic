@@ -1,7 +1,9 @@
 .container {
     display: flex;
-    width: 100%;
+    min-width: 200px;
     max-width: 300px;
+    width: 100%;
+
     background-color: #172333;
 }
 
@@ -52,6 +54,7 @@
 .list {
     display: flex;
     flex-direction: column;
+    width: 100%;
     gap: 1em;
     padding-left: 0;
 }
@@ -73,7 +76,7 @@
     align-items: center;
 }
 
-a:hover{
+a:hover {
     cursor: pointer;
     background-color: antiquewhite;
 }
@@ -81,7 +84,18 @@ a:hover{
 .bottom {
     display: flex;
     width: 100%;
-    justify-content: start;
+    justify-content: center;
     margin-top: auto;
     margin-bottom: 2em;
+}
+
+.logout-btn {
+    font-size: 1.25em;
+    border: none;
+    background-color: transparent;
+    color: #b3b3b3;
+}
+
+.logout-btn:hover {
+    cursor: pointer;
 }

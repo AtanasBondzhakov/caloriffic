@@ -5,10 +5,13 @@ import styles from '../navbar-item/NavbarItem.module.css';
 export default function NavbarItem({
     path,
     name,
-    icon
+    icon,
+    auth
 }) {
+    const itemClass = `${styles.item} ${auth === false ? styles['no-auth'] : ''}`
+
     return (
-        <li className={styles.item}>
+        <li className={itemClass}>
             {icon}
             <Link to={path}>{name}</Link>
         </li>

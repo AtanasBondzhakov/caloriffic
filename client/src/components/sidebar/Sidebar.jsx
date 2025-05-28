@@ -26,7 +26,7 @@ const guestLinks = [
 ];
 
 const adminLinks = [
-    { path: '/admin/manage-profiles', name: 'Manage profiles', requiresAuth: true },
+    { path: '/admin/manage-users', name: 'Manage users', requiresAuth: true },
 ];
 
 const userLinks = [

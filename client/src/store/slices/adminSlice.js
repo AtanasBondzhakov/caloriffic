@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import requester from "../../api/requester.js";
 
-export const getAllUsers = createAsyncThunk('admin/manage-profiles', async (_, { rejectWithValue }) => {
+export const getAllUsers = createAsyncThunk('admin/manage-users', async (_, { rejectWithValue }) => {
     try {
-        const users = await requester.get('/admin/manage-profiles');
+        const users = await requester.get('/admin/manage-users');
         
         return users;
     } catch (err) {

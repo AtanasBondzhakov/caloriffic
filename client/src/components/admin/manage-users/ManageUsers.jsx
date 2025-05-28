@@ -1,19 +1,21 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import styles from './ManageUsers.module.css';
+import { getAllUsers } from "../../../store/slices/adminSlice.js";
+
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import styles from '../manage-profiles/ManageProfiles.module.css';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import { useEffect, useState } from "react";
-import requester from "../../../api/requester";
+import dateFormatter from "../../../utils/dateFormatter.js";
 
-export default function ManageProfiles() {
-    const [profiles, setProfiles] = useState([]);
+export default function ManageUsers() {
+    const dispatch = useDispatch();
+    const { users } = useSelector(state => state.admin);
 
     useEffect(() => {
-        (async () => {
-            const result = await requester.get('/admin/manage-profiles');
-            setProfiles(result);
-        })();
-    }, []);
+        dispatch(getAllUsers());
+    }, [dispatch]);
 
     return (
         <div className={styles.container}>
@@ -32,7 +34,7 @@ export default function ManageProfiles() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {profiles.map(row => (
+                            {users.map(row => (
                                 <TableRow
                                     key={row._id}
                                 >
@@ -40,7 +42,7 @@ export default function ManageProfiles() {
                                     <TableCell align="center" sx={{ width: 'auto' }}>{row._id}</TableCell>
                                     <TableCell align="center" width={'auto'}>{row.email}</TableCell>
                                     <TableCell align="center" sx={{ width: 'auto' }}>{row.role}</TableCell>
-                                    <TableCell align="center" sx={{ width: 'auto' }}>{row.createdAt}</TableCell>
+                                    <TableCell align="center" sx={{ width: 'auto' }}>{dateFormatter(row.createdAt)}</TableCell>
                                     <TableCell align="center" sx={{ width: '10%', whiteSpace: 'nowrap' }}><EditOutlinedIcon /> <DeleteForeverOutlinedIcon /></TableCell>
                                 </TableRow>
                             ))}

@@ -1,8 +1,8 @@
 import User from "../models/User.js"
 
 export const adminService = {
-    async getAllProfiles() {
-        const profiles = await User.find({}, '-password');
-        return profiles;
+    async getAllUsers() {
+        const users = await User.find({}, '-password');
+        return users;
     }
 }

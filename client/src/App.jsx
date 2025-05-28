@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { checkMe } from "./store/slices/authSlice.js";
 import Sidebar from "./components/sidebar/Sidebar.jsx";
-import ManageProfiles from "./components/admin/manage-profiles/ManageProfiles.jsx";
+import ManageUsers from "./components/admin/manage-users/ManageUsers.jsx";
 
 function App() {
     const dispatch = useDispatch();
@@ -29,7 +29,7 @@ function App() {
                 <Route path="/calculator" element={<Calculator />} />
                 <Route path="/auth/register" element={<Register />} />
                 <Route path="/auth/login" element={<Login />} />
-                <Route path="/admin/manage-profiles" element={<ManageProfiles />} />
+                <Route path="/admin/manage-users" element={<ManageUsers />} />
                 {/* <Route path="/auth/check-auth" element={<Home />} /> */}
                 {/* <Route path="/admin/users-list" element={<UsersList />} /> */}
             </Routes>

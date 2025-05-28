@@ -7,6 +7,7 @@ import { clearError, registerUser } from "../../../store/slices/authSlice.js";
 import Input from "../../forms/input/Input.jsx";
 import { registerSchema } from "../../../schema/registerSchema.js";
 import styles from '../register/Register.module.css';
+import ErrorMessage from "../../ui/error-message/ErrorMessage.jsx";
 
 export default function Register() {
     const dispatch = useDispatch();
@@ -33,7 +34,6 @@ export default function Register() {
             navigate('/');
         }
     };
-    //TODO fix error styles
     return (
         <div className={styles['auth']}>
             <div className={styles['auth-container']}>
@@ -70,8 +70,8 @@ export default function Register() {
                 <p className={styles['auth-link']}>
                     Already have an account? <Link to="/auth/login">Login</Link>
                 </p>
-                {Object.keys(validationErrors).length > 0 && <div className={styles['auth-error']}>{Object.values(validationErrors).map(el => <p key={el}>{el}</p>)}</div>}
-                {error && Object.keys(validationErrors).length === 0 && <p className={styles['auth-error']}>{error}</p>}
+                {Object.keys(validationErrors).length > 0 && <ErrorMessage errors={Object.values(validationErrors)} />}
+                {error && Object.keys(validationErrors).length === 0 && <ErrorMessage errors={[error]} />}
             </div>
         </div>
     );

@@ -33,7 +33,6 @@ export default function Login() {
             navigate('/');
         }
     };
-    //TODO fix error styles
     return (
         <div className={styles.auth}>
             <div className={styles['auth-container']}>

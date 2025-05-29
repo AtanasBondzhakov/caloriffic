@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from './ManageUsers.module.css';
-import { getAllUsers } from "../../../store/slices/adminSlice.js";
+import { deleteUser, getAllUsers } from "../../../store/slices/adminSlice.js";
 
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import dateFormatter from "../../../utils/dateFormatter.js";
 
 export default function ManageUsers() {
@@ -16,6 +16,10 @@ export default function ManageUsers() {
     useEffect(() => {
         dispatch(getAllUsers());
     }, [dispatch]);
+
+    const deleteUserHandler = (userId) => {
+        dispatch(deleteUser(userId));
+    };
 
     return (
         <div className={styles.container}>
@@ -27,10 +31,10 @@ export default function ManageUsers() {
                             <TableRow>
                                 <TableCell align="center"><input type="checkbox" /></TableCell>
                                 <TableCell align="center" sx={{ color: "white" }}>ID</TableCell>
-                                <TableCell align="center">Email</TableCell>
-                                <TableCell align="center">Role</TableCell>
-                                <TableCell align="center">Created At</TableCell>
-                                <TableCell align="center">Actions</TableCell>
+                                <TableCell align="center" sx={{ color: "white" }}>Email</TableCell>
+                                <TableCell align="center" sx={{ color: "white" }}>Role</TableCell>
+                                <TableCell align="center" sx={{ color: "white" }}>Created At</TableCell>
+                                <TableCell align="center" sx={{ color: "white" }}>Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -43,7 +47,14 @@ export default function ManageUsers() {
                                     <TableCell align="center" width={'auto'}>{row.email}</TableCell>
                                     <TableCell align="center" sx={{ width: 'auto' }}>{row.role}</TableCell>
                                     <TableCell align="center" sx={{ width: 'auto' }}>{dateFormatter(row.createdAt)}</TableCell>
-                                    <TableCell align="center" sx={{ width: '10%', whiteSpace: 'nowrap' }}><EditOutlinedIcon /> <DeleteForeverOutlinedIcon /></TableCell>
+                                    <TableCell align="center" sx={{ width: '10%', whiteSpace: 'nowrap' }}>
+                                        <IconButton>
+                                            <EditOutlinedIcon />
+                                        </IconButton>
+                                        <IconButton>
+                                            <DeleteOutlineOutlinedIcon onClick={() => deleteUserHandler(row._id)} />
+                                        </IconButton>
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

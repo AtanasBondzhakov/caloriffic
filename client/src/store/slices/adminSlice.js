@@ -4,12 +4,22 @@ import requester from "../../api/requester.js";
 export const getAllUsers = createAsyncThunk('admin/manage-users', async (_, { rejectWithValue }) => {
     try {
         const users = await requester.get('/admin/manage-users');
-        
+
         return users;
     } catch (err) {
         return rejectWithValue(err);
     }
-})
+});
+
+export const deleteUser = createAsyncThunk('admin/manage-users/delete', async (userId, { rejectWithValue }) => {
+    try {
+        await requester.del(`/admin/manage-users/delete/${userId}`);
+        
+        return userId;
+    } catch (err) {
+        return rejectWithValue(err);
+    }
+});
 
 const initialState = {
     users: [],
@@ -35,6 +45,19 @@ const adminSlice = createSlice({
                 state.users = action.payload;
             })
             .addCase(getAllUsers.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload.message;
+            })
+            .addCase(deleteUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(deleteUser.fulfilled, (state, action) => {
+                state.loading = false;
+                const deletedUser = action.payload;
+                state.users = state.users.filter(user => user._id !== deletedUser);
+            })
+            .addCase(deleteUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload.message;
             })

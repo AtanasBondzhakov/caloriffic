@@ -10,6 +10,7 @@ import Input from "../../forms/input/Input.jsx";
 import { bodyMetricsSchema } from "../../../schema/bodyMetricsSchema.js";
 import styles from '../calculator-form/CalculatorForm.module.css';
 import CustomButton from "../../ui/custom-button/CustomButton.jsx";
+import ErrorMessage from "../../ui/error-message/ErrorMessage.jsx";
 
 const formInitialValues = {
     gender: 'male',
@@ -162,7 +163,7 @@ export default function CalculatorForm() {
                     </div>
                     <CustomButton type="submit" label="Calculate" />
                 </form>
-                {Object.keys(validationErrors).length > 0 && <div className={styles['auth-error']}>{Object.values(validationErrors).map(el => <p key={el}>{el}</p>)}</div>}
+                {Object.keys(validationErrors).length > 0 && <ErrorMessage errors={Object.values(validationErrors)} />}
             </div>
             <Results results={results} handleSave={handleSave} />
         </div>

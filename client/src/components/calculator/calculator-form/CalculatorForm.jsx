@@ -7,10 +7,9 @@ import { saveCalculation } from "../../../store/slices/bodyMetricsSlice.js";
 import Results from "../results/Results.jsx";
 import Select from "../../forms/select/Select.jsx";
 import Input from "../../forms/input/Input.jsx";
-import Button from "../../ui/button/Button.jsx";
 import { bodyMetricsSchema } from "../../../schema/bodyMetricsSchema.js";
-
 import styles from '../calculator-form/CalculatorForm.module.css';
+import CustomButton from "../../ui/custom-button/CustomButton.jsx";
 
 const formInitialValues = {
     gender: 'male',
@@ -161,11 +160,7 @@ export default function CalculatorForm() {
                             value={values.calorieIntake}
                         />
                     </div>
-                    <Button
-                        className={styles['calc-form-button']}
-                    type="submit"
-                    label="Calculate"
-                    />
+                    <CustomButton type="submit" label="Calculate" />
                 </form>
                 {Object.keys(validationErrors).length > 0 && <div className={styles['auth-error']}>{Object.values(validationErrors).map(el => <p key={el}>{el}</p>)}</div>}
             </div>

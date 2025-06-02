@@ -8,6 +8,7 @@ import Input from "../../forms/input/Input.jsx";
 import { registerSchema } from "../../../schema/registerSchema.js";
 import styles from '../register/Register.module.css';
 import ErrorMessage from "../../ui/error-message/ErrorMessage.jsx";
+import CustomButton from "../../ui/custom-button/CustomButton.jsx";
 
 export default function Register() {
     const dispatch = useDispatch();
@@ -65,7 +66,7 @@ export default function Register() {
                         label="Confirm Password"
                         placeholder='******'
                     />
-                    <button className={styles['auth-btn']}>Register</button>
+                    <CustomButton label="Register" type="submit" />
                 </form>
                 <p className={styles['auth-link']}>
                     Already have an account? <Link to="/auth/login">Login</Link>

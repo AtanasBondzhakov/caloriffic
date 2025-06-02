@@ -8,6 +8,7 @@ import Input from "../../forms/input/Input.jsx";
 import { loginSchema } from "../../../schema/loginSchema.js";
 import styles from '../login/Login.module.css';
 import ErrorMessage from "../../ui/error-message/ErrorMessage.jsx";
+import Button from "../../ui/custom-button/CustomButton.jsx";
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -55,13 +56,13 @@ export default function Login() {
                         label="Password"
                         placeholder='******'
                     />
-                    <button className={styles['auth-btn']}>Login</button>
+                    <Button type="submit" label="Login" />
                 </form>
                 <p className={styles['auth-link']}>
                     Don&apos;t have an account? <Link to="/auth/register">Register</Link>
                 </p>
-                {Object.keys(validationErrors).length > 0 && <ErrorMessage errors={Object.values(validationErrors)}/>}
-                {error && Object.keys(validationErrors).length === 0 && <ErrorMessage errors={[error]}/>}
+                {Object.keys(validationErrors).length > 0 && <ErrorMessage errors={Object.values(validationErrors)} />}
+                {error && Object.keys(validationErrors).length === 0 && <ErrorMessage errors={[error]} />}
             </div>
         </div>
     );

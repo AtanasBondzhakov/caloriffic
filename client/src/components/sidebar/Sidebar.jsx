@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router';
 import styles from '../sidebar/Sidebar.module.css';
 import logo from '/Logo-image.png';
 import NavbarItem from '../navbar/navbar-item/NavbarItem.jsx';
-import Button from '../ui/button/Button.jsx';
 import { logoutUser } from '../../store/slices/authSlice.js';
 import { resetBodyMetrics } from '../../store/slices/bodyMetricsSlice.js';
 import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
@@ -86,11 +85,7 @@ export default function Sidebar() {
                         {isAuthenticated && (
                             <>
                                 <LogoutOutlinedIcon />
-                                <Button
-                                    className={styles['logout-btn']}
-                                    label="Logout"
-                                    onClick={logoutHandle}
-                                />
+                                <button className={styles['logout-btn']} onClick={logoutHandle}>Logout</button>
                             </>
                         )}
                     </div>

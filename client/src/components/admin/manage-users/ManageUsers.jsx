@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from './ManageUsers.module.css';
@@ -6,6 +6,7 @@ import { deleteUser, getAllUsers } from "../../../store/slices/adminSlice.js";
 import dateFormatter from "../../../utils/dateFormatter.js";
 import DialogModal from "../../ui/dialog-modal/DialogModal.jsx";
 import Spinner from "../../ui/spinner/Spinner";
+import CustomButton from "../../ui/custom-button/CustomButton.jsx";
 
 import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -27,9 +28,14 @@ export default function ManageUsers() {
         setIsModalOpen(false);
     };
 
-    useEffect(() => {
+    const refetchUsers = useCallback(() => {
         dispatch(getAllUsers());
+        setSelectedUser(null)
     }, [dispatch]);
+
+    useEffect(() => {
+        refetchUsers();
+    }, [refetchUsers]);
 
     const deleteUserHandler = (userId) => {
         dispatch(deleteUser(userId));
@@ -42,10 +48,10 @@ export default function ManageUsers() {
 
             <div className={styles.heading}><h2>User List</h2></div>
 
-            {loading && <Spinner />}
+            {loading && users.length === 0 && <Spinner />}
 
-            {!loading &&
-                (<div className={styles.table}>
+            {users.length !== 0 && (
+                <div className={styles.table}>
                     <TableContainer component={Paper}>
                         <Table>
                             <TableHead sx={{ backgroundColor: '#5380bb' }}>
@@ -70,8 +76,8 @@ export default function ManageUsers() {
                                             <IconButton>
                                                 <EditOutlinedIcon />
                                             </IconButton>
-                                            <IconButton>
-                                                <DeleteOutlineOutlinedIcon onClick={() => openModalHandler(user)} />
+                                            <IconButton onClick={() => openModalHandler(user)} disabled={loading} >
+                                                <DeleteOutlineOutlinedIcon /> <span className={styles.del}>{loading && selectedUser?._id === user._id ? 'Deleting...' : 'Delete'}</span>
                                             </IconButton>
                                         </TableCell>
                                     </TableRow>
@@ -79,7 +85,13 @@ export default function ManageUsers() {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </div>)}
+                    <div className={styles.bottom}>
+                        <div className={styles['bottom-left']}>
+                            <CustomButton label="Refresh" handleClick={refetchUsers} />
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -1,17 +1,37 @@
 .container {
     display: flex;
     flex-direction: column;
+    justify-content: start;
+    gap: 1  em;
     width: 100%;
+    margin-top: 5em;
 }
 
 .heading h2{
     text-align: center;
-    margin-top: 2em;
+    margin: 2em 0;
     font-size: 1.5em;
 }
 
 .table {
     width: 70%;
     display: flex;
-    margin: 5em auto;
+    flex-direction: column;
+    gap: 0.5em;
+    margin: 0 auto;
+}
+
+.bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.bottom-left {
+    width: max-content;
+}
+
+.del {
+    font-size: 0.6em;
 }

@@ -7,5 +7,13 @@ export const adminService = {
     },
     async deleteUser(userId) {
         return await User.findByIdAndDelete(userId);
+    },
+    async editUser(userId, userData) {
+        const user = await User.findByIdAndUpdate(userId, userData, { runValidators: true });
+        return user;
+    },
+    async getOneUser(userId) {
+        const user = await User.findById(userId);
+        return user;
     }
 }

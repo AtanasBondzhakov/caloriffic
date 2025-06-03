@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from './ManageUsers.module.css';
-import { deleteUser, getAllUsers } from "../../../store/slices/adminSlice.js";
+import { deleteUser, getAllUsers, getOneUser } from "../../../store/slices/adminSlice.js";
 import dateFormatter from "../../../utils/dateFormatter.js";
 import DialogModal from "../../ui/dialog-modal/DialogModal.jsx";
 import Spinner from "../../ui/spinner/Spinner";
@@ -11,6 +11,7 @@ import CustomButton from "../../ui/custom-button/CustomButton.jsx";
 import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import EditUserModal from "./edit-user-modal/EditUserModal.jsx";
 
 export default function ManageUsers() {
     const dispatch = useDispatch();
@@ -18,14 +19,23 @@ export default function ManageUsers() {
 
     const [selectedUser, setSelectedUser] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editOpen, setEditOpen] = useState(false);
 
-    const openModalHandler = (user) => {
+    const openModalHandler = (userId, mode) => {
+        if (mode === 'edit') {
+            setEditOpen(true);
+        } else {
+            setIsModalOpen(true);
+        }
+
+        const user = dispatch(getOneUser(userId));
+
         setSelectedUser(user);
-        setIsModalOpen(true);
     };
 
     const closeModalHandler = () => {
         setIsModalOpen(false);
+        setEditOpen(false);
     };
 
     const refetchUsers = useCallback(() => {
@@ -45,6 +55,7 @@ export default function ManageUsers() {
     return (
         <div className={styles.container}>
             {isModalOpen && <DialogModal onConfirm={() => deleteUserHandler(selectedUser._id)} onClose={closeModalHandler} email={selectedUser.email} />}
+            {editOpen && <EditUserModal onClose={closeModalHandler} user={selectedUser} />}
 
             <div className={styles.heading}><h2>User List</h2></div>
 
@@ -74,9 +85,9 @@ export default function ManageUsers() {
                                         <TableCell align="center" sx={{ width: 'auto' }}>{dateFormatter(user.createdAt)}</TableCell>
                                         <TableCell align="center" sx={{ width: '10%', whiteSpace: 'nowrap' }}>
                                             <IconButton>
-                                                <EditOutlinedIcon />
+                                                <EditOutlinedIcon onClick={() => openModalHandler(user._id, 'edit')} /> <span className={styles.edit}>Edit</span>
                                             </IconButton>
-                                            <IconButton onClick={() => openModalHandler(user)} disabled={loading} >
+                                            <IconButton onClick={() => openModalHandler(user._id, 'delete')} disabled={loading} >
                                                 <DeleteOutlineOutlinedIcon /> <span className={styles.del}>{loading && selectedUser?._id === user._id ? 'Deleting...' : 'Delete'}</span>
                                             </IconButton>
                                         </TableCell>

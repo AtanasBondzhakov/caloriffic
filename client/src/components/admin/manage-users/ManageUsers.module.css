@@ -32,6 +32,7 @@
     width: max-content;
 }
 
-.del {
+.del,
+.edit {
     font-size: 0.6em;
 }

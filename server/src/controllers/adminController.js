@@ -28,11 +28,21 @@ adminController.put('/manage-users/edit/:userId', async (req, res) => {
     try {
         await adminService.editUser(req.params.userId, req.body);
         console.log(req.body);
-        
+
         return res.status(200).json({ success: true, message: 'User edited successfully.' });
     } catch (err) {
         console.error('Edit user error:', err);
         return res.status(500).json({ success: false, message: 'Server error while editing user.' });
+    }
+});
+
+adminController.get('/manage-users/:userId', async (req, res) => {
+    try {
+        const user = await adminService.getOneUser(req.params.userId);
+        return res.status(200).json(user);
+    } catch (err) {
+        console.error('Error fetching user:', err);
+        return res.status(500).json({ success: false, message: 'Failed to fetch user.' });
     }
 });
 

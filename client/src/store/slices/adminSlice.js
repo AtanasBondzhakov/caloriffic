@@ -31,6 +31,17 @@ export const editUser = createAsyncThunk('admin/manage-users/edit', async (userD
     }
 });
 
+export const getOneUser = createAsyncThunk('admin/manage-users/user', async (userId, { rejectWithValue }) => {
+    try {
+        const user = await requester.get(`/admin/manage-users/user/${userId}`);
+
+        return user;
+
+    } catch (err) {
+        return rejectWithValue(err);
+    }
+})
+
 const initialState = {
     users: [],
     selectedUser: null,
@@ -83,6 +94,18 @@ const adminSlice = createSlice({
                 });
             })
             .addCase(editUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload.message;
+            })
+            .addCase(getOneUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getOneUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.selectedUser = action.payload;
+            })
+            .addCase(getOneUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload.message;
             })

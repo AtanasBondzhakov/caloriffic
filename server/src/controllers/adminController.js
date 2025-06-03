@@ -36,7 +36,7 @@ adminController.put('/manage-users/edit/:userId', async (req, res) => {
     }
 });
 
-adminController.get('/manage-users/:userId', async (req, res) => {
+adminController.get('/manage-users/user/:userId', async (req, res) => {
     try {
         const user = await adminService.getOneUser(req.params.userId);
         return res.status(200).json(user);

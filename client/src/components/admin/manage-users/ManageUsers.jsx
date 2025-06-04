@@ -15,9 +15,8 @@ import EditUserModal from "./edit-user-modal/EditUserModal.jsx";
 
 export default function ManageUsers() {
     const dispatch = useDispatch();
-    const { users, loading } = useSelector(state => state.admin);
+    const { users, loading, selectedUser } = useSelector(state => state.admin);
 
-    const [selectedUser, setSelectedUser] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
 
@@ -28,9 +27,7 @@ export default function ManageUsers() {
             setIsModalOpen(true);
         }
 
-        const user = dispatch(getOneUser(userId));
-
-        setSelectedUser(user);
+        dispatch(getOneUser(userId));
     };
 
     const closeModalHandler = () => {
@@ -40,7 +37,6 @@ export default function ManageUsers() {
 
     const refetchUsers = useCallback(() => {
         dispatch(getAllUsers());
-        setSelectedUser(null)
     }, [dispatch]);
 
     useEffect(() => {
@@ -54,7 +50,13 @@ export default function ManageUsers() {
 
     return (
         <div className={styles.container}>
-            {isModalOpen && <DialogModal onConfirm={() => deleteUserHandler(selectedUser._id)} onClose={closeModalHandler} email={selectedUser.email} />}
+            {isModalOpen && (
+                <DialogModal
+                    onConfirm={() => deleteUserHandler(selectedUser._id)}
+                    onClose={closeModalHandler}
+                    email={selectedUser?.email}
+                />
+            )}
             {editOpen && <EditUserModal onClose={closeModalHandler} user={selectedUser} />}
 
             <div className={styles.heading}><h2>User List</h2></div>

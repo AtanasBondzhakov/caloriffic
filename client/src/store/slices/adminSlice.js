@@ -33,8 +33,8 @@ export const editUser = createAsyncThunk('admin/manage-users/edit', async (userD
 
 export const getOneUser = createAsyncThunk('admin/manage-users/user', async (userId, { rejectWithValue }) => {
     try {
-        const user = await requester.get(`/admin/manage-users/user/${userId}`);
-        
+        const { password, ...user } = await requester.get(`/admin/manage-users/user/${userId}`);
+
         return user;
 
     } catch (err) {

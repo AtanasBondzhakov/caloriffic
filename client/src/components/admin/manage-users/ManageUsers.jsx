@@ -20,14 +20,17 @@ export default function ManageUsers() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
 
-    const openModalHandler = (userId, mode) => {
-        if (mode === 'edit') {
-            setEditOpen(true);
-        } else {
-            setIsModalOpen(true);
+    const openModalHandler = async (userId, mode) => {
+        const result = await dispatch(getOneUser(userId));
+
+        if (result.meta.requestStatus === 'fulfilled') {
+            if (mode === 'edit') {
+                setEditOpen(true);
+            } else {
+                setIsModalOpen(true);
+            }
         }
 
-        dispatch(getOneUser(userId));
     };
 
     const closeModalHandler = () => {
@@ -86,8 +89,8 @@ export default function ManageUsers() {
                                         <TableCell align="center" sx={{ width: 'auto' }}>{user.role}</TableCell>
                                         <TableCell align="center" sx={{ width: 'auto' }}>{dateFormatter(user.createdAt)}</TableCell>
                                         <TableCell align="center" sx={{ width: '10%', whiteSpace: 'nowrap' }}>
-                                            <IconButton>
-                                                <EditOutlinedIcon onClick={() => openModalHandler(user._id, 'edit')} /> <span className={styles.edit}>Edit</span>
+                                            <IconButton onClick={() => openModalHandler(user._id, 'edit')} >
+                                                <EditOutlinedIcon /> <span className={styles.edit}>Edit</span>
                                             </IconButton>
                                             <IconButton onClick={() => openModalHandler(user._id, 'delete')} disabled={loading} >
                                                 <DeleteOutlineOutlinedIcon /> <span className={styles.del}>{loading && selectedUser?._id === user._id ? 'Deleting...' : 'Delete'}</span>

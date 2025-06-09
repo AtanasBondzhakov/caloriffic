@@ -9,7 +9,10 @@ export const adminService = {
         return await User.findByIdAndDelete(userId);
     },
     async editUser(userId, userData) {
-        const user = await User.findByIdAndUpdate(userId, userData, { runValidators: true });
+        const user = await User.findByIdAndUpdate(userId, userData, {
+            runValidators: true, new: true
+        }).select('-password');
+        
         return user;
     },
     async getOneUser(userId) {

@@ -26,10 +26,8 @@ adminController.delete('/manage-users/delete/:userId', async (req, res) => {
 
 adminController.put('/manage-users/edit/:userId', async (req, res) => {
     try {
-        await adminService.editUser(req.params.userId, req.body);
-        console.log(req.body);
-
-        return res.status(200).json({ success: true, message: 'User edited successfully.' });
+        const editedUser = await adminService.editUser(req.params.userId, req.body);
+        return res.status(200).json({ success: true, user: editedUser });
     } catch (err) {
         console.error('Edit user error:', err);
         return res.status(500).json({ success: false, message: 'Server error while editing user.' });

@@ -151,7 +151,7 @@ export default function CalculatorForm() {
                             value={values.activity}
                         />
                     </div>
-                    <div className={styles['calc-select']}>
+                    {/* <div className={styles['calc-select']}> */}
                         <Select
                             className={styles['select-option']}
                             name="calorieIntake"
@@ -160,7 +160,7 @@ export default function CalculatorForm() {
                             options={calorieIntakeOptions}
                             value={values.calorieIntake}
                         />
-                    </div>
+                    {/* </div> */}
                     <CustomButton type="submit" label="Calculate" />
                 </form>
                 {Object.keys(validationErrors).length > 0 && <ErrorMessage errors={Object.values(validationErrors)} />}

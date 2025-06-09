@@ -17,25 +17,24 @@ export default function ManageUsers() {
     const dispatch = useDispatch();
     const { users, loading, selectedUser } = useSelector(state => state.admin);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editOpen, setEditOpen] = useState(false);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [editModalOpen, setEditModalOpen] = useState(false);
 
     const openModalHandler = async (userId, mode) => {
         const result = await dispatch(getOneUser(userId));
 
         if (result.meta.requestStatus === 'fulfilled') {
             if (mode === 'edit') {
-                setEditOpen(true);
+                setEditModalOpen(true);
             } else {
-                setIsModalOpen(true);
+                setDeleteModalOpen(true);
             }
         }
-
     };
 
     const closeModalHandler = () => {
-        setIsModalOpen(false);
-        setEditOpen(false);
+        setDeleteModalOpen(false);
+        setEditModalOpen(false);
     };
 
     const refetchUsers = useCallback(() => {
@@ -48,19 +47,19 @@ export default function ManageUsers() {
 
     const deleteUserHandler = (userId) => {
         dispatch(deleteUser(userId));
-        setIsModalOpen(false);
+        setDeleteModalOpen(false);
     };
 
     return (
         <div className={styles.container}>
-            {isModalOpen && (
+            {deleteModalOpen && (
                 <DialogModal
                     onConfirm={() => deleteUserHandler(selectedUser._id)}
                     onClose={closeModalHandler}
                     email={selectedUser?.email}
                 />
             )}
-            {editOpen && <EditUserModal onClose={closeModalHandler} user={selectedUser} />}
+            {editModalOpen && <EditUserModal onClose={closeModalHandler} user={selectedUser} />}
 
             <div className={styles.heading}><h2>User List</h2></div>
 

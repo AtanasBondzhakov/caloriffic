@@ -7,7 +7,7 @@ export default function Select({
     label
 }) {
     return (
-        <>
+        <div>
             <label htmlFor={name}>{label}:</label>
             <select
                 name={name}
@@ -25,6 +25,6 @@ export default function Select({
                     </option>)
                 )}
             </select>
-        </>
+        </div>
     );
 };

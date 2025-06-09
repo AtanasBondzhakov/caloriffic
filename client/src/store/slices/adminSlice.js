@@ -25,7 +25,7 @@ export const editUser = createAsyncThunk('admin/manage-users/edit', async (userD
     try {
         const editedUser = await requester.put(`/admin/manage-users/edit/${userData._id}`, userData);
 
-        return editedUser;
+        return editedUser.user;
     } catch (err) {
         return rejectWithValue(err);
     }
@@ -40,7 +40,7 @@ export const getOneUser = createAsyncThunk('admin/manage-users/user', async (use
     } catch (err) {
         return rejectWithValue(err);
     }
-})
+});
 
 const initialState = {
     users: [],
@@ -49,12 +49,16 @@ const initialState = {
     error: null,
     updateStatus: 'idle',
     updateError: null
-}
+};
 
 const adminSlice = createSlice({
     name: 'admin',
     initialState,
-    reducers: {},
+    reducers: {
+        resetUpdateStatus(state) {
+            state.updateStatus = 'idle';
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getAllUsers.pending, (state) => {
@@ -84,18 +88,18 @@ const adminSlice = createSlice({
                 state.error = action.payload.message;
             })
             .addCase(editUser.pending, (state) => {
-                state.loading = true;
-                state.error = null;
+                state.updateStatus = 'pending';
+                state.updateError = null;
             })
             .addCase(editUser.fulfilled, (state, action) => {
-                state.loading = false;
+                state.updateStatus = 'fulfilled';
                 const editedUser = action.payload;
-                state.users = state.users.map(user => {
-                    user._id === editUser._id ? editedUser : user;
-                });
+                state.users = state.users.map(user => 
+                    user._id === editedUser._id ? editedUser : user
+                );
             })
             .addCase(editUser.rejected, (state, action) => {
-                state.loading = false;
+                state.updateStatus = 'rejected';
                 state.error = action.payload.message;
             })
             .addCase(getOneUser.pending, (state) => {
@@ -111,6 +115,8 @@ const adminSlice = createSlice({
                 state.error = action.payload.message;
             })
     }
-})
+});
+
+export const {resetUpdateStatus} = adminSlice.actions;
 
 export default adminSlice;

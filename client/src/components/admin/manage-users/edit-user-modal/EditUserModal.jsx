@@ -9,6 +9,11 @@ import CustomButton from "../../../ui/custom-button/CustomButton";
 import style from '../edit-user-modal/EditUserModal.module.css';
 import { editUser, resetUpdateStatus } from "../../../../store/slices/adminSlice";
 
+const roleOptions = [
+    { value: 'admin', label: 'admin' },
+    { value: 'user', label: 'user' }
+]
+
 export default function EditUserModal({
     onClose,
     user
@@ -16,7 +21,10 @@ export default function EditUserModal({
     const dispatch = useDispatch();
     const { updateStatus } = useSelector(state => state.admin);
 
-    const { values, handleChange, handleSubmit } = useForm({ email: user?.email, role: user?.role }, editUserHandler);
+    const { values, handleChange, handleSubmit } = useForm({
+        email: user.email,
+        role: user.role
+    }, editUserHandler);
 
     async function editUserHandler() {
         const editUserData = { _id: user._id, ...values };
@@ -60,7 +68,9 @@ export default function EditUserModal({
                             className={style['select-option']}
                             label="Role"
                             name="role"
-                            options={[{ value: 'admin', label: 'admin' }, { value: 'user', label: 'user' }]}
+                            options={roleOptions}
+                            value={values.role}
+                            onChange={handleChange}
                         />
                         <CustomButton type="submit" label="Save" />
                     </form>

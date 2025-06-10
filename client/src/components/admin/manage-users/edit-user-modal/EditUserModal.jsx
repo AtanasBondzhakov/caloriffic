@@ -2,12 +2,14 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 
+import style from '../edit-user-modal/EditUserModal.module.css';
+import { useForm } from "../../../../hooks/useForm";
+import { editUser, resetUpdateStatus } from "../../../../store/slices/adminSlice";
+import { editUserSchema } from '../../../../schema/editUserSchema';
 import Input from "../../../forms/input/Input";
 import Select from "../../../forms/select/Select";
-import { useForm } from "../../../../hooks/useForm";
+import ErrorMessage from '../../../ui/error-message/ErrorMessage';
 import CustomButton from "../../../ui/custom-button/CustomButton";
-import style from '../edit-user-modal/EditUserModal.module.css';
-import { editUser, resetUpdateStatus } from "../../../../store/slices/adminSlice";
 
 const roleOptions = [
     { value: 'admin', label: 'admin' },
@@ -21,10 +23,10 @@ export default function EditUserModal({
     const dispatch = useDispatch();
     const { updateStatus } = useSelector(state => state.admin);
 
-    const { values, handleChange, handleSubmit } = useForm({
+    const { values, errors: validationErrors, handleChange, handleSubmit } = useForm({
         email: user.email,
         role: user.role
-    }, editUserHandler);
+    }, editUserHandler, editUserSchema);
 
     async function editUserHandler() {
         const editUserData = { _id: user._id, ...values };
@@ -72,8 +74,14 @@ export default function EditUserModal({
                             value={values.role}
                             onChange={handleChange}
                         />
-                        <CustomButton type="submit" label="Save" />
+                        <div className={style.buttons}>
+                            <CustomButton type="submit" label="Save" />
+                            <CustomButton type="button" label="Cancel" handleClick={onClose}/>
+                        </div>
+
                     </form>
+
+                    {Object.keys(validationErrors).length > 0 && <ErrorMessage errors={Object.values(validationErrors)} />}
                 </DialogContent>
             </Dialog>
         </>

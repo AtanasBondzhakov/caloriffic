@@ -5,7 +5,6 @@
     min-width: 300px;
 }
 
-
 .input input {
     width: 100%;
     display: flex;
@@ -19,7 +18,7 @@
     outline: none;
 }
 
-.select-option select{
+.select-option{
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -31,4 +30,14 @@
     font-size: 1em;
     color: #2e2e2e;
     outline: none;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 3em;
+}
+
+.buttons div {
+    width: 50%;
 }

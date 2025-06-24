@@ -17,6 +17,7 @@ import CalculateOutlinedIcon from '@mui/icons-material/CalculateOutlined';
 const commonLinks = [
     { path: '/', name: 'Home', requiresAuth: null, icon: <HomeOutlinedIcon /> },
     { path: '/calculator', name: 'Calculator', requiresAuth: null, icon: <CalculateOutlinedIcon /> },
+    { path: '/products', name: 'Products', requiresAuth: null, icon: <Inventory2OutlinedIcon /> }
 ];
 
 const guestLinks = [

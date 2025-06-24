@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { checkMe } from "./store/slices/authSlice.js";
 import Sidebar from "./components/sidebar/Sidebar.jsx";
 import ManageUsers from "./components/admin/manage-users/ManageUsers.jsx";
+import Products from "./components/products/Products.jsx";
 
 function App() {
     const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function App() {
                 <Route path="/auth/register" element={<Register />} />
                 <Route path="/auth/login" element={<Login />} />
                 <Route path="/admin/manage-users" element={<ManageUsers />} />
+                <Route path="/products" element={<Products />} />
                 {/* <Route path="/auth/check-auth" element={<Home />} /> */}
                 {/* <Route path="/admin/users-list" element={<UsersList />} /> */}
             </Routes>

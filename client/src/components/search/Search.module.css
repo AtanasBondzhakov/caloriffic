@@ -1,0 +1,10 @@
+.container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.search-form {
+    display: flex;
+    gap: 1em;
+}

@@ -3,7 +3,7 @@ import requester from "../../api/requester";
 
 export const getProducts = createAsyncThunk('products', async (productName, { rejectWithValue }) => {
     try {
-        const products = await requester.get(`/products/${productName}`);
+        const products = await requester.get(`/products?search=${productName}`);
         
         return products;
     } catch (err) {
@@ -26,14 +26,10 @@ const productsSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getProducts.pending, (state) => {
-                console.log("Pending");
-                
                 state.loading = true;
                 state.error = null;
             })
             .addCase(getProducts.fulfilled, (state, action) => {
-                console.log("Fullfiled", action.payload);
-
                 state.loading = false;
                 state.products = action.payload;
             })

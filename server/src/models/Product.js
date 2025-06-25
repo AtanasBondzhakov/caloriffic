@@ -13,7 +13,7 @@ const productSchema = new Schema({
     calories: {
         type: Number,
         required: [true, 'Calories are required'],
-        min: [1, 'Calories cannot be less than 1']
+        min: [0, 'Calories cannot be less than 0']
     },
     carbohydrates: {
         type: Number,

@@ -11,8 +11,8 @@ export default function Search() {
 
     const { values, errors, handleChange, handleSubmit } = useForm({ search: '' }, searchHandler);
 
-   function searchHandler() {
-       dispatch(getProducts(values.search))
+    function searchHandler() {
+        dispatch(getProducts(values.search))
         console.log('Searching...');
     }
 

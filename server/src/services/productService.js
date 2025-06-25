@@ -18,9 +18,9 @@ const categoryMap = {
     "Beverages": "Beverages"
 };
 
-const extractNutrient = (foodNutrients, nutrientName) => {
+const extractNutrient = (foodNutrients, nutrientName, unit) => {
     const nutrient = foodNutrients.find(n =>
-        n.nutrientName.toLowerCase().includes(nutrientName.toLowerCase())
+        n.nutrientName.toLowerCase().includes(nutrientName.toLowerCase()) && n.unitName.toLowerCase() === unit.toLowerCase()
     );
 
     return nutrient ? nutrient.value : 0;
@@ -29,12 +29,10 @@ const extractNutrient = (foodNutrients, nutrientName) => {
 export const productService = {
     async getProduct(productName) {
         const existingProducts = await Product.find({ name: { $regex: productName, $options: 'i' } });
-
-        console.log(existingProducts.length);
-
+        const encodedQuery = encodeURIComponent(`${productName}`);
 
         if (existingProducts.length === 0) {
-            const result = await fetch(`${url}/search?query=${productName}&api_key=${process.env.USDA_API_KEY}`);
+            const result = await fetch(`${url}/search?query=${encodedQuery}&dataType=Foundation,SR%20Legacy&api_key=${process.env.USDA_API_KEY}`);
             const data = await result.json();
 
             const foods = data.foods || [];
@@ -50,10 +48,10 @@ export const productService = {
                     const newProduct = await Product.create({
                         name: description,
                         fdcId,
-                        calories: extractNutrient(foodNutrients, 'Energy'),
-                        carbohydrates: extractNutrient(foodNutrients, 'Carbohydrate'),
-                        proteins: extractNutrient(foodNutrients, 'Protein'),
-                        fats: extractNutrient(foodNutrients, 'Fat'),
+                        calories: extractNutrient(foodNutrients, 'Energy', 'kcal'),
+                        carbohydrates: extractNutrient(foodNutrients, 'Carbohydrate', 'g'),
+                        proteins: extractNutrient(foodNutrients, 'Protein', 'g'),
+                        fats: extractNutrient(foodNutrients, 'Fat', 'g'),
                         category: categoryMap[foodCategory] || 'Other',
                         source: 'usda',
                         lastUpdated: new Date()

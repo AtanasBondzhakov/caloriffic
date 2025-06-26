@@ -1,6 +1,6 @@
 import Product from "../models/Product.js";
 
-const url = 'https://api.nal.usda.gov/fdc/v1/foods';
+const url = 'https://api.spoonacular.com/food/ingredients';
 
 const categoryMap = {
     "Dairy and Egg Products": "Dairy",
@@ -28,40 +28,46 @@ const extractNutrient = (foodNutrients, nutrientName, unit) => {
 
 export const productService = {
     async getProduct(productName) {
-        const existingProducts = await Product.find({ name: { $regex: productName, $options: 'i' } });
+        // const existingProducts = await Product.find({ name: { $regex: productName, $options: 'i' } });
         const encodedQuery = encodeURIComponent(`${productName}`);
 
-        if (existingProducts.length === 0) {
-            const result = await fetch(`${url}/search?query=${encodedQuery}&dataType=Foundation,SR%20Legacy&api_key=${process.env.USDA_API_KEY}`);
-            const data = await result.json();
+        // if (existingProducts.length === 0) {
+        const product = await fetch(`${url}/search?query=${productName}&apiKey=${process.env.SPOONACULAR_API_KEY}`);
+        const data = await product.json();
+        const productId = data.results[0].id;
 
-            const foods = data.foods || [];
+        const productInfo = await fetch(`${url}/${productId}/information?amount=100&unit=g&apiKey=${process.env.SPOONACULAR_API_KEY}`);
+        const productInfoData = await productInfo.json();
+        console.log(productInfoData);
+        // const data = await result.json();
 
-            if (foods.length === 0) {
-                return [];
-            }
+        // const foods = data.foods || [];
 
-            const savedProducts = await Promise.all(
-                foods.map(async product => {
-                    const { description, foodNutrients, foodCategory, fdcId } = product;
+        // if (foods.length === 0) {
+        //     return [];
+        // }
 
-                    const newProduct = await Product.create({
-                        name: description,
-                        fdcId,
-                        calories: extractNutrient(foodNutrients, 'Energy', 'kcal'),
-                        carbohydrates: extractNutrient(foodNutrients, 'Carbohydrate', 'g'),
-                        proteins: extractNutrient(foodNutrients, 'Protein', 'g'),
-                        fats: extractNutrient(foodNutrients, 'Fat', 'g'),
-                        category: categoryMap[foodCategory] || 'Other',
-                        source: 'usda',
-                        lastUpdated: new Date()
-                    });
+        // const savedProducts = await Promise.all(
+        //     foods.map(async product => {
+        //         const { description, foodNutrients, foodCategory, fdcId } = product;
 
-                    return newProduct;
-                })
-            );
-            return savedProducts;
-        }
-        return existingProducts;
+        //         const newProduct = await Product.create({
+        //             name: description,
+        //             fdcId,
+        //             calories: extractNutrient(foodNutrients, 'Energy', 'kcal'),
+        //             carbohydrates: extractNutrient(foodNutrients, 'Carbohydrate', 'g'),
+        //             proteins: extractNutrient(foodNutrients, 'Protein', 'g'),
+        //             fats: extractNutrient(foodNutrients, 'Fat', 'g'),
+        //             category: categoryMap[foodCategory] || 'Other',
+        //             source: 'usda',
+        //             lastUpdated: new Date()
+        //         });
+
+        //         return newProduct;
+        //     })
+        // );
+        // return savedProducts;
     }
+    // return existingProducts;
 }
+// }

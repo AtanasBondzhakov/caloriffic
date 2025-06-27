@@ -2,72 +2,59 @@ import Product from "../models/Product.js";
 
 const url = 'https://api.spoonacular.com/food/ingredients';
 
-const categoryMap = {
-    "Dairy and Egg Products": "Dairy",
-    "Fruits and Fruit Juices": "Fruits",
-    "Vegetables and Vegetable Products": "Vegetables",
-    "Cereal Grains and Pasta": "Grains",
-    "Beef Products": "Meat",
-    "Pork Products": "Meat",
-    "Poultry Products": "Meat",
-    "Finfish and Shellfish Products": "Seafood",
-    "Legumes and Legume Products": "Legumes",
-    "Nut and Seed Products": "Nuts & Seeds",
-    "Sweets": "Sweets",
-    "Snacks": "Snacks",
-    "Beverages": "Beverages"
-};
-
-const extractNutrient = (foodNutrients, nutrientName, unit) => {
+const extractNutrient = (foodNutrients, nutrientName) => {
     const nutrient = foodNutrients.find(n =>
-        n.nutrientName.toLowerCase().includes(nutrientName.toLowerCase()) && n.unitName.toLowerCase() === unit.toLowerCase()
+        n.name.toLowerCase() === nutrientName.toLowerCase()
     );
 
-    return nutrient ? nutrient.value : 0;
-}
-
+    return nutrient ? nutrient.amount : 0;
+};
 export const productService = {
     async getProduct(productName) {
-        // const existingProducts = await Product.find({ name: { $regex: productName, $options: 'i' } });
-        const encodedQuery = encodeURIComponent(`${productName}`);
+        const existingProducts = await Product.find({ name: new RegExp(`^${productName}$`, 'i') });
+        
+        if (existingProducts.length !== 0) {
+            const returnedProducts = await Product.find({ name: { $regex: productName, $options: 'i' } });
+            return returnedProducts;
+        }
 
-        // if (existingProducts.length === 0) {
         const product = await fetch(`${url}/search?query=${productName}&apiKey=${process.env.SPOONACULAR_API_KEY}`);
-        const data = await product.json();
-        const productId = data.results[0].id;
+        const productData = await product.json();
+        
+        if (productData.results.length === 0) {
+            return;
+            //TODO return something for no ID exist
+        }
 
+        const productId = productData.results[0].id;
         const productInfo = await fetch(`${url}/${productId}/information?amount=100&unit=g&apiKey=${process.env.SPOONACULAR_API_KEY}`);
         const productInfoData = await productInfo.json();
-        console.log(productInfoData);
-        // const data = await result.json();
 
-        // const foods = data.foods || [];
+        const productById = await Product.findOne({ spoonacularId: productInfoData.id });
+        console.log(productById);
+        
 
-        // if (foods.length === 0) {
-        //     return [];
-        // }
+        if (!productById) {
+            const newProductDb = await Product.create({
+                name: productInfoData.name,
+                calories: extractNutrient(productInfoData.nutrition.nutrients, 'Calories'),
+                carbohydrates: extractNutrient(productInfoData.nutrition.nutrients, 'Carbohydrates'),
+                proteins: extractNutrient(productInfoData.nutrition.nutrients, 'Protein'),
+                fats: extractNutrient(productInfoData.nutrition.nutrients, 'Fat'),
+                spoonacularId: productInfoData.id,
+                source: 'offApi',
+                lastUpdated: new Date()
+            });
 
-        // const savedProducts = await Promise.all(
-        //     foods.map(async product => {
-        //         const { description, foodNutrients, foodCategory, fdcId } = product;
+            return [newProductDb];
+        }
 
-        //         const newProduct = await Product.create({
-        //             name: description,
-        //             fdcId,
-        //             calories: extractNutrient(foodNutrients, 'Energy', 'kcal'),
-        //             carbohydrates: extractNutrient(foodNutrients, 'Carbohydrate', 'g'),
-        //             proteins: extractNutrient(foodNutrients, 'Protein', 'g'),
-        //             fats: extractNutrient(foodNutrients, 'Fat', 'g'),
-        //             category: categoryMap[foodCategory] || 'Other',
-        //             source: 'usda',
-        //             lastUpdated: new Date()
-        //         });
+        return [productById];
 
-        //         return newProduct;
-        //     })
-        // );
-        // return savedProducts;
+    },
+    async getAllProducts() {
+        const allProducts = await Product.find();
+
+        return allProducts;
     }
-    // return existingProducts;
 }
-// }

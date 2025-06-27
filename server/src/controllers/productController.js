@@ -8,7 +8,8 @@ productController.get('/', async (req, res) => {
     const query = req.query.search;
 
     if (!query) {
-        return res.status(400).json({ success: false, message: "Missing product name parameter." });
+        const allProducts = await productService.getAllProducts();
+        return res.status(200).json(allProducts);
     }
 
     try {

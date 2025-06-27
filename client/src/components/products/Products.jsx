@@ -18,7 +18,6 @@ export default function Products() {
                         <TableHead sx={{ backgroundColor: '#5380bb' }}>
                             <TableRow>
                                 <TableCell>Product</TableCell>
-                                <TableCell>Category</TableCell>
                                 <TableCell>Calories/kcal</TableCell>
                                 <TableCell>Carbohydrates/g</TableCell>
                                 <TableCell>Proteins/g</TableCell>
@@ -27,16 +26,17 @@ export default function Products() {
                         </TableHead>
                         <TableBody>
 
-                            {products.map(product => 
+                            {products.map(product => (
+
                                 <TableRow key={product._id}>
                                     <TableCell align="center" sx={{ width: 'auto' }}>{product.name}</TableCell>
-                                    <TableCell align="center" width={'auto'}>{product.category}</TableCell>
                                     <TableCell align="center" sx={{ width: 'auto' }}>{product.calories}</TableCell>
                                     <TableCell align="center" sx={{ width: 'auto' }}>{product.carbohydrates}</TableCell>
                                     <TableCell align="center" sx={{ width: 'auto' }}>{product.proteins}</TableCell>
                                     <TableCell align="center" sx={{ width: 'auto' }}>{product.fats}</TableCell>
                                 </TableRow>
-                            )}
+                            ))}
+
 
                         </TableBody>
                     </Table>

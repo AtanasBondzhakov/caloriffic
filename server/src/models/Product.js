@@ -6,10 +6,6 @@ const productSchema = new Schema({
         required: [true, 'Name is required'],
         minLength: [2, 'Name should be at least 2 characters long']
     },
-    fdcId: {
-        type: Number,
-        default: null
-    },
     calories: {
         type: Number,
         required: [true, 'Calories are required'],
@@ -30,14 +26,13 @@ const productSchema = new Schema({
         required: [true, 'Fats are required'],
         min: [0, 'Fats cannot be less than 0']
     },
-    category: {
-        type: String,
-        enum: ['Dairy', 'Fruits', 'Vegetables', 'Grains', 'Meat', 'Seafood', 'Legumes', 'Nuts & Seeds', 'Sweets', 'Snacks', 'Beverages', 'Other'],
-        default: 'Other'
+    spoonacularId: {
+        type: Number,
+        unique: true
     },
     source: {
         type: String,
-        enum: ['usda', 'admin'],
+        enum: ['offApi', 'admin'],
         required: true
     },
     lastUpdated: {

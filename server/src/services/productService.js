@@ -12,42 +12,55 @@ const extractNutrient = (foodNutrients, nutrientName) => {
 export const productService = {
     async getProduct(productName) {
         const existingProducts = await Product.find({ name: new RegExp(`^${productName}$`, 'i') });
-        
+        console.log('exist', existingProducts);
+
+        if (existingProducts.length === 0) {
+            const nqkakvosuvpadeni = await Product.find({ name: { $regex: productName, $options: 'i' } });
+            console.log('returned', nqkakvosuvpadeni);
+
+            if (nqkakvosuvpadeni.length !== 0) {
+                return nqkakvosuvpadeni;
+            } else {
+                const product = await fetch(`${url}/search?query=${productName}&apiKey=${process.env.SPOONACULAR_API_KEY}`);
+                const productData = await product.json();
+
+                if (productData.results.length === 0) {
+                    return;
+                    //TODO return something for no ID exist
+                }
+
+                const productId = productData.results[0].id;
+                const productInfo = await fetch(`${url}/${productId}/information?amount=100&unit=g&apiKey=${process.env.SPOONACULAR_API_KEY}`);
+                const productInfoData = await productInfo.json();
+
+                const productById = await Product.findOne({ spoonacularId: productInfoData.id });
+                console.log(productById);
+
+
+                if (!productById) {
+                    const newProductDb = await Product.create({
+                        name: productInfoData.name,
+                        calories: extractNutrient(productInfoData.nutrition.nutrients, 'Calories'),
+                        carbohydrates: extractNutrient(productInfoData.nutrition.nutrients, 'Carbohydrates'),
+                        proteins: extractNutrient(productInfoData.nutrition.nutrients, 'Protein'),
+                        fats: extractNutrient(productInfoData.nutrition.nutrients, 'Fat'),
+                        spoonacularId: productInfoData.id,
+                        source: 'offApi',
+                        lastUpdated: new Date()
+                    });
+
+                    return [newProductDb];
+                }
+            }
+        }
+
+
         if (existingProducts.length !== 0) {
             const returnedProducts = await Product.find({ name: { $regex: productName, $options: 'i' } });
             return returnedProducts;
         }
 
-        const product = await fetch(`${url}/search?query=${productName}&apiKey=${process.env.SPOONACULAR_API_KEY}`);
-        const productData = await product.json();
-        
-        if (productData.results.length === 0) {
-            return;
-            //TODO return something for no ID exist
-        }
 
-        const productId = productData.results[0].id;
-        const productInfo = await fetch(`${url}/${productId}/information?amount=100&unit=g&apiKey=${process.env.SPOONACULAR_API_KEY}`);
-        const productInfoData = await productInfo.json();
-
-        const productById = await Product.findOne({ spoonacularId: productInfoData.id });
-        console.log(productById);
-        
-
-        if (!productById) {
-            const newProductDb = await Product.create({
-                name: productInfoData.name,
-                calories: extractNutrient(productInfoData.nutrition.nutrients, 'Calories'),
-                carbohydrates: extractNutrient(productInfoData.nutrition.nutrients, 'Carbohydrates'),
-                proteins: extractNutrient(productInfoData.nutrition.nutrients, 'Protein'),
-                fats: extractNutrient(productInfoData.nutrition.nutrients, 'Fat'),
-                spoonacularId: productInfoData.id,
-                source: 'offApi',
-                lastUpdated: new Date()
-            });
-
-            return [newProductDb];
-        }
 
         return [productById];
 

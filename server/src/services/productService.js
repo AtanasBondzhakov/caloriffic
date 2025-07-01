@@ -10,64 +10,51 @@ const extractNutrient = (foodNutrients, nutrientName) => {
     return nutrient ? nutrient.amount : 0;
 };
 export const productService = {
-    async getProduct(productName) {
-        const existingProducts = await Product.find({ name: new RegExp(`^${productName}$`, 'i') });
-        console.log('exist', existingProducts);
+    async getProducts(productName) {
+        const existingProduct = await Product.findOne({ name: new RegExp(`^${productName}$`, 'i') });
 
-        if (existingProducts.length === 0) {
-            const nqkakvosuvpadeni = await Product.find({ name: { $regex: productName, $options: 'i' } });
-            console.log('returned', nqkakvosuvpadeni);
+        if (existingProduct) {
+            return [existingProduct];
+            //TODO change returning array
+        }
+        
+        const products = await fetch(`${url}/search?query=${productName}&number=30&apiKey=${process.env.SPOONACULAR_API_KEY}`);
+        const productData = await products.json();
+        console.log('product data', productData);
 
-            if (nqkakvosuvpadeni.length !== 0) {
-                return nqkakvosuvpadeni;
-            } else {
-                const product = await fetch(`${url}/search?query=${productName}&apiKey=${process.env.SPOONACULAR_API_KEY}`);
-                const productData = await product.json();
-
-                if (productData.results.length === 0) {
-                    return;
-                    //TODO return something for no ID exist
-                }
-
-                const productId = productData.results[0].id;
-                const productInfo = await fetch(`${url}/${productId}/information?amount=100&unit=g&apiKey=${process.env.SPOONACULAR_API_KEY}`);
-                const productInfoData = await productInfo.json();
-
-                const productById = await Product.findOne({ spoonacularId: productInfoData.id });
-                console.log(productById);
-
-
-                if (!productById) {
-                    const newProductDb = await Product.create({
-                        name: productInfoData.name,
-                        calories: extractNutrient(productInfoData.nutrition.nutrients, 'Calories'),
-                        carbohydrates: extractNutrient(productInfoData.nutrition.nutrients, 'Carbohydrates'),
-                        proteins: extractNutrient(productInfoData.nutrition.nutrients, 'Protein'),
-                        fats: extractNutrient(productInfoData.nutrition.nutrients, 'Fat'),
-                        spoonacularId: productInfoData.id,
-                        source: 'offApi',
-                        lastUpdated: new Date()
-                    });
-
-                    return [newProductDb];
-                }
-            }
+        if (productData.results.length === 0) {
+            return;
+            //TODO return something for no ID exist
         }
 
-
-        if (existingProducts.length !== 0) {
-            const returnedProducts = await Product.find({ name: { $regex: productName, $options: 'i' } });
-            return returnedProducts;
-        }
-
-
-
-        return [productById];
-
+        return productData.results;
     },
     async getAllProducts() {
         const allProducts = await Product.find();
 
         return allProducts;
+    },
+    async getProductById(productId) {
+        const productById = await Product.findOne({ spoonacularId: productId });
+
+        if (!productById) {
+            const product = await fetch(`${url}/${productId}/information?amount=100&unit=g&apiKey=${process.env.SPOONACULAR_API_KEY}`);
+            const productData = await product.json();
+
+            const newProductDb = await Product.create({
+                name: productData.name,
+                calories: extractNutrient(productData.nutrition.nutrients, 'Calories'),
+                carbohydrates: extractNutrient(productData.nutrition.nutrients, 'Carbohydrates'),
+                proteins: extractNutrient(productData.nutrition.nutrients, 'Protein'),
+                fats: extractNutrient(productData.nutrition.nutrients, 'Fat'),
+                spoonacularId: productData.id,
+                source: 'offApi',
+                lastUpdated: new Date()
+            });
+
+            return newProductDb;
+        }
+
+        return productById;
     }
 }

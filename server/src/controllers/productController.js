@@ -26,7 +26,7 @@ productController.get('/', async (req, res) => {
 
 productController.get('/:productId', async (req, res) => {
     try {
-        const product = productService.getProductById(req.params.productId);
+        const product = await productService.getProductById(req.params.productId);
         return res.status(200).json(product);
     } catch (err) {
         console.log('Error in fetch product', err);

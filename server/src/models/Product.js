@@ -26,13 +26,13 @@ const productSchema = new Schema({
         required: [true, 'Fats are required'],
         min: [0, 'Fats cannot be less than 0']
     },
-    spoonacularId: {
+    id: {
         type: Number,
         unique: true
     },
     source: {
         type: String,
-        enum: ['offApi', 'admin'],
+        enum: ['spoonApi', 'admin'],
         required: true
     },
     lastUpdated: {

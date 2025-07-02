@@ -1,20 +1,20 @@
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import Search from "../search/Search";
-
 import styles from '../products/Products.module.css';
-import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import Search from "../search/Search";
 import { getProductById } from "../../store/slices/productsSlice";
+
+import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
 export default function Products() {
     const dispatch = useDispatch();
-    const { products } = useSelector(state => state.products);
-console.log(products);
+    const { products, selected } = useSelector(state => state.products);
 
-    const showProductDetails = async (productId) => {
+    const showProductDetails = useCallback(productId => {
         dispatch(getProductById(productId));
-    };
-    
+    }, [dispatch]);
+
 
     return (
         <div className={styles.container}>
@@ -35,8 +35,8 @@ console.log(products);
                         <TableBody>
 
                             {products.map(product => (
-
-                                <TableRow key={product._id} onClick={() => showProductDetails(product.spoonacularId)}>
+                                //ако е един продукт директно съвпадение не трябва да е масив и да има кий проп
+                                <TableRow key={product.id} onClick={() => showProductDetails(product.id)}>
                                     <TableCell align="center" sx={{ width: 'auto' }}>{product.name}</TableCell>
                                     {/* <TableCell align="center" sx={{ width: 'auto' }}>{product.calories}</TableCell>
                                     <TableCell align="center" sx={{ width: 'auto' }}>{product.carbohydrates}</TableCell>

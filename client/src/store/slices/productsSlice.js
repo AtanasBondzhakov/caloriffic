@@ -14,7 +14,6 @@ export const getProducts = createAsyncThunk('products', async (productName, { re
 export const getProductById = createAsyncThunk('products/product', async (productId, { rejectWithValue }) => {
     try {
         const product = await requester.get(`/products/${productId}`);
-        console.log(productId);
 
         return product;
     } catch (err) {

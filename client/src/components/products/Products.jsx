@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import styles from '../products/Products.module.css';
 import Search from "../search/Search";
-import { getProductById } from "../../store/slices/productsSlice";
+import { clearProducts, getProductById } from "../../store/slices/productsSlice";
 
 import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { useEffect } from "react";
 
 export default function Products() {
     const dispatch = useDispatch();
@@ -15,6 +16,11 @@ export default function Products() {
         dispatch(getProductById(productId));
     }, [dispatch]);
 
+    useEffect(() => {
+        return () => {
+            dispatch(clearProducts());
+        }
+    }, [dispatch]);
 
     return (
         <div className={styles.container}>

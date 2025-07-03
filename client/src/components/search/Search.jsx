@@ -19,19 +19,14 @@ export default function Search() {
     return (
         <div className={styles.container}>
             <form className={styles['search-form']} onSubmit={handleSubmit}>
-                {/* <input
-                    type="text"
-                    name="search"
-                    value={values.search}
-                    onChange={handleChange}
-                /> */}
                 <Input
+                    className={styles['search-field']}
                     name='search'
                     value={values.search}
                     onChange={handleChange}
                     label='Search'
                 />
-                <button type='submit'><SearchOutlinedIcon /></button>
+                <button type='submit' className={styles['search-button']}><SearchOutlinedIcon /></button>
             </form >
 
         </div>

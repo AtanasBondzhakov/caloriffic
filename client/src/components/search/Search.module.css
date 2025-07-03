@@ -7,4 +7,27 @@
 .search-form {
     display: flex;
     gap: 1em;
+    border-radius: 1em;
+    padding: 0.3em 0.5em;
+    background-color: #cecece;
+    margin-bottom: 0.5em;
+}
+
+.search-field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+    text-align: center;
+}
+
+.search-field input {
+    border: 1px solid #fff;
+    padding: 0.5em;
+    border-radius: 0.5em;
+}
+
+.search-button {
+    border: none;
+    border-radius: 0.3em;
 }

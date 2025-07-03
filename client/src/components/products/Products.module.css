@@ -6,3 +6,35 @@
     align-items: center;
     gap: 1.5em;
 }
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-results {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1em;
+    /* background-color: rgba(127, 127, 218, 0.61); */
+    padding: 1em;
+}
+
+.item {
+    background-color: #fff;
+    border-radius: 0.5em;
+    border: 1px solid #000000;
+    width: 100%;
+    max-width: 150px;
+    text-align: center;
+    align-items: center;
+    font-size: 1em;
+    padding: 0.1em 0.3em;
+    background-color: #c3c9d4;
+}
+
+/* max-width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1em;
+    margin-bottom: 3em; */

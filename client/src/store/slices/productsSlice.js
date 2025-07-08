@@ -35,6 +35,7 @@ const productsSlice = createSlice({
     reducers: {
         clearProducts(state, action) {
             state.products = [];
+            state.selected = null;
         }
     },
     extraReducers: (builder) => {

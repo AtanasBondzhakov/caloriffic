@@ -1,12 +1,9 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from '../products/Products.module.css';
 import Search from "../search/Search";
 import { clearProducts, getProductById } from "../../store/slices/productsSlice";
-
-import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { useEffect } from "react";
 import Item from "../ui/item/Item";
 
 export default function Products() {
@@ -42,36 +39,25 @@ export default function Products() {
 
             </div>
 
-            {/* <div>
-                <TableContainer component={Paper}>
-                    <Table>
-                        <TableHead sx={{ backgroundColor: '#5380bb' }}>
-                            <TableRow>
-                                <TableCell>Product</TableCell>
-                                <TableCell>Calories/kcal</TableCell>
-                                <TableCell>Carbohydrates/g</TableCell>
-                                <TableCell>Proteins/g</TableCell>
-                                <TableCell>Fats/g</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-
-                            {products.map(product => (
-                                //ако е един продукт директно съвпадение не трябва да е масив и да има кий проп
-                                <TableRow key={product.id} onClick={() => showProductDetails(product.id)}>
-                                    <TableCell align="center" sx={{ width: 'auto' }}>{product.name}</TableCell>
-                                    <TableCell align="center" sx={{ width: 'auto' }}>{product.calories}</TableCell>
-                                    <TableCell align="center" sx={{ width: 'auto' }}>{product.carbohydrates}</TableCell>
-                                    <TableCell align="center" sx={{ width: 'auto' }}>{product.proteins}</TableCell>
-                                    <TableCell align="center" sx={{ width: 'auto' }}>{product.fats}</TableCell>
-                                </TableRow>
-                            ))}
-
-
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div> */}
+            <div className={styles['product-result']}>
+                <div className={styles['product-info']}>
+                    {!selected && <h3>Not selected product yet</h3>}
+                    {selected && (
+                        <>
+                            <div className={styles['product-heading']}>
+                                <h2>{selected.name}</h2>
+                                <p>Information per 100g</p>
+                            </div>
+                            <div className={styles['product-nutri']}>
+                                <p>Calories: <span>{selected.calories}</span></p>
+                                <p>Carbohydrates: <span>{selected.carbohydrates}</span></p>
+                                <p>Proteins: <span>{selected.proteins}</span></p>
+                                <p>Fats: <span>{selected.fats}</span></p>
+                            </div>
+                        </>
+                    )}
+                </div>
+            </div>
         </div>
     );
 };

@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router";
 
-import Navbar from "./components/navbar/Navbar.jsx";
 import Calculator from "./components/calculator/Calculator.jsx";
 import Home from "./components/home/Home.jsx";
 import Login from "./components/auth/login/Login.jsx";
@@ -21,12 +20,9 @@ function App() {
 
     return (
         <div style={{ display: 'flex', height: 'auto', minHeight: '100vh' }}>
-            {/* <Navbar /> */}
             <Sidebar />
-            {/* <main style={{ display: 'flex', flexDirection: 'row' }}> */}
-            {/* <Sidebar /> */}
             <Routes>
-                {/* <Route path="/" element={<Home />} /> */}
+                <Route path="/" element={<Home />} />
                 <Route path="/calculator" element={<Calculator />} />
                 <Route path="/auth/register" element={<Register />} />
                 <Route path="/auth/login" element={<Login />} />
@@ -35,7 +31,6 @@ function App() {
                 {/* <Route path="/auth/check-auth" element={<Home />} /> */}
                 {/* <Route path="/admin/users-list" element={<UsersList />} /> */}
             </Routes>
-            {/* </main> */}
         </div>
     )
 }

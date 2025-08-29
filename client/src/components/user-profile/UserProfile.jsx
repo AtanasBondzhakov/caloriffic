@@ -1,5 +1,6 @@
 import styles from "../user-profile/UserProfile.module.css";
 import CustomButton from "../ui/custom-button/CustomButton";
+import CustomPieChart from "../ui/custom-pie-chart/CustomPieChart";
 
 export default function UserProfile() {
 
@@ -12,6 +13,7 @@ export default function UserProfile() {
                         <p>Daily Progress</p>
                     </div>
                     <div className={styles.pie}>
+                        <CustomPieChart />
                         <p>Pie Chart</p>
                     </div>
                 </div>

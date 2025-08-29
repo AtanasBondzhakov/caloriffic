@@ -19,14 +19,15 @@
     width: 100%;
     height: 100%;
     background-color: rgb(194, 173, 145);
+    gap: 3em;
 }
 
 .left-section {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    max-width: 50%;
-    margin: 10em auto;
+    justify-content: space-around;
+    flex: 1;
+    margin: 2em;
 }
 
 .daily-progress {
@@ -37,13 +38,17 @@
 
 .pie {
     border: 1px solid #000;
+    width: 100%;
 }
 
 .right-section {
     display: flex;
-    max-width: 50%;
+    width: 50%;
     flex-direction: column;
-    margin: 10em auto auto;
+    flex: 1;
+    justify-content: space-around;
+    margin: 2em;
+
 }
 
 .daily-total {

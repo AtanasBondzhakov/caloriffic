@@ -34,4 +34,20 @@ productController.get('/:productId', async (req, res) => {
     }
 });
 
+productController.post('/add-product-to-daily/:productId', async (req, res) => {
+    try {
+        const user = req.user._id;
+        const { quantity } = req.body;
+        const { productId } = req.params.productId;
+
+        const product = await productService.getProductById(productId);
+        const dailyIntake = await productService.addProductToDaily(user.id, productId, quantity);
+
+        return res.status(200).json(dailyIntake);
+    } catch (err) {
+        console.log('Error in add product to daily intake', err);
+        return res.status(500).json({ success: false, message: 'Server Error' });
+    }
+});
+
 export default productController;

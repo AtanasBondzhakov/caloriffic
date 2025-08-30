@@ -1,3 +1,4 @@
+import DailyIntake from "../models/DailyIntake.js";
 import Product from "../models/Product.js";
 
 const url = 'https://api.spoonacular.com/food/ingredients';
@@ -16,7 +17,7 @@ export const productService = {
         if (existingProduct) {
             return [existingProduct];
         }
-        
+
         const products = await fetch(`${url}/search?query=${productName}&number=30&apiKey=${process.env.SPOONACULAR_API_KEY}`);
         const productData = await products.json();
 
@@ -37,7 +38,7 @@ export const productService = {
         if (!productById) {
             const product = await fetch(`${url}/${productId}/information?amount=100&unit=g&apiKey=${process.env.SPOONACULAR_API_KEY}`);
             const productData = await product.json();
-            
+
             const newProductDb = await Product.create({
                 name: productData.name,
                 calories: extractNutrient(productData.nutrition.nutrients, 'Calories'),
@@ -51,7 +52,37 @@ export const productService = {
 
             return newProductDb;
         }
-        
+
         return productById;
+    },
+    async addProductToDaily(userId, productId, quantity) {
+        const product = await Product.findOne({ id: productId });
+
+        if (!product) {
+            throw new Error('Product not found in database');
+        }
+
+        const factor = quantity / 100;
+
+        const productEntry = {
+            productId: product.id,
+            name: product.name,
+            quantity,
+            calories: product.calories * factor,
+            proteins: product.proteins * factor,
+            carbs: product.carbohydrates * factor,
+            fats: product.fats * factor,
+        };
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const dailyIntake = await DailyIntake.findOneAndUpdate(
+            { userId, date: today },
+            { $push: { products: productEntry } },
+            { new: true, upsert: true }
+        );
+
+        return dailyIntake;
     }
 }

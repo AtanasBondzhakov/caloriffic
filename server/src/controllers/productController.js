@@ -36,12 +36,12 @@ productController.get('/:productId', async (req, res) => {
 
 productController.post('/add-product-to-daily/:productId', async (req, res) => {
     try {
-        const user = req.user._id;
-        const { quantity } = req.body;
-        const { productId } = req.params.productId;
+        const userId = req.user.id;
+        // const { quantity } = req.body; //TODO change with input
+        const quantity = 10;
+        const { productId } = req.params;
 
-        const product = await productService.getProductById(productId);
-        const dailyIntake = await productService.addProductToDaily(user.id, productId, quantity);
+        const dailyIntake = await productService.addProductToDaily(userId, productId, quantity);
 
         return res.status(200).json(dailyIntake);
     } catch (err) {

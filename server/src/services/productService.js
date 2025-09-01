@@ -65,7 +65,7 @@ export const productService = {
         const factor = quantity / 100;
 
         const productEntry = {
-            productId: product.id,
+            productId: product._id,
             name: product.name,
             quantity,
             calories: product.calories * factor,
@@ -78,7 +78,7 @@ export const productService = {
         today.setHours(0, 0, 0, 0);
 
         const dailyIntake = await DailyIntake.findOneAndUpdate(
-            { userId, date: today },
+            { owner: userId, date: today },
             { $push: { products: productEntry } },
             { new: true, upsert: true }
         );

@@ -3,8 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 import styles from '../products/Products.module.css';
 import Search from "../search/Search";
-import { clearProducts, getProductById } from "../../store/slices/productsSlice";
 import Item from "../ui/item/Item";
+import CustomButton from "../ui/custom-button/CustomButton.jsx";
+import Input from "../forms/input/Input.jsx";
+import { clearProducts, getProductById } from "../../store/slices/productsSlice";
+import { useForm } from "../../hooks/useForm.js";
+import { addProductToDaily } from "../../store/slices/dailyIntakeSlice.js";
 
 export default function Products() {
     const dispatch = useDispatch();
@@ -13,6 +17,12 @@ export default function Products() {
     const showProductDetails = useCallback(productId => {
         dispatch(getProductById(productId));
     }, [dispatch]);
+
+    const { values, handleChange, handleSubmit } = useForm({ quantity: 0 }, addProductToDailyHandler);
+
+    async function addProductToDailyHandler(quantity) {
+        dispatch(addProductToDaily({ productId: selected.id, quantity }));
+    };
 
     useEffect(() => {
         return () => {
@@ -54,6 +64,14 @@ export default function Products() {
                                 <p>Proteins: <span>{selected.proteins}</span></p>
                                 <p>Fats: <span>{selected.fats}</span></p>
                             </div>
+                            <Input
+                                type='number'
+                                name='quantity'
+                                onChange={handleChange}
+                                value={values.quantity}
+                                label='Intake Quantity'
+                            />
+                            <CustomButton label='Add Product' handleClick={handleSubmit} />
                         </>
                     )}
                 </div>

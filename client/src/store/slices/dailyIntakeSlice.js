@@ -4,7 +4,7 @@ import requester from "../../api/requester.js";
 
 export const addProductToDaily = createAsyncThunk('dailyIntake/addProductToDaily', async ({ productId, quantity }, { rejectedWithValue }) => {
     try {
-        const result = await requester.post(`/products/add-product-to-daily/${productId}`);
+        const result = await requester.post(`/products/add-product-to-daily/${productId}`, quantity);
 
         return result;
     } catch (err) {

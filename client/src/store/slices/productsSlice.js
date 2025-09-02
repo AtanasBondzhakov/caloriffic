@@ -67,6 +67,6 @@ const productsSlice = createSlice({
     }
 })
 
-export const {clearProducts} = productsSlice.actions;
+export const { clearProducts } = productsSlice.actions;
 
 export default productsSlice;

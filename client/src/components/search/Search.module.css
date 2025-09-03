@@ -2,6 +2,7 @@
     display: flex;
     width: 100%;
     justify-content: center;
+    min-width: 600px;
 }
 
 .search-form {
@@ -9,7 +10,7 @@
     gap: 1em;
     border-radius: 1em;
     padding: 0.3em 0.5em;
-    background-color: #cecece;
+    background-color: #c3c9d4;
     margin-bottom: 0.5em;
 }
 

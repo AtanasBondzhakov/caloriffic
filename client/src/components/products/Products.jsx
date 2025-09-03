@@ -35,47 +35,54 @@ export default function Products() {
             <div className={styles['search-container']}>
                 <Search />
 
-                <div className={styles['search-results']}>
-                    {products.map(product => (
-                        <Item
-                            key={product.id}
-                            className={styles.item}
-                            onClickHandler={() => showProductDetails(product.id)}
-                        >
-                            {product.name}
-                        </Item>
-                    ))}
-                </div>
-
+                {products.length > 0 && (
+                    <div className={styles['search-results']}>
+                        {products.map(product => (
+                            <Item
+                                key={product.id}
+                                className={styles.item}
+                                onClickHandler={() => showProductDetails(product.id)}
+                            >
+                                {product.name}
+                            </Item>
+                        ))}
+                    </div>
+                )}
             </div>
 
-            <div className={styles['product-result']}>
+            {!selected && (
+                <div className={styles['no-product']}>
+                    <h3 className={styles['not-selected']}>Not selected product yet</h3>
+                </div>
+            )}
+
+            {selected && <div className={styles['product-result']}>
                 <div className={styles['product-info']}>
-                    {!selected && <h3>Not selected product yet</h3>}
-                    {selected && (
-                        <>
-                            <div className={styles['product-heading']}>
-                                <h2>{selected.name}</h2>
-                                <p>Information per 100g</p>
-                            </div>
-                            <div className={styles['product-nutri']}>
-                                <p>Calories: <span>{selected.calories}</span></p>
-                                <p>Carbohydrates: <span>{selected.carbohydrates}</span></p>
-                                <p>Proteins: <span>{selected.proteins}</span></p>
-                                <p>Fats: <span>{selected.fats}</span></p>
-                            </div>
-                            <Input
-                                type='number'
-                                name='quantity'
-                                onChange={handleChange}
-                                value={values.quantity}
-                                label='Intake Quantity'
-                            />
-                            <CustomButton label='Add Product' handleClick={handleSubmit} />
-                        </>
-                    )}
+
+
+                    <div className={styles['product-heading']}>
+                        <h2>{selected.name}</h2>
+                        <p>Information per 100g</p>
+                    </div>
+                    <div className={styles['product-nutri']}>
+                        <p>Calories: <span>{selected.calories}</span></p>
+                        <p>Carbohydrates: <span>{selected.carbohydrates}</span></p>
+                        <p>Proteins: <span>{selected.proteins}</span></p>
+                        <p>Fats: <span>{selected.fats}</span></p>
+                    </div>
+                    <Input
+                        type='number'
+                        name='quantity'
+                        onChange={handleChange}
+                        value={values.quantity}
+                        label='Intake Quantity'
+                    />
+                    <CustomButton label='Add Product' handleClick={handleSubmit} />
+
+
                 </div>
             </div>
+            }
         </div>
     );
 };

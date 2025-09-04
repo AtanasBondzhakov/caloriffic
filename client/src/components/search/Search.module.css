@@ -9,8 +9,8 @@
     display: flex;
     gap: 1em;
     border-radius: 1em;
-    padding: 0.3em 0.5em;
-    background-color: #c3c9d4;
+    padding: 1em;
+    background-color: #d1cfcb8c;
     margin-bottom: 0.5em;
 }
 
@@ -20,6 +20,7 @@
     justify-content: space-between;
     gap: 1em;
     text-align: center;
+    font-weight: bold;
 }
 
 .search-field input {

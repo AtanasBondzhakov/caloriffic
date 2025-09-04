@@ -91,13 +91,14 @@ export default function Products() {
                         <p>Fats: <span>{selected.fats}</span></p>
                     </div>
                     <Input
+                        className={styles['input-form']}
                         type='number'
                         name='quantity'
                         onChange={handleChange}
                         value={values.quantity}
-                        label='Intake Quantity'
+                        label='Intake Quantity / g'
                     />
-                    <CustomButton label='Add Product' handleClick={handleSubmit} />
+                    <CustomButton className={styles['custom-btn']} label='Add Product' handleClick={handleSubmit} />
 
 
                 </div>

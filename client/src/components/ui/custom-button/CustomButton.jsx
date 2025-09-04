@@ -4,14 +4,16 @@ import Button from '@mui/material/Button';
 export default function CustomButton({
     handleClick,
     label,
-    type
+    type,
+    className
 }) {
     return (
         <Stack spacing={2} direction="column">
             <Button
+                className={className}
                 type={type}
                 variant="contained"
-                sx={{ backgroundColor: '#5380bb', width: '100%' }}
+                // sx={{ backgroundColor: '#5380bb', width: '100%' }}
                 onClick={handleClick}
             >
                 {label}

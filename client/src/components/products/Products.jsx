@@ -1,11 +1,13 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from '../products/Products.module.css';
 import Search from "../search/Search";
 import Item from "../ui/item/Item";
 import CustomButton from "../ui/custom-button/CustomButton.jsx";
+import Pagination from "../ui/pagination/Pagination.jsx";
 import Input from "../forms/input/Input.jsx";
+
 import { clearProducts, getProductById } from "../../store/slices/productsSlice";
 import { useForm } from "../../hooks/useForm.js";
 import { addProductToDaily } from "../../store/slices/dailyIntakeSlice.js";
@@ -13,6 +15,11 @@ import { addProductToDaily } from "../../store/slices/dailyIntakeSlice.js";
 export default function Products() {
     const dispatch = useDispatch();
     const { products, selected } = useSelector(state => state.products);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const itemsPerPage = 30;
+    const start = (currentPage - 1) * itemsPerPage;
+    const paginatedProducts = products.slice(start, start + itemsPerPage);
 
     const showProductDetails = useCallback(productId => {
         dispatch(getProductById(productId));
@@ -22,6 +29,10 @@ export default function Products() {
 
     async function addProductToDailyHandler(quantity) {
         dispatch(addProductToDaily({ productId: selected.id, quantity }));
+    };
+
+    const onPageChange = (page) => {
+        setCurrentPage(page);
     };
 
     useEffect(() => {
@@ -35,18 +46,27 @@ export default function Products() {
             <div className={styles['search-container']}>
                 <Search />
 
-                {products.length > 0 && (
-                    <div className={styles['search-results']}>
-                        {products.map(product => (
-                            <Item
-                                key={product.id}
-                                className={styles.item}
-                                onClickHandler={() => showProductDetails(product.id)}
-                            >
-                                {product.name}
-                            </Item>
-                        ))}
-                    </div>
+                {paginatedProducts.length > 0 && (
+                    <>
+                        <div className={styles['search-results']}>
+                            {paginatedProducts.map(product => (
+                                <Item
+                                    key={product.id}
+                                    className={styles.item}
+                                    onClickHandler={() => showProductDetails(product.id)}
+                                >
+                                    {product.name}
+                                </Item>
+                            ))}
+                        </div>
+
+                        <Pagination
+                            currentPage={currentPage}
+                            totalItems={products.length}
+                            itemsPerPage={itemsPerPage}
+                            onPageChange={onPageChange}
+                        />
+                    </>
                 )}
             </div>
 

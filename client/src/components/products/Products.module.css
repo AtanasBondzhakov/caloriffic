@@ -37,7 +37,7 @@
 .search-results {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    background-color: #ffffff;
+    background-color: transparent;
     border-color: #d3dce6;
     gap: 1em;
     padding: 1em;

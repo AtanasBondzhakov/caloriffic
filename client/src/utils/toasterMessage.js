@@ -5,9 +5,10 @@ export const toasterSuccess = (message) => {
 
     toast.success(message, {
         position: "bottom-right",
-        autoClose: false,
+        autoClose: 8000,
         hideProgressBar: false,
         closeOnClick: true,
+        pauseOnHover: true,
         progress: undefined,
         theme: "colored",
         transition: Slide,

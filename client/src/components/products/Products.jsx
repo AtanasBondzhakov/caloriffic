@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 import styles from '../products/Products.module.css';
 import Search from "../search/Search";
@@ -8,7 +9,7 @@ import CustomButton from "../ui/custom-button/CustomButton.jsx";
 import Pagination from "../ui/pagination/Pagination.jsx";
 import Input from "../forms/input/Input.jsx";
 
-import { clearProducts, getProductById } from "../../store/slices/productsSlice";
+import { clearProducts, clearSelectedProduct, getProductById } from "../../store/slices/productsSlice";
 import { useForm } from "../../hooks/useForm.js";
 import { addProductToDaily } from "../../store/slices/dailyIntakeSlice.js";
 
@@ -29,6 +30,7 @@ export default function Products() {
 
     async function addProductToDailyHandler(quantity) {
         dispatch(addProductToDaily({ productId: selected.id, quantity }));
+        dispatch(clearSelectedProduct());
     };
 
     const onPageChange = (page) => {
@@ -38,6 +40,7 @@ export default function Products() {
     useEffect(() => {
         return () => {
             dispatch(clearProducts());
+            dispatch(clearSelectedProduct());
         }
     }, [dispatch]);
 
@@ -78,8 +81,6 @@ export default function Products() {
 
             {selected && <div className={styles['product-result']}>
                 <div className={styles['product-info']}>
-
-
                     <div className={styles['product-heading']}>
                         <h2>{selected.name}</h2>
                         <p>Information per 100g</p>
@@ -98,12 +99,16 @@ export default function Products() {
                         value={values.quantity}
                         label='Intake Quantity / g'
                     />
-                    <CustomButton className={styles['custom-btn']} label='Add Product' handleClick={handleSubmit} />
-
-
+                    <CustomButton
+                        className={styles['custom-btn']}
+                        label='Add Product'
+                        handleClick={handleSubmit}
+                    />
                 </div>
             </div>
             }
+
+            <ToastContainer />
         </div>
     );
 };

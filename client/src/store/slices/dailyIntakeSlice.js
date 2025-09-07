@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import requester from "../../api/requester.js";
+import { toasterSuccess } from "../../utils/toasterMessage.js";
 
 export const addProductToDaily = createAsyncThunk('dailyIntake/addProductToDaily', async ({ productId, quantity }, { rejectedWithValue }) => {
     try {
@@ -31,6 +32,8 @@ const dailyIntakeSlice = createSlice({
             .addCase(addProductToDaily.fulfilled, (state, action) => {
                 state.loading = false;
                 state.today = action.payload;
+
+                toasterSuccess('Product added successfully to daily intake.');
             })
             .addCase(addProductToDaily.rejected, (state, action) => {
                 state.loading = false;

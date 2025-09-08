@@ -6,13 +6,16 @@ import styles from '../search/Search.module.css';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { getProducts } from '../../store/slices/productsSlice';
 
-export default function Search() {
+export default function Search({
+    onSearching
+}) {
     const dispatch = useDispatch();
 
     const { values, errors, handleChange, handleSubmit } = useForm({ search: '' }, searchHandler);
 
     function searchHandler() {
         dispatch(getProducts(values.search));
+        onSearching();
     }
 
     return (

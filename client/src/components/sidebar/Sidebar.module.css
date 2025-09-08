@@ -74,11 +74,7 @@
     font-size: 1.25em;
     color: #b3b3b3;
     align-items: center;
-}
-
-a:hover {
-    cursor: pointer;
-    background-color: antiquewhite;
+     transition: transform 0.3s ease;
 }
 
 .bottom {
@@ -94,8 +90,11 @@ a:hover {
     border: none;
     background-color: transparent;
     color: #b3b3b3;
+    transition: transform 0.3s ease;
 }
 
-.logout-btn:hover {
+.logout-btn:hover,
+a:hover {
     cursor: pointer;
+    transform: scale(1.1);
 }

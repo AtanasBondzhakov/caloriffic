@@ -34,6 +34,16 @@
     padding: 1em;
 }
 
+.no-result {
+    display: flex;
+    justify-content: center;
+    margin-top: 3em;
+}
+
+.no-result p {
+    font-size: 2em;
+}
+
 .item {
     background-color: #fff8e1;
     border-radius: 0.5em;

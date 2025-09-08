@@ -16,6 +16,7 @@ import { addProductToDaily } from "../../store/slices/dailyIntakeSlice.js";
 export default function Products() {
     const dispatch = useDispatch();
     const { products, selected } = useSelector(state => state.products);
+    const [isSearch, setIsSearch] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
 
     const itemsPerPage = 30;
@@ -37,6 +38,10 @@ export default function Products() {
         setCurrentPage(page);
     };
 
+    const onSearching = () => {
+        setIsSearch(true);
+    };
+
     useEffect(() => {
         return () => {
             dispatch(clearProducts());
@@ -47,7 +52,7 @@ export default function Products() {
     return (
         <div className={styles.container}>
             <div className={styles['search-container']}>
-                <Search />
+                    <Search onSearching={onSearching}/>
 
                 {paginatedProducts.length > 0 && (
                     <>
@@ -71,44 +76,53 @@ export default function Products() {
                         />
                     </>
                 )}
-            </div>
 
-            {!selected && (
-                <div className={styles['no-product']}>
-                    <h3 className={styles['not-selected']}>Not selected product yet</h3>
-                </div>
-            )}
-
-            {selected && <div className={styles['product-result']}>
-                <div className={styles['product-info']}>
-                    <div className={styles['product-heading']}>
-                        <h2>{selected.name}</h2>
-                        <p>Information per 100g</p>
+                {products.length === 0 && isSearch && (
+                    <div className = {styles['no-result']}>
+                        <p>No food items match your search.</p>
                     </div>
-                    <div className={styles['product-nutri']}>
-                        <p>Calories: <span>{selected.calories}</span></p>
-                        <p>Carbohydrates: <span>{selected.carbohydrates}</span></p>
-                        <p>Proteins: <span>{selected.proteins}</span></p>
-                        <p>Fats: <span>{selected.fats}</span></p>
-                    </div>
-                    <Input
-                        className={styles['input-form']}
-                        type='number'
-                        name='quantity'
-                        onChange={handleChange}
-                        value={values.quantity}
-                        label='Intake Quantity / g'
-                    />
-                    <CustomButton
-                        className={styles['custom-btn']}
-                        label='Add Product'
-                        handleClick={handleSubmit}
-                    />
-                </div>
-            </div>
-            }
-
-            <ToastContainer />
+                )}
         </div>
+
+            {
+        !selected && (
+            <div className={styles['no-product']}>
+                <h3 className={styles['not-selected']}>Not selected product yet</h3>
+            </div>
+        )
+    }
+
+    {
+        selected && <div className={styles['product-result']}>
+            <div className={styles['product-info']}>
+                <div className={styles['product-heading']}>
+                    <h2>{selected.name}</h2>
+                    <p>Information per 100g</p>
+                </div>
+                <div className={styles['product-nutri']}>
+                    <p>Calories: <span>{selected.calories}</span></p>
+                    <p>Carbohydrates: <span>{selected.carbohydrates}</span></p>
+                    <p>Proteins: <span>{selected.proteins}</span></p>
+                    <p>Fats: <span>{selected.fats}</span></p>
+                </div>
+                <Input
+                    className={styles['input-form']}
+                    type='number'
+                    name='quantity'
+                    onChange={handleChange}
+                    value={values.quantity}
+                    label='Intake Quantity / g'
+                />
+                <CustomButton
+                    className={styles['custom-btn']}
+                    label='Add Product'
+                    handleClick={handleSubmit}
+                />
+            </div>
+        </div>
+    }
+
+    <ToastContainer />
+        </div >
     );
 };

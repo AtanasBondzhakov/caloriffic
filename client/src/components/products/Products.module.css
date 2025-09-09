@@ -25,15 +25,6 @@
     margin: 5em 3em;
 }
 
-.search-results {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    background-color: transparent;
-    border-color: #d3dce6;
-    gap: 1em;
-    padding: 1em;
-}
-
 .no-result {
     display: flex;
     justify-content: center;
@@ -42,28 +33,6 @@
 
 .no-result p {
     font-size: 2em;
-}
-
-.item {
-    background-color: #fff8e1;
-    border-radius: 0.5em;
-    border: 1px solid #ff9800;
-    color: #2e2e2e;
-    width: 100%;
-    max-width: 150px;
-    text-align: center;
-    align-items: center;
-    font-size: 1em;
-    padding: 0.1em 0.3em;
-    transition: background-color 0.3s;
-}
-
-.item:hover {
-    background-color: #ffe0b2;
-    border-color: #f57c00;
-    transform: translateY(-2px);
-    transition: 0.5s;
-    cursor: pointer;
 }
 
 .product-result {

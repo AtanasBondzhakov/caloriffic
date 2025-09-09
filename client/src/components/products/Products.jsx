@@ -4,10 +4,10 @@ import { ToastContainer } from "react-toastify";
 
 import styles from '../products/Products.module.css';
 import Search from "../search/Search";
-import Item from "../ui/item/Item";
 import CustomButton from "../ui/custom-button/CustomButton.jsx";
 import Pagination from "../ui/pagination/Pagination.jsx";
 import Input from "../forms/input/Input.jsx";
+import ProductsList from "./products-list/ProductsList.jsx";
 
 import { clearProducts, clearSelectedProduct, getProductById } from "../../store/slices/productsSlice";
 import { useForm } from "../../hooks/useForm.js";
@@ -52,21 +52,14 @@ export default function Products() {
     return (
         <div className={styles.container}>
             <div className={styles['search-container']}>
-                    <Search onSearching={onSearching}/>
+                <Search onSearching={onSearching} />
 
                 {paginatedProducts.length > 0 && (
                     <>
-                        <div className={styles['search-results']}>
-                            {paginatedProducts.map(product => (
-                                <Item
-                                    key={product.id}
-                                    className={styles.item}
-                                    onClickHandler={() => showProductDetails(product.id)}
-                                >
-                                    {product.name}
-                                </Item>
-                            ))}
-                        </div>
+                        <ProductsList
+                            products={paginatedProducts}
+                            onShowDetails={showProductDetails}
+                        />
 
                         <Pagination
                             currentPage={currentPage}
@@ -78,51 +71,48 @@ export default function Products() {
                 )}
 
                 {products.length === 0 && isSearch && (
-                    <div className = {styles['no-result']}>
+                    <div className={styles['no-result']}>
                         <p>No food items match your search.</p>
                     </div>
                 )}
-        </div>
-
-            {
-        !selected && (
-            <div className={styles['no-product']}>
-                <h3 className={styles['not-selected']}>Not selected product yet</h3>
             </div>
-        )
-    }
 
-    {
-        selected && <div className={styles['product-result']}>
-            <div className={styles['product-info']}>
-                <div className={styles['product-heading']}>
-                    <h2>{selected.name}</h2>
-                    <p>Information per 100g</p>
+            {!selected && (
+                <div className={styles['no-product']}>
+                    <h3 className={styles['not-selected']}>Not selected product yet</h3>
                 </div>
-                <div className={styles['product-nutri']}>
-                    <p>Calories: <span>{selected.calories}</span></p>
-                    <p>Carbohydrates: <span>{selected.carbohydrates}</span></p>
-                    <p>Proteins: <span>{selected.proteins}</span></p>
-                    <p>Fats: <span>{selected.fats}</span></p>
+            )}
+
+            {selected && <div className={styles['product-result']}>
+                <div className={styles['product-info']}>
+                    <div className={styles['product-heading']}>
+                        <h2>{selected.name}</h2>
+                        <p>Information per 100g</p>
+                    </div>
+                    <div className={styles['product-nutri']}>
+                        <p>Calories: <span>{selected.calories}</span></p>
+                        <p>Carbohydrates: <span>{selected.carbohydrates}</span></p>
+                        <p>Proteins: <span>{selected.proteins}</span></p>
+                        <p>Fats: <span>{selected.fats}</span></p>
+                    </div>
+                    <Input
+                        className={styles['input-form']}
+                        type='number'
+                        name='quantity'
+                        onChange={handleChange}
+                        value={values.quantity}
+                        label='Intake Quantity / g'
+                    />
+                    <CustomButton
+                        className={styles['custom-btn']}
+                        label='Add Product'
+                        handleClick={handleSubmit}
+                    />
                 </div>
-                <Input
-                    className={styles['input-form']}
-                    type='number'
-                    name='quantity'
-                    onChange={handleChange}
-                    value={values.quantity}
-                    label='Intake Quantity / g'
-                />
-                <CustomButton
-                    className={styles['custom-btn']}
-                    label='Add Product'
-                    handleClick={handleSubmit}
-                />
             </div>
-        </div>
-    }
+            }
 
-    <ToastContainer />
+            <ToastContainer />
         </div >
     );
 };

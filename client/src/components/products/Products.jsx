@@ -4,10 +4,9 @@ import { ToastContainer } from "react-toastify";
 
 import styles from '../products/Products.module.css';
 import Search from "../search/Search";
-import CustomButton from "../ui/custom-button/CustomButton.jsx";
 import Pagination from "../ui/pagination/Pagination.jsx";
-import Input from "../forms/input/Input.jsx";
 import ProductsList from "./products-list/ProductsList.jsx";
+import ProductDetails from "./product-details/ProductDetails.jsx";
 
 import { clearProducts, clearSelectedProduct, getProductById } from "../../store/slices/productsSlice";
 import { useForm } from "../../hooks/useForm.js";
@@ -77,40 +76,12 @@ export default function Products() {
                 )}
             </div>
 
-            {!selected && (
-                <div className={styles['no-product']}>
-                    <h3 className={styles['not-selected']}>Not selected product yet</h3>
-                </div>
-            )}
-
-            {selected && <div className={styles['product-result']}>
-                <div className={styles['product-info']}>
-                    <div className={styles['product-heading']}>
-                        <h2>{selected.name}</h2>
-                        <p>Information per 100g</p>
-                    </div>
-                    <div className={styles['product-nutri']}>
-                        <p>Calories: <span>{selected.calories}</span></p>
-                        <p>Carbohydrates: <span>{selected.carbohydrates}</span></p>
-                        <p>Proteins: <span>{selected.proteins}</span></p>
-                        <p>Fats: <span>{selected.fats}</span></p>
-                    </div>
-                    <Input
-                        className={styles['input-form']}
-                        type='number'
-                        name='quantity'
-                        onChange={handleChange}
-                        value={values.quantity}
-                        label='Intake Quantity / g'
-                    />
-                    <CustomButton
-                        className={styles['custom-btn']}
-                        label='Add Product'
-                        handleClick={handleSubmit}
-                    />
-                </div>
-            </div>
-            }
+            <ProductDetails
+                selected={selected}
+                values={values}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+            />
 
             <ToastContainer />
         </div >

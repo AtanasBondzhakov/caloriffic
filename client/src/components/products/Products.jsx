@@ -72,7 +72,7 @@ export default function Products() {
                     </>
                 )}
 
-                {products.length === 0 && isSearch && (
+                {!loadingProducts && products.length === 0 && isSearch && (
                     <div className={styles['no-result']}>
                         <p>No food items match your search.</p>
                     </div>

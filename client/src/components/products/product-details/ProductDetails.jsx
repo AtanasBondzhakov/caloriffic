@@ -12,7 +12,7 @@ export default function ProductDetails({
         <>
             {!selected && (
                 <div className={styles['no-product']}>
-                    <h3 className={styles['not-selected']}>Not selected product yet</h3>
+                    <h3 className={styles['not-selected']}>No product selected yet.</h3>
                 </div>
             )}
             {selected && (

@@ -24,7 +24,8 @@ export const getProductById = createAsyncThunk('products/product', async (produc
 const initialState = {
     products: [],
     selected: null,
-    loading: false,
+    loadingProducts: false,
+    loadingSelected: false,
     error: null,
     lastFetched: null
 }
@@ -43,27 +44,27 @@ const productsSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getProducts.pending, (state) => {
-                state.loading = true;
+                state.loadingProducts = true;
                 state.error = null;
             })
             .addCase(getProducts.fulfilled, (state, action) => {
-                state.loading = false;
+                state.loadingProducts = false;
                 state.products = action.payload;
             })
             .addCase(getProducts.rejected, (state, action) => {
-                state.loading = false;
+                state.loadingProducts = false;
                 state.error = action.payload.message;
             })
             .addCase(getProductById.pending, (state) => {
-                state.loading = true;
+                state.loadingSelected = true;
                 state.error = null;
             })
             .addCase(getProductById.fulfilled, (state, action) => {
-                state.loading = false;
+                state.loadingSelected = false;
                 state.selected = action.payload;
             })
             .addCase(getProductById.rejected, (state, action) => {
-                state.loading = false;
+                state.loadingSelected = false;
                 state.error = action.payload.message;
             })
     }

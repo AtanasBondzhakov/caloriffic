@@ -11,10 +11,11 @@ import ProductDetails from "./product-details/ProductDetails.jsx";
 import { clearProducts, clearSelectedProduct, getProductById } from "../../store/slices/productsSlice";
 import { useForm } from "../../hooks/useForm.js";
 import { addProductToDaily } from "../../store/slices/dailyIntakeSlice.js";
+import Spinner from "../ui/spinner/Spinner.jsx";
 
 export default function Products() {
     const dispatch = useDispatch();
-    const { products, selected } = useSelector(state => state.products);
+    const { products, selected, loadingProducts, loadingSelected } = useSelector(state => state.products);
     const [isSearch, setIsSearch] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -53,7 +54,9 @@ export default function Products() {
             <div className={styles['search-container']}>
                 <Search onSearching={onSearching} />
 
-                {paginatedProducts.length > 0 && (
+                {loadingProducts && <Spinner />}
+
+                {!loadingProducts && paginatedProducts.length > 0 && (
                     <>
                         <ProductsList
                             products={paginatedProducts}

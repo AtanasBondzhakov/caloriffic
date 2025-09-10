@@ -4,7 +4,7 @@ import Input from '../forms/input/Input';
 
 import styles from '../search/Search.module.css';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { getProducts } from '../../store/slices/productsSlice';
+import { clearSelectedProduct, getProducts } from '../../store/slices/productsSlice';
 
 export default function Search({
     onSearching
@@ -15,6 +15,7 @@ export default function Search({
 
     function searchHandler() {
         dispatch(getProducts(values.search));
+        dispatch(clearSelectedProduct());
         onSearching();
     }
 

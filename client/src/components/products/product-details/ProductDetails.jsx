@@ -5,6 +5,7 @@ import styles from './ProductDetails.module.css';
 import Input from '../../forms/input/Input';
 import CustomButton from '../../ui/custom-button/CustomButton';
 import Spinner from '../../ui/spinner/Spinner.jsx';
+import { usePreviousValue } from '../../../hooks/usePreviousValue.js';
 
 export default function ProductDetails({
     selected,
@@ -14,14 +15,8 @@ export default function ProductDetails({
 }) {
     const { loadingSelected } = useSelector(state => state.products);
 
-    const previousSelectedRef = useRef(null);
     const [showSpinner, setShowSpinner] = useState(false);
-
-    useEffect(() => {
-        if (selected) {
-            previousSelectedRef.current = selected;
-        }
-    }, [selected]);
+    const previousSelected = usePreviousValue(selected);
 
     useEffect(() => {
         let timeout;
@@ -40,7 +35,7 @@ export default function ProductDetails({
         };
     }, [loadingSelected, showSpinner]);
 
-    const displayProduct = loadingSelected ? previousSelectedRef.current : selected;
+    const displayProduct = loadingSelected ? previousSelected : selected;
 
     if (!displayProduct) {
         return (

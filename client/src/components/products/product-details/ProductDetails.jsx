@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import styles from './ProductDetails.module.css';
 import Input from '../../forms/input/Input';
 import CustomButton from '../../ui/custom-button/CustomButton';
 import Spinner from '../../ui/spinner/Spinner.jsx';
+
 import { usePreviousValue } from '../../../hooks/usePreviousValue.js';
+import { useDelayedSpinner } from '../../../hooks/useDelayedSpinner.js';
 
 export default function ProductDetails({
     selected,
@@ -15,25 +16,8 @@ export default function ProductDetails({
 }) {
     const { loadingSelected } = useSelector(state => state.products);
 
-    const [showSpinner, setShowSpinner] = useState(false);
     const previousSelected = usePreviousValue(selected);
-
-    useEffect(() => {
-        let timeout;
-
-        if (loadingSelected) {
-            timeout = setTimeout(() => {
-                setShowSpinner(true)
-            }, 300)
-
-        } else {
-            setShowSpinner(false);
-        }
-
-        return () => {
-            clearTimeout(timeout);
-        };
-    }, [loadingSelected, showSpinner]);
+    const showSpinner = useDelayedSpinner(loadingSelected, 300);
 
     const displayProduct = loadingSelected ? previousSelected : selected;
 

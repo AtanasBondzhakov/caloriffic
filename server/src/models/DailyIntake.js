@@ -41,26 +41,15 @@ const dailyIntakeSchema = new Schema({
         required: true,
     },
     products: [productEntrySchema],
-    expireAt: { type: Date }
+    expireAt: {
+        type: Date,
+        required: true
+    }
 },
     { timestamps: true }
 );
 
 dailyIntakeSchema.index({ expireAt: 1 }, { expireAfterSeconds: 0 });
-
-dailyIntakeSchema.pre("save", function (next) {
-    if (!this.expireAt) {
-        const createdAt = this.createdAt || new Date();
-
-        const expireDate = new Date(createdAt);
-        expireDate.setDate(expireDate.getDate() + 7);
-
-        expireDate.setHours(0, 0, 0, 0);
-
-        this.expireAt = expireDate;
-    }
-    next();
-});
 
 const DailyIntake = model('DailyIntake', dailyIntakeSchema);
 

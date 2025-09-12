@@ -38,7 +38,6 @@ productController.post('/add-product-to-daily/:productId', async (req, res) => {
     try {
         const userId = req.user.id;
         const { quantity } = req.body;
-        // const quantity = 10;
         const { productId } = req.params;
 
         const dailyIntake = await productService.addProductToDaily(userId, productId, quantity);

@@ -31,7 +31,7 @@ export default function Products() {
 
     async function addProductToDailyHandler(quantity) {
         dispatch(addProductToDaily({ productId: selected.id, quantity }));
-        dispatch(clearSelectedProduct());
+        // dispatch(clearSelectedProduct());
     };
 
     const onPageChange = (page) => {

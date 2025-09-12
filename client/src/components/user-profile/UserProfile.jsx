@@ -1,10 +1,19 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import styles from "../user-profile/UserProfile.module.css";
 import CustomButton from "../ui/custom-button/CustomButton";
 import CustomPieChart from "../ui/custom-pie-chart/CustomPieChart";
-import { useSelector } from "react-redux";
+
+import { getDailyIntake } from "../../store/slices/dailyIntakeSlice";
 
 export default function UserProfile() {
     const { user } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getDailyIntake())
+    }, [dispatch])
 
     return (
         <div className={styles.container}>

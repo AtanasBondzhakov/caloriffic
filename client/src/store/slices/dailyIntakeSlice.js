@@ -13,6 +13,16 @@ export const addProductToDaily = createAsyncThunk('dailyIntake/addProductToDaily
     }
 });
 
+export const getDailyIntake = createAsyncThunk('user-profile/getDailyIntake', async (_, { rejectedWithValue }) => {
+    try {
+        const result = await requester.get('/user/profile');
+        
+        return result;
+    } catch (err) {
+        return rejectedWithValue(err);
+    }
+});
+
 const initialState = {
     today: null,
     loading: false,
@@ -36,6 +46,18 @@ const dailyIntakeSlice = createSlice({
                 toasterSuccess('Product added successfully to daily intake.');
             })
             .addCase(addProductToDaily.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload.message;
+            })
+            .addCase(getDailyIntake.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getDailyIntake.fulfilled, (state, action) => {
+                state.loading = false;
+                state.today = action.payload;
+            })
+            .addCase(getDailyIntake.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload.message;
             })

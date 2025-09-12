@@ -76,12 +76,15 @@ export const productService = {
 
         const today = new Date();
         today.setHours(0, 0, 0, 0);
+        const todayString = String(today.getDate()).padStart(2, '0') + '-' +
+            String(today.getMonth() + 1).padStart(2, '0') + '-' +
+            today.getFullYear();
 
         const expireAt = new Date(today);
         expireAt.setDate(expireAt.getDate() + 1);
 
         const dailyIntake = await DailyIntake.findOneAndUpdate(
-            { owner: userId, date: today },
+            { owner: userId, date: todayString },
             {
                 $push: { products: productEntry },
                 $setOnInsert: { expireAt }

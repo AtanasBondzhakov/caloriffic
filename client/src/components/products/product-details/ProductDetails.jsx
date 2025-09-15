@@ -43,13 +43,13 @@ export default function ProductDetails({
                 : (
                     <div className={styles['product-info']}>
                         <div className={styles['product-heading']}>
-                            <h2>{selected.name}</h2>
+                            <h2>{displayProduct.name}</h2>
                             <p>Information per 100g</p>
                         </div>
                         <div className={styles['product-nutri']}>
                             {nutrients.map(n => (
                                 <p key={n.key}>
-                                    {n.label}: <span>{selected[n.key]}</span>
+                                    {n.label}: <span>{displayProduct[n.key]}</span>
                                 </p>
                             ))}
                         </div>

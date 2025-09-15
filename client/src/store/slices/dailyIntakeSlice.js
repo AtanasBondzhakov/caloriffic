@@ -24,7 +24,7 @@ export const getDailyIntake = createAsyncThunk('user-profile/getDailyIntake', as
 });
 
 const initialState = {
-    today: null,
+    today: {products: []},
     loading: false,
     error: null
 };

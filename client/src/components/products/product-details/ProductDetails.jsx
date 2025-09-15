@@ -14,6 +14,7 @@ export default function ProductDetails({
     handleChange,
     handleSubmit
 }) {
+    const { user } = useSelector(state => state.auth);
     const { loadingSelected } = useSelector(state => state.products);
 
     const previousSelected = usePreviousValue(selected);
@@ -52,19 +53,21 @@ export default function ProductDetails({
                                 </p>
                             ))}
                         </div>
-                        <Input
-                            className={styles['input-form']}
-                            type='number'
-                            name='quantity'
-                            onChange={handleChange}
-                            value={values.quantity}
-                            label='Intake Quantity / g'
-                        />
-                        <CustomButton
-                            className={styles['custom-btn']}
-                            label='Add Product'
-                            handleClick={handleSubmit}
-                        />
+                        {user && <>
+                            <Input
+                                className={styles['input-form']}
+                                type='number'
+                                name='quantity'
+                                onChange={handleChange}
+                                value={values.quantity}
+                                label='Intake Quantity / g'
+                            />
+                            <CustomButton
+                                className={styles['custom-btn']}
+                                label='Add Product'
+                                handleClick={handleSubmit}
+                            />
+                        </>}
                     </div>)}
         </div>
     );

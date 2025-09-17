@@ -68,10 +68,10 @@ export const productService = {
             productId: product._id,
             name: product.name,
             quantity,
-            calories: (product.calories * factor).toFixed(2),
-            proteins: (product.proteins * factor).toFixed(2),
-            carbohydrates: (product.carbohydrates * factor).toFixed(2),
-            fats: (product.fats * factor).toFixed(2),
+            calories: Number((product.calories * factor).toFixed(2)),
+            proteins: Number((product.proteins * factor).toFixed(2)),
+            carbohydrates: Number((product.carbohydrates * factor).toFixed(2)),
+            fats: Number((product.fats * factor).toFixed(2)),
         };
 
         const today = new Date();
@@ -81,7 +81,7 @@ export const productService = {
             today.getFullYear();
 
         const expireAt = new Date(today);
-        expireAt.setDate(expireAt.getDate() + 1);
+        expireAt.setDate(expireAt.getDate() + 7);
 
         const dailyIntake = await DailyIntake.findOneAndUpdate(
             { owner: userId, date: todayString },

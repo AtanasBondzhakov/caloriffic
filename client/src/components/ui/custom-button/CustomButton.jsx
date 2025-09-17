@@ -1,11 +1,13 @@
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import { CircularProgress } from '@mui/material';
 
 export default function CustomButton({
     handleClick,
     label,
     type,
-    className
+    className,
+    loading,
 }) {
     return (
         <Stack spacing={2} direction="column">
@@ -13,10 +15,17 @@ export default function CustomButton({
                 className={className}
                 type={type}
                 variant="contained"
-                // sx={{ backgroundColor: '#5380bb', width: '100%' }}
                 onClick={handleClick}
+                disabled={loading}
             >
-                {label}
+                {loading ? (
+                    <>
+                        <CircularProgress size={20} sx={{ color: 'black', marginRight: 1 }} />
+                        Loading...
+                    </>
+                ) : (
+                    label
+                )}
             </Button>
         </Stack>
     );

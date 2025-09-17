@@ -2,13 +2,14 @@ import { useEffect } from "react";
 import { Link, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
+import styles from '../register/Register.module.css';
+import Input from "../../forms/input/Input.jsx";
+import CustomButton from "../../ui/custom-button/CustomButton.jsx";
+import ErrorMessage from "../../ui/error-message/ErrorMessage.jsx";
+
 import { useForm } from "../../../hooks/useForm.js";
 import { clearError, registerUser } from "../../../store/slices/authSlice.js";
-import Input from "../../forms/input/Input.jsx";
 import { registerSchema } from "../../../schema/registerSchema.js";
-import styles from '../register/Register.module.css';
-import ErrorMessage from "../../ui/error-message/ErrorMessage.jsx";
-import CustomButton from "../../ui/custom-button/CustomButton.jsx";
 
 export default function Register() {
     const dispatch = useDispatch();
@@ -66,7 +67,11 @@ export default function Register() {
                         label="Confirm Password"
                         placeholder='******'
                     />
-                    <CustomButton label="Register" type="submit" />
+                    <CustomButton
+                        label="Register"
+                        type="submit"
+                        className={styles['auth-btn']}
+                    />
                 </form>
                 <p className={styles['auth-link']}>
                     Already have an account? <Link to="/auth/login">Login</Link>

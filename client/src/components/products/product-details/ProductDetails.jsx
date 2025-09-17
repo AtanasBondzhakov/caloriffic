@@ -16,6 +16,7 @@ export default function ProductDetails({
 }) {
     const { user } = useSelector(state => state.auth);
     const { loadingSelected } = useSelector(state => state.products);
+    const { loading } = useSelector(state => state.dailyIntake);
 
     const previousSelected = usePreviousValue(selected);
     const showSpinner = useDelayedSpinner(loadingSelected, 300);
@@ -66,6 +67,7 @@ export default function ProductDetails({
                                 className={styles['custom-btn']}
                                 label='Add Product'
                                 handleClick={handleSubmit}
+                                loading={loading}
                             />
                         </>}
                     </div>)}

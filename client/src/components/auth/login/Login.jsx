@@ -2,13 +2,14 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
 
+import styles from '../login/Login.module.css';
+import Input from "../../forms/input/Input.jsx";
+import Button from "../../ui/custom-button/CustomButton.jsx";
+import ErrorMessage from "../../ui/error-message/ErrorMessage.jsx";
+
 import { clearError, loginUser } from "../../../store/slices/authSlice";
 import { useForm } from "../../../hooks/useForm.js";
-import Input from "../../forms/input/Input.jsx";
 import { loginSchema } from "../../../schema/loginSchema.js";
-import styles from '../login/Login.module.css';
-import ErrorMessage from "../../ui/error-message/ErrorMessage.jsx";
-import Button from "../../ui/custom-button/CustomButton.jsx";
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -56,7 +57,11 @@ export default function Login() {
                         label="Password"
                         placeholder='******'
                     />
-                    <Button type="submit" label="Login" />
+                    <Button
+                        type="submit"
+                        label="Login"
+                        className={styles['auth-btn']}
+                    />
                 </form>
                 <p className={styles['auth-link']}>
                     Don&apos;t have an account? <Link to="/auth/register">Register</Link>

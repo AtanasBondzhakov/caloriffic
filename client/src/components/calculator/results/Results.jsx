@@ -21,7 +21,11 @@ export default function Results({
                 <p>Daily calorie intake deficit/excess: <span>{Math.round(results?.dit)} kcal</span></p>
             </div>
             {isAuthenticated && (
-                <CustomButton label="Save" handleClick={handleSave} />
+                <CustomButton
+                    label="Save"
+                    handleClick={handleSave}
+                    className={styles['calc-form-button']}
+                />
             )}
         </div>
     );

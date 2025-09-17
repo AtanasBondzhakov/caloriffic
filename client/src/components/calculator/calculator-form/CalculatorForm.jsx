@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 
+import styles from '../calculator-form/CalculatorForm.module.css';
+import Input from "../../forms/input/Input.jsx";
+import Results from "../results/Results.jsx";
+import Select from "../../forms/select/Select.jsx";
+import CustomButton from "../../ui/custom-button/CustomButton.jsx";
+import ErrorMessage from "../../ui/error-message/ErrorMessage.jsx";
+
 import { bmiCalculate, bmrCalculate, bodyFatsKgCalculate, dailyCaloriesCalculate, dailyIntakeTargetCalculate, lbmCalculate } from "../../../utils/bodyMetrics";
 import { useForm } from "../../../hooks/useForm";
 import { saveCalculation } from "../../../store/slices/bodyMetricsSlice.js";
-import Results from "../results/Results.jsx";
-import Select from "../../forms/select/Select.jsx";
-import Input from "../../forms/input/Input.jsx";
 import { bodyMetricsSchema } from "../../../schema/bodyMetricsSchema.js";
-import styles from '../calculator-form/CalculatorForm.module.css';
-import CustomButton from "../../ui/custom-button/CustomButton.jsx";
-import ErrorMessage from "../../ui/error-message/ErrorMessage.jsx";
 
 const formInitialValues = {
     gender: 'male',
@@ -151,17 +152,19 @@ export default function CalculatorForm() {
                             value={values.activity}
                         />
                     </div>
-                    {/* <div className={styles['calc-select']}> */}
-                        <Select
-                            className={styles['select-option']}
-                            name="calorieIntake"
-                            label="Calorie Intake"
-                            onChange={handleChange}
-                            options={calorieIntakeOptions}
-                            value={values.calorieIntake}
-                        />
-                    {/* </div> */}
-                    <CustomButton type="submit" label="Calculate" />
+                    <Select
+                        className={styles['select-option']}
+                        name="calorieIntake"
+                        label="Calorie Intake"
+                        onChange={handleChange}
+                        options={calorieIntakeOptions}
+                        value={values.calorieIntake}
+                    />
+                    <CustomButton
+                        type="submit"
+                        label="Calculate"
+                        className={styles['calc-form-button']}
+                    />
                 </form>
                 {Object.keys(validationErrors).length > 0 && <ErrorMessage errors={Object.values(validationErrors)} />}
             </div>

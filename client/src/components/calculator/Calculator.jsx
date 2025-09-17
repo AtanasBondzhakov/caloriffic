@@ -1,5 +1,4 @@
 import CalculatorForm from "./calculator-form/CalculatorForm";
-import Results from "./results/Results.jsx";
 import styles from '../calculator/Calculator.module.css';
 
 export default function Calculator() {

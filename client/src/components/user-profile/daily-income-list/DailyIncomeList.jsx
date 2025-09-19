@@ -7,16 +7,30 @@ export default function DailyIncomeList({
 
     return (
         <div className={styles['daily-total']}>
-            <p>List of Daily Income Calories</p>
+            <h2>Daily Income Calories</h2>
 
-            {daily.products.map(product => (
-                <div className={styles.info}>
-                    <p>{product.name}</p>
-                    <div className={styles.nutri}>
-                        <span>{product.calories}</span>
-                        <span>{product.carbohydrates}</span>
-                        <span>{product.proteins}</span>
-                        <span>{product.fats}</span>
+            <div className={styles.header}>
+                <div className={styles['header-labels']}>
+                    <p>Product</p>
+                    <div className={styles['header-nutri']}>
+                        <p>Kcal</p>
+                        <p>Carbs</p>
+                        <p>Proteins</p>
+                        <p>Fats</p>
+                    </div>
+                </div>
+            </div>
+
+            {daily?.products?.map(product => (
+                <div key={product._id} className={styles.info}>
+                    <div className={styles['product-info']}>
+                        <p>{product.name}</p>
+                        <div className={styles['product-nutri']}>
+                            <span>{product.calories}</span>
+                            <span>{product.carbohydrates}</span>
+                            <span>{product.proteins}</span>
+                            <span>{product.fats}</span>
+                        </div>
                     </div>
                 </div>
             ))}

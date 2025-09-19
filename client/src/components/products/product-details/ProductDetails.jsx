@@ -4,6 +4,7 @@ import styles from './ProductDetails.module.css';
 import Input from '../../forms/input/Input';
 import CustomButton from '../../ui/custom-button/CustomButton';
 import Spinner from '../../ui/spinner/Spinner.jsx';
+import ErrorMessage from "../../ui/error-message/ErrorMessage";
 
 import { usePreviousValue } from '../../../hooks/usePreviousValue.js';
 import { useDelayedSpinner } from '../../../hooks/useDelayedSpinner.js';
@@ -12,7 +13,8 @@ export default function ProductDetails({
     selected,
     values,
     handleChange,
-    handleSubmit
+    handleSubmit,
+    validationErrors
 }) {
     const { user } = useSelector(state => state.auth);
     const { loadingSelected } = useSelector(state => state.products);
@@ -69,6 +71,7 @@ export default function ProductDetails({
                                 handleClick={handleSubmit}
                                 loading={loading}
                             />
+                            {Object.keys(validationErrors).length > 0 && <ErrorMessage errors={Object.values(validationErrors)} />}
                         </>}
                     </div>)}
         </div>

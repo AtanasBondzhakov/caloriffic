@@ -12,6 +12,7 @@ import { clearProducts, clearSelectedProduct, getProductById } from "../../store
 import { useForm } from "../../hooks/useForm.js";
 import { addProductToDaily } from "../../store/slices/dailyIntakeSlice.js";
 import Spinner from "../ui/spinner/Spinner.jsx";
+import { addProductToDailySchema } from "../../schema/productsSchema.js";
 
 export default function Products() {
     const dispatch = useDispatch();
@@ -27,7 +28,7 @@ export default function Products() {
         dispatch(getProductById(productId));
     }, [dispatch]);
 
-    const { values, handleChange, handleSubmit } = useForm({ quantity: 0 }, addProductToDailyHandler);
+    const { values, errors: validationErrors, handleChange, handleSubmit } = useForm({ quantity: 0 }, addProductToDailyHandler, addProductToDailySchema);
 
     async function addProductToDailyHandler(quantity) {
         dispatch(addProductToDaily({ productId: selected.id, quantity }));
@@ -84,6 +85,7 @@ export default function Products() {
                 values={values}
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
+                validationErrors={validationErrors}
             />
 
             <ToastContainer />

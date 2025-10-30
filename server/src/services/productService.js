@@ -68,10 +68,10 @@ export const productService = {
             productId: product._id,
             name: product.name,
             quantity,
-            calories: Number((product.calories * factor).toFixed(2)),
-            proteins: Number((product.proteins * factor).toFixed(2)),
-            carbohydrates: Number((product.carbohydrates * factor).toFixed(2)),
-            fats: Number((product.fats * factor).toFixed(2)),
+            calories: Math.round(product.calories * factor),
+            proteins: Math.round(product.proteins * factor),
+            carbohydrates: Math.round(product.carbohydrates * factor),
+            fats: Math.round(product.fats * factor),
         };
 
         const today = new Date();

@@ -1,17 +1,11 @@
 import styles from './DailyIncomeList.module.css';
 
+import { totalsCalc } from '../../../utils/calcs';
+
 export default function DailyIncomeList({
     daily
 }) {
-    const totals = daily.products.reduce((acc, product) => {
-        acc.quantity += product.quantity;
-        acc.calories += product.calories;
-        acc.carbohydrates += product.carbohydrates;
-        acc.proteins += product.proteins;
-        acc.fats += product.fats;
-
-        return acc;
-    }, { quantity: 0, calories: 0, carbohydrates: 0, proteins: 0, fats: 0 });
+    const totals = totalsCalc(daily.products);
 
     return (
         <div className={styles['daily-total']}>

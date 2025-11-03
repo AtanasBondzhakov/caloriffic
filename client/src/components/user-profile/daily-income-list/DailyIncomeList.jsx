@@ -5,14 +5,18 @@ import { totalsCalc } from '../../../utils/calcs';
 export default function DailyIncomeList({
     daily
 }) {
-    const totals = totalsCalc(daily.products);
+    const products = daily?.products || [];
+    const totals = totalsCalc(products);
 
     return (
         <div className={styles['daily-total']}>
             <h2>Daily Income Calories</h2>
 
-            {!daily && <h3 className={styles.empty}>Your product list it empty.</h3>}
-            {daily && <>
+            {(!daily || products.length === 0) && (
+                <h3 className={styles.empty}>Your product list it empty.</h3>
+            )}
+
+            {daily && products.length > 0 && <>
                 <div className={styles.header}>
                     <div className={styles['header-labels']}>
                         <p>Product</p>

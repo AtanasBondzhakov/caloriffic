@@ -17,6 +17,18 @@ const userSchema = new Schema({
         type: String,
         enum: ['user', 'admin'],
         default: 'user'
+    },
+    calculation: {
+        bmi: Number,
+        bfk: Number,
+        lbm: Number,
+        bmr: Number,
+        dci: Number,
+        dit: Number,
+        createdAt: {
+            type: Date,
+            default: Date.now
+        }
     }
 }, { timestamps: true });
 

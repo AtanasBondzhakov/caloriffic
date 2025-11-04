@@ -10,7 +10,6 @@ export const userService = {
             today.getFullYear();
 
         const dailyIntake = await DailyIntake.findOne({ owner: userId, date: todayString }).lean();
-        console.log('daily intake:', dailyIntake);
 
         return dailyIntake;
     }

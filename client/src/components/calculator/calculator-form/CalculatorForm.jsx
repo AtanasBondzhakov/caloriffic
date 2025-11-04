@@ -10,7 +10,7 @@ import ErrorMessage from "../../ui/error-message/ErrorMessage.jsx";
 
 import { bmiCalculate, bmrCalculate, bodyFatsKgCalculate, dailyCaloriesCalculate, dailyIntakeTargetCalculate, lbmCalculate } from "../../../utils/bodyMetrics";
 import { useForm } from "../../../hooks/useForm";
-import { saveCalculation } from "../../../store/slices/bodyMetricsSlice.js";
+import { saveCalculation, saveCalculationToUser } from "../../../store/slices/bodyMetricsSlice.js";
 import { bodyMetricsSchema } from "../../../schema/bodyMetricsSchema.js";
 
 const formInitialValues = {
@@ -104,6 +104,7 @@ export default function CalculatorForm() {
 
     const handleSave = () => {
         dispatch(saveCalculation(results));
+        dispatch(saveCalculationToUser(results));
         setResults(resultInitialValues);
     };
 
